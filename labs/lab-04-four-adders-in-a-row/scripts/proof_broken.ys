@@ -1,0 +1,10 @@
+# proof_broken.ys — the same proof, run against broken/ripple4.sv.
+# It fails, on purpose, and prints the exact input that breaks it.
+read_verilog -sv broken/ripple4.sv
+rename ripple4 ripple4_broken
+read_verilog -sv reference/ripple4_hand.sv src/full_adder.sv
+hierarchy -check
+flatten ripple4_broken
+flatten ripple4_hand
+miter -equiv -flatten ripple4_broken ripple4_hand equiv_miter
+sat -verify -prove trigger 0 -show-inputs -show-outputs equiv_miter

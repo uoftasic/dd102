@@ -1,0 +1,29 @@
+[*] GTKWave save file for results/sweep.vcd — the 512-vector run.
+[dumpfile] "sweep.vcd"
+[timestart] 0
+[size] 1150 300
+[pos] -1 -1
+*-14.4 30000 -1 -1 -1 -1 -1 -1
+[sst_width] 180
+[signals_width] 190
+[sst_expanded] 0
+[sst_vpaned_height] 40
+@22
+tb_sweep.a[3:0]
+tb_sweep.b[3:0]
+@28
+tb_sweep.cin
+@200
+-
+@22
+tb_sweep.sum[3:0]
+@28
+tb_sweep.cout
+@22
+tb_sweep.expected[4:0]
+@200
+-
+@28
+tb_sweep.mismatch
+[pattern_trace] 1
+[pattern_trace] 0

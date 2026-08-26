@@ -1,0 +1,12 @@
+01_module_ports: a=1 b=1 y=1
+02_logic_and_vectors: a=1001 y=0110 a[3]=1 a[2:1]=00
+03_assign_and_operators: a=1 b=0 and=0 or=1 xor=1 not_a=0
+04_concatenation: {cout=1, sum=2} = 10010 = 18
+05_always_comb: sel=1 -> 9   sel=0 -> 4
+06_case_default: 00->0001 01->0010 10->0100 11->1000
+07_instantiation: 1+1+1 -> cout=1 sum=1 (= 3)
+08_generate_for: 9+9+0 -> cout=1 sum=2 (= 18)
+09_parameter: N=4 -> 00001111   N=6 -> 00111111
+10_literals: 4'b1010=10  4'd10=1010  4'hA=1010  4'o12=1010  8'b1010_1010=170  '0=00000000  '1=11111111  bare 10 is 32 bits wide, value 10
+11_width_truncation: 9+9 -> narrow[3:0]=18  wide[4:0]=18
+12_testbench_only: at 20 ns, a=1 y=0

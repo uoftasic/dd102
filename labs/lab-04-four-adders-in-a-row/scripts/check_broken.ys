@@ -1,0 +1,7 @@
+# check_broken.ys — Yosys's `check` pass on the broken adder.
+# It does not simulate anything. It reads the netlist and looks for wires that
+# nobody drives. Two seconds, and it names them.
+read_verilog -sv broken/ripple4.sv src/full_adder.sv
+hierarchy -top ripple4
+check
+stat

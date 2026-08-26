@@ -1,0 +1,21 @@
+[*] GTKWave save file for results/eight.vcd — the 8-row full-adder run.
+[dumpfile] "eight.vcd"
+[timestart] 0
+[size] 1150 260
+[pos] -1 -1
+*-15.4 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 180
+[signals_width] 170
+[sst_expanded] 0
+[sst_vpaned_height] 40
+@28
+tb_eight_rows.a
+tb_eight_rows.b
+tb_eight_rows.cin
+@200
+-
+@28
+tb_eight_rows.sum
+tb_eight_rows.cout
+[pattern_trace] 1
+[pattern_trace] 0

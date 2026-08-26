@@ -1,0 +1,14 @@
+# asic.ys — the SAME two files, sent to the other kind of target.
+#
+# Nothing here is an FPGA. `synth` is the generic front end, and `abc -liberty`
+# maps the result onto a real standard-cell library from the SKY130 PDK -- the
+# actual transistor layouts a foundry knows how to print.
+#
+# This is a two-minute preview of DD103. You are not expected to follow the
+# script; you are expected to compare the numbers it prints with the FPGA ones.
+read_verilog -sv src/ripple4.sv src/full_adder.sv
+synth -top ripple4
+flatten
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib

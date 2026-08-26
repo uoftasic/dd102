@@ -1,0 +1,12 @@
+# views/sweep.surf — Surfer command file for results/sweep.vcd.
+# Adds the seven signals that tell the story, in the order that tells it,
+# then zooms so the whole run fits.
+scope_select tb_sweep
+variable_add tb_sweep.a
+variable_add tb_sweep.b
+variable_add tb_sweep.cin
+variable_add tb_sweep.sum
+variable_add tb_sweep.cout
+variable_add tb_sweep.expected
+variable_add tb_sweep.mismatch
+zoom_fit
