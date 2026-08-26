@@ -37,6 +37,29 @@ a clock and nothing is taking turns — all four adders are computing continuous
 But three of them are computing from a carry that is still wrong, and they keep doing so until
 the wave arrives.
 
+### Watch it happen
+
+**3 min 12 s**, silent, captioned — the captions are the narration, so read rather than listen.
+Four full adders, `1111 + 0001`, and the carry walking the line one stage at a time while the
+sum bits correct themselves behind it.
+
+<video controls loop muted playsinline preload="none"
+       poster="assets/img/carry-travels.poster.png"
+       style="width:100%;max-width:820px;border-radius:8px">
+  <source src="assets/img/carry-travels.web.mp4" type="video/mp4">
+</video>
+
+**Watch the readout under the adders, not the bits.** For the first quarter of a nanosecond
+this circuit reports that fifteen plus one is **fourteen**. Then twelve. Then eight. Then zero.
+Only then sixteen. Nothing is broken in any of those frames — three of the four adders are
+simply adding a carry that has not arrived yet, exactly as described above.
+
+**The nanoseconds in it are ASIC numbers, not the FPGA numbers on this page.** The animation
+measures this same `ripple.sv` mapped to SKY130 standard cells, where one extra bit costs
+**0.392 ns**. Below, you measure it on an iCE40 UP5K and get **0.96 ns** per bit. Neither is
+wrong. The *shape* is identical and the *size* is not, which is the point the rest of this page
+is about to make.
+
 That is what "combinational delay" means. Not *"the circuit runs"* — the circuit is always
 running. **The circuit is settling**, and the answer is only trustworthy once it has stopped
 changing.
