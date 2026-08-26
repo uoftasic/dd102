@@ -97,7 +97,8 @@ your work.
 |---|---|
 | `bash: mod: command not found` | You did not run step 2 *in this terminal*. Every new tab starts clean. |
 | `mod: no such module: dd102` | You ran `mod dd102` before `mod add dd102`. It prints the list of what you *do* have underneath. |
-| `fatal: could not read Username for 'https://github.com'` | git is being asked to log in, which means it could not read the repo anonymously. Check the spelling first; if it is right, ask in [Discord](https://discord.gg/hrJnP5UsGz) — do not type your password. |
+| `fatal: could not read Username for 'https://github.com'` | git is being asked to log in, which means the repo did not answer anonymously. **That is almost never your spelling.** Open <https://github.com/uoftasic/dd102> in a browser: if it 404s for you, the repo is not published yet and this is on us, not you — say so in [Discord](https://discord.gg/hrJnP5UsGz) and we will fix it. |
+| `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace is not mounted. `ls /foss/designs/` should list `common/` and `modules/`; if it is empty you started a bare container instead of the workbench. Relaunch with `start_vnc.sh` from your `workspace` clone — see [IC101](https://uoftasic.com/ic101/). **You can still run every lab: `make` alone needs none of this.** |
 
 ## 4. Check your versions
 
