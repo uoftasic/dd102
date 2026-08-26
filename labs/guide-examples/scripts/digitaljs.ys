@@ -1,0 +1,20 @@
+# digitaljs.ys — the exact synthesis DigitalJS Online runs in your browser,
+# run here instead, so you can compare and keep the picture.
+#
+#   yosys scripts/digitaljs.ys
+#
+# This command list is copied from yosys2digitaljs (the converter behind
+# digitaljs.tilk.eu), src/core.ts, prepare_yosys_script(), with every
+# checkbox left at its default. There is no cell library anywhere in it:
+# the browser stops at generic gates, which is exactly why DD103 exists.
+
+read_verilog -sv src/full_adder.sv
+setattr -mod -unset top
+hierarchy -auto-top
+proc
+opt_clean
+memory -nomap
+wreduce -memx
+opt_clean
+stat
+show -format svg -prefix results/full_adder_rtl -notitle

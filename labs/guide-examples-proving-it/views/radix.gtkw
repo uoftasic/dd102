@@ -1,0 +1,20 @@
+[*] radix.gtkw — the same nine-bit signal three times, in three notations.
+[*] One value on one set of wires; only the writing changes.
+[*]   gtkwave results/sweep.vcd views/radix.gtkw
+[dumpfile] "sweep.vcd"
+[timestart] 5000000
+[size] 1160 220
+[pos] -1 -1
+*-15.0 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 180
+[signals_width] 260
+[sst_expanded] 0
+[sst_vpaned_height] 40
+@22
++{v[8:0]  Hex}tb_sweep.v[8:0]
+@24
++{v[8:0]  Decimal}tb_sweep.v[8:0]
+@28
++{v[8:0]  Binary}tb_sweep.v[8:0]
+[pattern_trace] 1
+[pattern_trace] 0

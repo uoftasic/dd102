@@ -1,0 +1,11 @@
+// full_adder.sv — one bit of addition. Transcribed from the DD101 drawing.
+module full_adder (
+    input  logic a,
+    input  logic b,
+    input  logic cin,
+    output logic sum,
+    output logic cout
+);
+    assign sum  = a ^ b ^ cin;
+    assign cout = (a & b) | (cin & (a ^ b));
+endmodule

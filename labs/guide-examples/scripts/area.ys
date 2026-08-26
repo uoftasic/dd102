@@ -1,0 +1,70 @@
+# area.ys — how much silicon each spelling of the adder costs.
+#
+#   yosys scripts/area.ys
+#
+# The liberty file below is the sky130 standard cell library. It is a price
+# list: every gate the factory can build, and how much room it takes. DD103
+# is the course about this file; here we only read the total off the bottom.
+#
+# `design -reset` between blocks throws away the previous design so the
+# next one starts clean.
+
+# ---- 1. the drawing, transcribed: five assigns -----------------------
+log ---- 1. drawing    - five assigns, one per wire on your paper
+read_verilog -sv src/full_adder.sv
+synth -top full_adder
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+tee -o results/drawing.json stat -json -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+design -reset
+
+# ---- 2. one expression per output ------------------------------------
+log ---- 2. flat       - one expression per output
+read_verilog -sv src/full_adder_flat.sv
+synth -top full_adder_flat
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+tee -o results/flat.json stat -json -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+design -reset
+
+# ---- 3. the truth table, as always_comb + case ------------------------
+log ---- 3. table      - always_comb + case, your eight rows
+read_verilog -sv src/full_adder_table.sv
+synth -top full_adder_table
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+tee -o results/table.json stat -json -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+design -reset
+
+# ---- 4. one half adder on its own -------------------------------------
+log ---- 4. half       - one half adder, alone
+read_verilog -sv src/half_adder.sv
+synth -top half_adder
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+tee -o results/half.json stat -json -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+design -reset
+
+# ---- 5. two half adder BOXES and an Or, boundaries left standing ------
+log ---- 5. boxes      - two half_adder instances + an Or, walls up
+read_verilog -sv src/full_adder_hier.sv src/half_adder.sv
+synth -top full_adder_hier
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+tee -o results/boxes.json stat -json -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+design -reset
+
+# ---- 6. the same two boxes, with the walls knocked down ---------------
+log ---- 6. boxes_flat - the same two boxes, walls knocked down
+read_verilog -sv src/full_adder_hier.sv src/half_adder.sv
+synth -top full_adder_hier
+flatten
+abc -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+opt_clean
+tee -o results/boxes_flat.json stat -json -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+stat -liberty /foss/pdks/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib

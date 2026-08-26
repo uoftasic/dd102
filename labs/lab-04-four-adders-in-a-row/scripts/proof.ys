@@ -1,0 +1,13 @@
+# proof.ys — ask Yosys to PROVE that the generate loop and the four hand-typed
+# instances are the same circuit, for every input, forever.
+#
+# A miter is a circuit that holds both designs, feeds them identical inputs,
+# and raises one wire called `trigger` if their outputs ever disagree. The SAT
+# solver then tries to find an input that makes `trigger` go high. If it cannot,
+# there isn't one.
+read_verilog -sv src/ripple4.sv reference/ripple4_hand.sv src/full_adder.sv
+hierarchy -check
+flatten ripple4
+flatten ripple4_hand
+miter -equiv -flatten ripple4 ripple4_hand equiv_miter
+sat -verify -prove trigger 0 -show-inputs -show-outputs equiv_miter
