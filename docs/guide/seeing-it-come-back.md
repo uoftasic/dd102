@@ -232,7 +232,7 @@ screenshot of a schematic. Post the link. Whoever answers can click your inputs 
   it costs**
 - The one number that follows this adder around: **33.7824 µm²**
 
-[Lab 02 — Prove it](labs/lab-02-prove-it.md) is where you do this on a design whose answer
+[Lab 02 — Prove it](labs/lab-02-prove-it-overview.md) is where you do this on a design whose answer
 you have not already seen.
 
 Next: [Eight rows and no opinions](guide/eight-rows-and-no-opinions.md), where you stop

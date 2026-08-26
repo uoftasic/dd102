@@ -16,11 +16,11 @@
     - [The carry has to travel](guide/the-carry-has-to-travel.md)
     - [The chip is already there](guide/the-chip-is-already-there.md)
 - **Labs**
-  - [Lab 01 — Transcribe your adder](labs/lab-01-transcribe-your-adder.md)
-  - [Lab 02 — Prove it](labs/lab-02-prove-it.md)
-  - [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench.md)
-  - [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row.md)
-  - [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga.md)
+  - [Lab 01 — Transcribe your adder](labs/lab-01-transcribe-your-adder-overview.md)
+  - [Lab 02 — Prove it](labs/lab-02-prove-it-overview.md)
+  - [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md)
+  - [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md)
+  - [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md)
 - **Reference**
   - [The DD102 subset](reference/the-dd102-subset.md)
   - [Reading a waveform](reference/reading-a-waveform.md)

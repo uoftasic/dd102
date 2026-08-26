@@ -60,7 +60,7 @@ gtkwave results/sweep.vcd views/sweep.gtkw
 | a line along the top or the bottom | a **1-bit** signal, high or low |
 | a box with a number in it, pinching at each change | a **multi-bit** signal. The number is its value over that stretch |
 | **red**, usually reading `x` or `xx` | **unknown.** Nobody has driven this signal yet |
-| red and reading `z` | **high impedance** — nothing is driving it at all. You meet this in [Lab 04](labs/lab-04-four-adders-in-a-row.md), where a loop bound one too small leaves `sum[3]` and `cout` with no driver and every one of 512 answers comes back `Z` |
+| red and reading `z` | **high impedance** — nothing is driving it at all. You meet this in [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md), where a loop bound one too small leaves `sum[3]` and `cout` with no driver and every one of 512 answers comes back `Z` |
 | a vertical line you can drag | the **marker**. Everything in the value column is read at the marker |
 | the number after a name, e.g. `cin =1` | not part of the name — that signal's **value at the marker** |
 

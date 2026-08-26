@@ -183,7 +183,7 @@ else's testbench* and *problems you did not write*. Nothing in DD102 requires it
 optional on every page that mentions it.
 
 What you can do instead, and what is worth more anyway: **write the testbench yourself.** That
-is [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench.md), and after it you can grade
+is [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md), and after it you can grade
 your own work on any problem statement you already have open. Both self-checking packages
 render a verdict with no network at all:
 

@@ -372,7 +372,7 @@ lives in.
 ### The count is not the fingerprint
 
 One warning before you use this trick everywhere.
-[Lab 03](labs/lab-03-the-lazy-testbench.md) hands you a **different** broken 4-bit adder, and
+[Lab 03](labs/lab-03-the-lazy-testbench-overview.md) hands you a **different** broken 4-bit adder, and
 its exhaustive sweep also reports **256 of 512**. Same headline number, entirely different bug.
 Its breakdown does not look like the one above at all — it splits **120** failures with
 `cin = 0` and **136** with `cin = 1`, because that bug is about numbers being too big rather
@@ -503,7 +503,7 @@ treat them as the right order of magnitude rather than a stopwatch reading. The 
 magnitude is the entire point.
 
 > **The rate itself falls as the adder gets wider**, because each vector drives more wires. The
-> 4.5 µs above was measured at 8 bits; [Lab 04](labs/lab-04-four-adders-in-a-row.md) measures it
+> 4.5 µs above was measured at 8 bits; [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md) measures it
 > again at 12 bits, gets **7.9 µs**, and so puts the 16-bit row at about **19 hours** rather than
 > 11. Neither is wrong and neither is a stopwatch reading — both say *overnight*, which is the
 > answer that changes what you do.
@@ -520,9 +520,9 @@ this small.
 
 ## Where you do this yourself
 
-- **[Lab 02 — Prove it](labs/lab-02-prove-it.md)** ships a testbench with **one** of your eight
+- **[Lab 02 — Prove it](labs/lab-02-prove-it-overview.md)** ships a testbench with **one** of your eight
   rows filled in, plus mutant adders for it to catch. Your seven missing rows are the lab.
-- **[Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench.md)** hands you a different
+- **[Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md)** hands you a different
   broken 4-bit adder and does not tell you what is wrong with it. Every technique on this page
   works on it.
 - **[`labs/guide-examples-proving-it/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples-proving-it)**

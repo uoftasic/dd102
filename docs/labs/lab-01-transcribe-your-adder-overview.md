@@ -41,7 +41,7 @@ describe a circuit that does five things simultaneously.
 
 Your full adder has exactly three one-bit inputs. Three one-bit inputs is $2^3 = 8$ possible
 situations, and eight is small enough to check **all of them**. That is not a testing strategy
-you will get to keep. Enjoy it while it lasts; [Lab 03](labs/lab-03-the-lazy-testbench.md) is
+you will get to keep. Enjoy it while it lasts; [Lab 03](labs/lab-03-the-lazy-testbench-overview.md) is
 where it stops being possible.
 
 ## Procedure
@@ -290,5 +290,5 @@ Python 3.12.3.
 - Stuck? [Team Discord](https://discord.gg/hrJnP5UsGz). Save an
   [EDA Playground](https://www.edaplayground.com/) link and paste that instead of describing it.
 
-Next: [Lab 02 — Prove it](labs/lab-02-prove-it.md), where you stop being handed a testbench and
+Next: [Lab 02 — Prove it](labs/lab-02-prove-it-overview.md), where you stop being handed a testbench and
 write one — and then find out what it is worth.

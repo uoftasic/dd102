@@ -1,6 +1,6 @@
 # Lab 02 — Prove it
 
-Writeup: [`docs/labs/lab-02-prove-it.md`](../../docs/labs/lab-02-prove-it.md)
+Writeup: [`docs/labs/lab-02-prove-it-overview.md`](../../docs/labs/lab-02-prove-it-overview.md)
 
 You write the testbench this time. Then this package finds out whether it is any good, by
 handing it three adders that are broken on purpose.

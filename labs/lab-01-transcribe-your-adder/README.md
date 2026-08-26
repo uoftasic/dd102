@@ -1,6 +1,6 @@
 # Lab 01 — Transcribe your adder
 
-Writeup: [`docs/labs/lab-01-transcribe-your-adder.md`](../../docs/labs/lab-01-transcribe-your-adder.md)
+Writeup: [`docs/labs/lab-01-transcribe-your-adder-overview.md`](../../docs/labs/lab-01-transcribe-your-adder-overview.md)
 
 Your DD101 drawing, typed out. **This package exists so that you can be wrong safely** — it
 runs a known-good adder through exactly the same machinery as yours, so a failure tells you

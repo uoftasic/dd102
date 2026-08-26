@@ -155,7 +155,7 @@ is why real designs send numbers in over a few wires and reassemble them inside 
 giving every bit its own leg.
 
 > A larger version of this refusal is one of the shipped experiments in
-> [Lab 05](labs/lab-05-onto-the-fpga.md): `make fits` runs `src/toobig.sv`, a 16×16 multiplier,
+> [Lab 05](labs/lab-05-onto-the-fpga-overview.md): `make fits` runs `src/toobig.sv`, a 16×16 multiplier,
 > and its verdict line reads
 >
 > ```
@@ -212,5 +212,5 @@ Runnable package: [`labs/guide-examples-carry/`](https://github.com/uoftasic/dd1
 
 Next: [The chip is already there](guide/the-chip-is-already-there.md), which explains what those
 `SB_LUT4` actually are and why an FPGA can be reprogrammed in three seconds. Then
-[Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga.md) puts your own `ripple4.sv` on a real part
+[Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md) puts your own `ripple4.sv` on a real part
 and prints its critical path with your generate-block labels in the middle of it.

@@ -1,6 +1,6 @@
 # Lab 05 — Onto the FPGA
 
-Writeup: [`docs/labs/lab-05-onto-the-fpga.md`](../../docs/labs/lab-05-onto-the-fpga.md)
+Writeup: [`docs/labs/lab-05-onto-the-fpga-overview.md`](../../docs/labs/lab-05-onto-the-fpga-overview.md)
 
 The last lab in DD102. `src/ripple4.sv` is the file you wrote in Lab 04; here it becomes a
 **bitstream for a real Lattice iCE40 UP5K**, and then — the same two files, one command later —

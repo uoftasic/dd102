@@ -14,7 +14,7 @@ Every number below came from `yosys synth_ice40` on the workbench image, `hpretl
 
 ## `SB_LUT4` is not a gate
 
-When you synthesized your adder in [Lab 04](labs/lab-04-four-adders-in-a-row.md), the answer came
+When you synthesized your adder in [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md), the answer came
 back in a currency you did not choose:
 
 ```
@@ -216,6 +216,6 @@ buying FPGAs — and that decision is where DD103 starts.
 - A **bitstream** is the settings for the whole warehouse, not a description of your design. That
   is why it loads in seconds.
 
-Next: [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga.md), where your own `ripple4.sv` becomes
+Next: [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md), where your own `ripple4.sv` becomes
 a real bitstream in three commands and 0.8 seconds — and where you find out how big that file is,
 which is not what you are about to guess.

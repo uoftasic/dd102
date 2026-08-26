@@ -72,7 +72,7 @@ is `c[4]`, which becomes `cout`.
 
 **Why an engineer cares:** the version of this with four separately named wires — `c1`, `c2`,
 `c3`, `c4` — works exactly as well and is what `add4.sv` in
-[Lab 03](labs/lab-03-the-lazy-testbench.md) does. It also cannot be written as a loop, and it
+[Lab 03](labs/lab-03-the-lazy-testbench-overview.md) does. It also cannot be written as a loop, and it
 gives you four chances to type `c2` where you meant `c3`. Indexing a vector is how you make
 the four lines *identical*, and identical lines are the ones a machine can write for you.
 
@@ -142,7 +142,7 @@ typing device, and its output is text.
 
 > **The reflex:** if you catch yourself asking *"how fast does the loop run?"*, the answer is
 > that there is no loop. Ask instead *"what four things did it leave behind?"* —
-> [Lab 04](labs/lab-04-four-adders-in-a-row.md) makes Yosys **prove** the two files build the
+> [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md) makes Yosys **prove** the two files build the
 > same circuit, for every one of their inputs, and shows you the counterexample when they do not.
 
 ### `begin : slice` is not decoration
@@ -150,7 +150,7 @@ typing device, and its output is text.
 `begin : slice` names the block, and the tool uses that name to tell the four copies apart. The
 second adder is called `slice[1].fa`. That string is not trivia — it is what appears in error
 messages, in waveform hierarchies, and in timing reports. In
-[Lab 05](labs/lab-05-onto-the-fpga.md) the FPGA's critical path prints as
+[Lab 05](labs/lab-05-onto-the-fpga-overview.md) the FPGA's critical path prints as
 
 ```
 Info: 3.85 ns logic, 19.01 ns routing
@@ -235,7 +235,7 @@ PASS  11_width_truncation    9+9 -> narrow[3:0]=2  wide[4:0]=18
 `narrow` was declared `[3:0]` and `wide` was declared `[4:0]`.
 
 You have already been bitten by this without knowing its name. `add4.sv` in
-[Lab 03](labs/lab-03-the-lazy-testbench.md) computes its top carry correctly and then has
+[Lab 03](labs/lab-03-the-lazy-testbench-overview.md) computes its top carry correctly and then has
 nowhere to put it, which is why it is wrong on **256 of 512** inputs — exactly half, because the
 carry out is 1 exactly half the time.
 
@@ -299,7 +299,7 @@ boxes and count the arrows crossing the gaps.
 - **N bits plus N bits does not fit in N bits.** The left-hand side decides, and truncation is
   silent.
 
-Next: [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row.md), where you write the
+Next: [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md), where you write the
 loop, prove it equals the hand-typed version, and get two predictions wrong on purpose. Then
 [The carry has to travel](guide/the-carry-has-to-travel.md) puts a nanosecond count on the chain
 you just built.
