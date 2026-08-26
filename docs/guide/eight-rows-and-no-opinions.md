@@ -57,7 +57,7 @@ module tb_eight_rows;
     ...
         for (int row = 0; row < 8; row = row + 1) begin
             {a, b, cin} = row[2:0];     // 0,1,2 ... 7 in binary IS the input list
-            #10;                         // wait ten nanoseconds for the gates to settle
+            #10;                         // let this row settle before looking at it
             mismatch = ({cout, sum} !== expected[row]);
             ...
         end
@@ -73,9 +73,44 @@ testbench does not know or care what is inside `full_adder`; it only knows the f
 eight rows of your truth table, in the order your DD101 sheet already has them.
 
 **`#10`** is the only genuinely new syntax on this page. It means *wait ten nanoseconds of
-simulated time*. It costs no real time; the simulator just moves its clock forward. You need
-it because `assign` statements settle **after** their inputs change, not at the same instant,
-and if you looked immediately you would read the previous answer.
+simulated time*. It costs no real time; the simulator just moves its clock forward.
+
+You need **something** there. Delete the line entirely and every row fails:
+
+```
+tb_eight_rows: all 8 inputs of full_adder
+  a b cin | cout sum | want
+  --------+----------+-----
+  0 0  0  |   x   x  |  0 0   MISMATCH
+  0 0  1  |   x   x  |  0 1   MISMATCH
+```
+
+`x` is not a wrong answer, it is *no answer yet* — you set the inputs and read the outputs in
+the same breath, before the `assign` statements had a turn to run. The wait is what gives them
+that turn.
+
+But be careful about **why**, because the obvious reading is wrong. It is tempting to think
+the gates need ten nanoseconds to settle. They do not. Change it to `#0` — wait for *zero*
+nanoseconds — and all eight rows still pass:
+
+```
+TESTED 8
+ERRORS 0
+VERDICT PASS
+tb_eight_rows.sv:66: $finish called at 0 (1ps)
+```
+
+The whole test finished **at time zero**. Settling a chain of `assign` statements costs no
+simulated time at all; `#0` just tells the simulator *finish everything scheduled for right
+now before you carry on*, and that is all that was ever needed.
+
+So why write `#10`? Because of the waveform you are about to open. `#0` would stack all eight
+rows on top of each other at t=0, unreadable. `#10` spreads them into eight evenly spaced
+columns you can point at. **The ten is for your eyes, not for the gates.**
+
+> Hold onto this. A number in a delay does not buy you time for logic to work — in DD103 you
+> will watch a synthesizer throw `#5` away without a word of warning, because there is no gate
+> whose job is to be late. Real delay is something you *measure* afterwards, in Lab 05.
 
 ## Run it
 
@@ -534,7 +569,7 @@ this small.
 | | |
 |---|---|
 | a testbench is | a module with no ports whose job is to disagree with you |
-| `#10` means | wait ten nanoseconds of pretend time, so the wires settle |
+| `#10` means | wait ten nanoseconds of pretend time. `#0` would also pass — the ten is to space the waveform out, not to let gates settle |
 | `vvp` exit 0 means | the simulation ran. Nothing about whether it passed. |
 | six good cases proved | nothing, because they all had `cin = 0` |
 | exactly half wrong means | the bug is structural, not a corner case. The breakdown says which signal. |
