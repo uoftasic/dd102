@@ -39,7 +39,8 @@ Labs run inside the shared **workspace** you set up in [IC101](https://uoftasic.
 3. Prove the adder against **all 8 rows**, then read the waveform that says so
 4. Chain four of them into a **4-bit ripple adder** and prove that against all **512** inputs
 5. Send it to a real FPGA: **8 lookup tables**, **10 of 5,280 logic cells**, one **104,090-byte** bitstream
-6. Find out that your adder tops out at **24.26 ns — about 41 MHz**, and that the carry is why
+6. Find out that your adder tops out somewhere around **23–24 ns, about 42 MHz** — two
+   timing tools will give you 22.86 and 24.26 and neither is lying — and that the carry is why
 
 ## Path
 
