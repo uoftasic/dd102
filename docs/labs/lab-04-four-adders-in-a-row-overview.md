@@ -8,7 +8,7 @@ each time. Is that really how professionals do it?*
 
 No. And the reason is not tidiness.
 
-In [Lab 03](labs/lab-03-the-lazy-testbench.md) you read `add4.sv`: four `full_adder`
+In [Lab 03](labs/lab-03-the-lazy-testbench-overview.md) you read `add4.sv`: four `full_adder`
 instances typed out one after another — `fa0`, `fa1`, `fa2`, `fa3` — with five indices and an
 instance name changed on every line. It worked. It also gave you four separate opportunities to
 get an index wrong, and it stops being possible somewhere around thirty-two bits.
@@ -23,7 +23,7 @@ designed so that the number you write down is wrong.
 
 - [IC101](https://uoftasic.com/ic101/) complete — the workbench desktop launches
 - DD102 cloned under `workspace/modules/dd102`
-- [Lab 03](labs/lab-03-the-lazy-testbench.md) done: you have read `add4.sv` and `add5.sv`,
+- [Lab 03](labs/lab-03-the-lazy-testbench-overview.md) done: you have read `add4.sv` and `add5.sv`,
   four hand-typed instances each, and you know why the first one is wrong on 256 of 512 inputs
 - Read [Four adders in a row](guide/four-adders-in-a-row.md)
 - `yosys -V` says **`0.64`** and `iverilog -V` starts with **`14.0`**
@@ -72,7 +72,7 @@ keyword instead of being `int`.
 
 **The label after `begin :` becomes part of every generated name.** With `begin : slice`, the
 four adders are called `slice[0].fa` through `slice[3].fa`. This is not decoration. In
-[Lab 05](labs/lab-05-onto-the-fpga.md) the place-and-route tool prints a timing report that
+[Lab 05](labs/lab-05-onto-the-fpga-overview.md) the place-and-route tool prints a timing report that
 says `slice[2].fa.sum_SB_LUT4_O_I3[2]`, and that string is the only reason you can tell which
 of the four bits the delay is in. **Name the block after the thing it is, and the tools will
 talk back to you in your own words.**
@@ -324,7 +324,7 @@ make wide
 
 Two lookup tables per bit, exactly, at every width — one for the sum, one for the carry. The
 file did not get longer. (`SB_LUT4` is the FPGA cell your logic lands on; that is
-[Lab 05](labs/lab-05-onto-the-fpga.md)'s whole subject and you can treat it as "a unit of
+[Lab 05](labs/lab-05-onto-the-fpga-overview.md)'s whole subject and you can treat it as "a unit of
 logic" until then.)
 
 Then the same target runs the exhaustive test twice:
@@ -413,7 +413,7 @@ Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Yosys 0.64,
   [`labs/lab-04-four-adders-in-a-row/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-04-four-adders-in-a-row)
 - Guide: [Four adders in a row](guide/four-adders-in-a-row.md) ·
   [The carry has to travel](guide/the-carry-has-to-travel.md)
-- Previous lab: [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench.md)
-- Next: [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga.md), where this exact file becomes
+- Previous lab: [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md)
+- Next: [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md), where this exact file becomes
   a bitstream for a real chip — and you find out that `slice[2].fa` shows up in the timing
   report.

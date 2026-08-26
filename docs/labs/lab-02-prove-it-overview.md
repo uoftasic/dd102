@@ -5,7 +5,7 @@ Full runnable package:
 
 **The question this lab answers:** *My adder passes. How do I know my test is any good?*
 
-In [Lab 01](labs/lab-01-transcribe-your-adder.md) a testbench was handed to you, and it told
+In [Lab 01](labs/lab-01-transcribe-your-adder-overview.md) a testbench was handed to you, and it told
 you your adder was right. This time you write the testbench. And then something has to check
 **it**, because a test that says PASS on everything you show it is not a test — it is a
 formality with a green tick on the end.
@@ -15,7 +15,7 @@ testbench catches all three. Yours, as shipped, catches none.
 
 ## Prerequisites
 
-- [Lab 01](labs/lab-01-transcribe-your-adder.md) done — your `full_adder.sv` passes 8 of 8
+- [Lab 01](labs/lab-01-transcribe-your-adder-overview.md) done — your `full_adder.sv` passes 8 of 8
 - Read [Eight rows and no opinions](guide/eight-rows-and-no-opinions.md)
 - `iverilog -V` says `Icarus Verilog version 14.0 (devel)` on its first line
 
@@ -245,6 +245,6 @@ means the testbench reached its last line after 8 nanoseconds of pretend time. I
   graded by somebody else's testbench
 - Stuck? [Team Discord](https://discord.gg/hrJnP5UsGz)
 
-Next: [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench.md), where eight rows stop
+Next: [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md), where eight rows stop
 being all of them — and a testbench you wrote yourself, and believed, turns out to have missed
 256 wrong answers.

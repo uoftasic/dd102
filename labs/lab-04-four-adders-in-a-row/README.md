@@ -1,6 +1,6 @@
 # Lab 04 — Four adders in a row
 
-Writeup: [`docs/labs/lab-04-four-adders-in-a-row.md`](../../docs/labs/lab-04-four-adders-in-a-row.md)
+Writeup: [`docs/labs/lab-04-four-adders-in-a-row-overview.md`](../../docs/labs/lab-04-four-adders-in-a-row-overview.md)
 
 Five experiments on one `generate for` loop. Run them in order — three of them ask you to
 commit to a number before you look.

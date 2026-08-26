@@ -5,7 +5,7 @@ Full runnable package:
 
 **The question this lab answers:** *I tested my adder and it passed. Why is that not enough?*
 
-In [Lab 02](labs/lab-02-prove-it.md) you checked all eight rows, because a full adder has
+In [Lab 02](labs/lab-02-prove-it-overview.md) you checked all eight rows, because a full adder has
 exactly eight. That was the last time in your life it will be that easy.
 
 Four of those adders in a row make a 4-bit adder. It has nine input bits, so it has
@@ -17,7 +17,7 @@ This lab is about what "it passes" was worth.
 
 ## Prerequisites
 
-- [Lab 02](labs/lab-02-prove-it.md) done — you have written a self-checking testbench and
+- [Lab 02](labs/lab-02-prove-it-overview.md) done — you have written a self-checking testbench and
   watched it catch three planted bugs
 - Read [Eight rows and no opinions](guide/eight-rows-and-no-opinions.md) — it works the same
   arithmetic on a *different* broken adder, and the fingerprinting technique it teaches is the
@@ -257,7 +257,7 @@ tb/tb_exhaustive.sv:11: ...: The inherited timescale is here.
   not. It appears on healthy runs too and it has nothing to do with your bug.
 
   Now, the same command that told you nothing in
-  [Lab 01](labs/lab-01-transcribe-your-adder.md):
+  [Lab 01](labs/lab-01-transcribe-your-adder-overview.md):
 
 ```
 $ verilator --lint-only -Wall --top-module add4 broken/add4_wider_inside.sv src/full_adder.sv
@@ -360,5 +360,5 @@ is already true of the shipped files. The work is in reading it, not in repairin
 
 Next: [Four adders in a row](guide/four-adders-in-a-row.md), which turns those four hand-typed
 instances into one loop and shows you what an extra bit costs — then
-[Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row.md), where Yosys **proves** the
+[Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md), where Yosys **proves** the
 loop and the hand-typed version are the same circuit.

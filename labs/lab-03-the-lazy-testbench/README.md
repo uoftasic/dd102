@@ -1,6 +1,6 @@
 # Lab 03 — The lazy testbench
 
-Writeup: [`docs/labs/lab-03-the-lazy-testbench.md`](../../docs/labs/lab-03-the-lazy-testbench.md)
+Writeup: [`docs/labs/lab-03-the-lazy-testbench-overview.md`](../../docs/labs/lab-03-the-lazy-testbench-overview.md)
 
 Four of your full adders in a row make a 4-bit adder. This lab is about the difference
 between a 4-bit adder that passes your tests and a 4-bit adder that is right.

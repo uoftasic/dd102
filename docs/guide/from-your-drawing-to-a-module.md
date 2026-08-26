@@ -56,7 +56,7 @@ where four copies of it become a 4-bit adder. Getting the names and directions r
 
 ## What an empty module does when you simulate it
 
-Run the shipped stub in [Lab 01](labs/lab-01-transcribe-your-adder.md) — the package is
+Run the shipped stub in [Lab 01](labs/lab-01-transcribe-your-adder-overview.md) — the package is
 [`labs/lab-01-transcribe-your-adder/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-01-transcribe-your-adder)
 — and here is your reward:
 

@@ -8,7 +8,7 @@ Full runnable package:
 You have a file. It simulates. Yosys has proved it correct. None of that is a chip.
 
 This lab takes `ripple4.sv` — the file you wrote in
-[Lab 04](labs/lab-04-four-adders-in-a-row.md), unchanged — and produces **a binary you could
+[Lab 04](labs/lab-04-four-adders-in-a-row-overview.md), unchanged — and produces **a binary you could
 load into a real Lattice iCE40 UP5K and it would add numbers**. Three commands, and `make fpga`
 runs all three in **0.8 seconds**.
 
@@ -24,7 +24,7 @@ the binary.
 
 - [IC101](https://uoftasic.com/ic101/) complete — the workbench desktop launches
 - DD102 cloned under `workspace/modules/dd102`
-- [Lab 04](labs/lab-04-four-adders-in-a-row.md) done: you have a `ripple4.sv` built from one
+- [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md) done: you have a `ripple4.sv` built from one
   `generate for`, and a proof that it is correct
 - Read [The chip is already there](guide/the-chip-is-already-there.md)
 - `yosys -V` says **`0.64`** and `nextpnr-ice40 --version` says **`Version nextpnr-0.10-33-ge6ecd8fa`**
@@ -500,7 +500,7 @@ twelve verdicts, all `PASS`.
   [`labs/lab-05-onto-the-fpga/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-05-onto-the-fpga)
 - Guide: [The chip is already there](guide/the-chip-is-already-there.md) ·
   [The carry has to travel](guide/the-carry-has-to-travel.md)
-- Previous lab: [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row.md)
+- Previous lab: [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md)
 - **Next course: DD103.** You are finished with DD102. You drew a full adder on paper in DD101,
   transcribed it in Lab 01, proved it in Lab 02, watched its carry in Lab 03, generated four of
   them in Lab 04, and here you turned that file into a bitstream for a chip that already
