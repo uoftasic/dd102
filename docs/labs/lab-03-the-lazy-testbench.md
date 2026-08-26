@@ -243,10 +243,13 @@ VERDICT FAIL
   Identical, to the digit, including the split. The port is still four bits wide, so the fifth
   bit is discarded at the assignment instead of inside the adder. It moved; it did not go away.
 
-  `iverilog -g2012 -Wall` compiles it with **exit 0**. The only thing it says is:
+  `iverilog -g2012 -Wall` compiles it with **exit 0**. The only thing it says is two pairs of
+  this:
 
 ```
 broken/add4_wider_inside.sv:10: warning: timescale for add4 inherited from another file.
+tb/tb_exhaustive.sv:11: ...: The inherited timescale is here.
+src/full_adder.sv:11: warning: timescale for full_adder inherited from another file.
 tb/tb_exhaustive.sv:11: ...: The inherited timescale is here.
 ```
 

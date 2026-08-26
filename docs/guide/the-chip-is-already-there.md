@@ -148,7 +148,7 @@ list of settings — one for every configurable point on the die. It is called a
 and in Lab 05 you produce one:
 
 ```bash
-icepack r4.asc r4.bin
+icepack results/r4.asc results/r4.bin
 ```
 
 Hold that thought about what is *in* it, because Lab 05 asks you to predict the size of that file
