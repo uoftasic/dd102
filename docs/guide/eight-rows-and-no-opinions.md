@@ -502,6 +502,12 @@ on `hpretl/iic-osic-tools:2026.04`. The last two rows are arithmetic from the me
 treat them as the right order of magnitude rather than a stopwatch reading. The order of
 magnitude is the entire point.
 
+> **The rate itself falls as the adder gets wider**, because each vector drives more wires. The
+> 4.5 µs above was measured at 8 bits; [Lab 04](labs/lab-04-four-adders-in-a-row.md) measures it
+> again at 12 bits, gets **7.9 µs**, and so puts the 16-bit row at about **19 hours** rather than
+> 11. Neither is wrong and neither is a stopwatch reading — both say *overnight*, which is the
+> answer that changes what you do.
+
 **Somewhere between 8 bits and 16 bits, exhaustive stops being something you do while the
 kettle boils.** And a 32-bit adder is a small, boring, combinational block — no memory, no
 state machine, nothing clever. Add a single flip-flop and the input space stops being a number
