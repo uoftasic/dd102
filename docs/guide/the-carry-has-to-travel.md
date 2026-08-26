@@ -78,13 +78,27 @@ adders, so half again as much delay — most people write down something near 65
 
 ## The measurement
 
-Three widths of the same file, synthesized and placed with no constraints:
+Three widths of the same file, synthesized and placed with no constraints. It ships as a
+runnable package — `make` alone, no environment setup, ending in five verdicts:
 
 ```bash
-yosys -p "read_verilog -sv top8.sv ripple.sv full_adder.sv; \
-          synth_ice40 -top top -json r8.json"
-nextpnr-ice40 --up5k --package sg48 --json r8.json --asc r8.asc
+cd labs/guide-examples-carry
+make
 ```
+
+Each width is two commands, and this is the 8-bit one. `src/ripple.sv` is the parameterised
+adder from Lab 04, unchanged; `src/top8.sv` is a four-line wrapper that fixes its width,
+because `nextpnr` places **pins** and pins need a width:
+
+```bash
+yosys -p "read_verilog -sv src/top8.sv src/ripple.sv src/full_adder.sv; \
+          synth_ice40 -top top -json results/r8.json"
+nextpnr-ice40 --up5k --package sg48 --json results/r8.json --asc results/r8.asc
+```
+
+> **This is an excerpt of what `make widths` runs** — the complete package is
+> [`labs/guide-examples-carry/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples-carry),
+> and every number below comes out of it. Nothing on this page needs saving to disk.
 
 `nextpnr` ends its run with a critical path report. The last line of it is the summary:
 
@@ -120,9 +134,13 @@ still **81 % at 12 bits**. The wires cost four to five times what the gates cost
 
 ## The wall you hit before the speed wall
 
-Try sixteen bits and something else happens first:
+Try sixteen bits — `make wall` in the same package — and something else happens first:
 
 ```
+       32   SB_LUT4
+nextpnr exit status 255   (255. this one does tell you.)
+Info: 	         ICESTORM_LC:      34/   5280     0%
+Info: 	               SB_IO:      50/     39   128%
 ERROR: Unable to find a placement location for cell 'b[12]$sb_io'
 1 warning, 1 error
 ```
@@ -131,7 +149,7 @@ Not a timing failure — a **pin** failure. A 16-bit adder needs 16 + 16 + 1 inp
 outputs, which is **50** pins, and the sg48 package has **39**. Look back at the table: at 12
 bits you were already at 38 of 39.
 
-You have used **26 of 5,280 logic cells**, one half of one percent of the chip, and you cannot
+You have used **34 of 5,280 logic cells**, well under one percent of the chip, and you cannot
 fit the design. **On a small FPGA you run out of pins long before you run out of logic**, which
 is why real designs send numbers in over a few wires and reassemble them inside rather than
 giving every bit its own leg.
@@ -188,6 +206,9 @@ different delay models over the same silicon. Do not average them.
 - Gate depth predicts the *shape* of the delay, never its *size*. Read the tool's report.
 - Small FPGAs run out of **pins** first: 26 of 5,280 logic cells and 38 of 39 pins, at twelve
   bits.
+
+Runnable package: [`labs/guide-examples-carry/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples-carry)
+— `make` alone, no setup, and it grades every number on this page.
 
 Next: [The chip is already there](guide/the-chip-is-already-there.md), which explains what those
 `SB_LUT4` actually are and why an FPGA can be reprogrammed in three seconds. Then

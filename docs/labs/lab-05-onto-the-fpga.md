@@ -407,6 +407,8 @@ icetime -d up5k -P sg48 -C results/chipdb-5k.txt -t results/r4.asc | tail -12
 ```
 
 ```
+    24.258 ns io_pad_12_31_1_din
+
 Resolvable net names on path:
      1.105 ns ..  5.966 ns a[0]$SB_IO_IN
      7.251 ns ..  9.661 ns slice[1].fa.sum_SB_LUT4_O_I3[2]

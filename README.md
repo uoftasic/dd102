@@ -2,65 +2,70 @@
 
 Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA.
 
-Docsify course / lab template for the **UofT ASIC Team** (`uoftasic`). Published docs live under `./docs`; runnable labs, scripts, notebooks, and data stay in the repo root. Zero build for GitHub Pages — Markdown, MathJax, and images work out of the box.
+**Course site: <https://uoftasic.com/dd102/>** · Part of the
+[UofT ASIC Team](https://github.com/uoftasic) education materials ·
+[Education hub](https://edu.uoftasic.com/)
 
-Org: [github.com/uoftasic](https://github.com/uoftasic)
+You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). This course turns that
+drawing into text a machine reads, proves it against every input it can ever see, and lands it
+on a real Lattice iCE40 UP5K as a 104,090-byte bitstream.
 
-## Live docs
+| | |
+|---|---|
+| **Prerequisites** | [IC101](https://uoftasic.com/ic101/) then [DD101](https://uoftasic.com/dd101/) |
+| **Workbench** | `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Yosys 0.64, nextpnr-ice40, IceStorm, Verilator 5.046 |
+| **Time** | 10–14 hours, self-paced |
+| **Ends with** | `ripple4.sv` you wrote, proven on all 512 of its inputs, and the bitstream it becomes |
 
-**This template:** https://uoftasic.com/course-template/
+## Running the labs
 
-**Education hub:** https://edu.uoftasic.com/
-
-After Pages is enabled on a course repo created from this template:
-
-**https://uoftasic.com/dd102/**
-
-## Use this template
-
-1. On [uoftasic/course-template](https://github.com/uoftasic/course-template), click **Use this template** → create a repo named after the course id (e.g. `dd103`, `serdes-lab`).
-2. Clone and bootstrap:
-
-```bash
-python3 scripts/init-template.py \
-  --id dd102 \
-  --title "DD102 — Digital Logic & FPGAs" \
-  --description "Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA."
-```
-
-3. Enable **Settings → Pages → Deploy from a branch → `main` / `/docs`**.
-
-See [TEMPLATE.md](TEMPLATE.md) for the checklist. Org is always `uoftasic` — only course id / title / description are filled in.
-
-## Quick start
+Every package under `labs/` runs with **`make` alone, in a bare container, with no environment
+setup** — no `.designinit`, no `mod`, no PDK, no liberty file, no environment variables — and
+ends in a `PASS`/`FAIL` verdict rather than a shrug.
 
 ```bash
 git clone https://github.com/uoftasic/dd102.git
-cd dd102
+cd dd102/labs/lab-01-transcribe-your-adder
+make
+```
 
-# Docs (requires Node.js)
-npx docsify-cli serve docs
-# → http://localhost:3000
+Inside the workbench desktop, after [IC101](https://uoftasic.com/ic101/):
 
-# Sample script
-python3 scripts/hello.py
-
-# Any lab package — runs in the workbench container, no setup
+```bash
+. /foss/designs/common/.designinit
+mod add dd102          # first time only
+mod dd102
 cd labs/lab-01-transcribe-your-adder && make
 ```
 
-Tool-heavy courses that need IIC-OSIC-TOOLS / SKY130 should document the team workbench setup in-course rather than bundling Docker in every repo.
+| package | what it is |
+|---|---|
+| `labs/lab-01-transcribe-your-adder/` | your paper drawing, typed out, graded on eight rows |
+| `labs/lab-02-prove-it/` | write the testbench, then three mutants grade *it* |
+| `labs/lab-03-the-lazy-testbench/` | six hand-picked cases pass; all 512 do not |
+| `labs/lab-04-four-adders-in-a-row/` | one `generate for`, and Yosys **proves** it equals the hand-typed version |
+| `labs/lab-05-onto-the-fpga/` | `yosys` → `nextpnr` → `icepack`, and a real bitstream |
+| `labs/guide-examples/` | the runnable half of Part I and II of the guide |
+| `labs/guide-examples-proving-it/` | the runnable half of Part III |
+| `labs/guide-examples-carry/` | the width sweep behind *The carry has to travel* |
+| `labs/reference-card/` | twelve one-file cards, the whole DD102 SystemVerilog subset |
+
+Docs preview (requires Node.js):
+
+```bash
+npx docsify-cli serve docs      # → http://localhost:3000
+```
 
 ## Layout
 
 | Path | On Pages? | Purpose |
 |------|-----------|---------|
-| `docs/` | **Yes** | Human-facing Docsify site |
-| `docs/labs/` | Yes | Lab *writeups* (procedure, theory) |
-| `labs/` | No | Runnable packages (HDL, Python, data, graders) |
-| `scripts/` | No | Team utilities / automation |
-| `notebooks/` | No | Exploratory / assignment notebooks |
-| `data/`, `figures/` | No | Shared datasets / source figures |
+| `docs/` | **Yes** | The Docsify site published at uoftasic.com/dd102/ |
+| `docs/guide/`, `docs/labs/`, `docs/reference/` | Yes | Guide pages, lab writeups, reference |
+| `labs/` | No | Runnable packages (HDL, Python graders, Makefiles) |
+| `scripts/`, `notebooks/`, `data/`, `figures/` | No | Team utilities, exploratory work, sources |
+
+No solutions or grade keys are published under `docs/`.
 
 ## GitHub Pages
 
@@ -70,11 +75,14 @@ Tool-heavy courses that need IIC-OSIC-TOOLS / SKY130 should document the team wo
 | Branch | `main` |
 | Folder | `/docs` |
 
-No Actions deploy step is required for the baseline Docsify site.
+No Actions deploy step is required. `.github/workflows/docs-link-check.yml` link-checks
+`docs/**` on push and pull request.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md). New course repos are created
+from [uoftasic/course-template](https://github.com/uoftasic/course-template); see
+[TEMPLATE.md](TEMPLATE.md).
 
 ## License
 
