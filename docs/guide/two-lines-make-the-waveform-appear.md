@@ -208,7 +208,7 @@ Start with the small one — the eight rows of a single full adder:
 gtkwave results/eight.vcd views/eight.gtkw
 ```
 
-![GTKWave showing a, b and cin stepping through all eight combinations while sum and cout follow](assets/img/dd102-wave-eight-rows.png)
+![GTKWave showing a, b and cin stepping through all eight combinations while sum and cout follow](../assets/img/dd102-wave-eight-rows.png)
 
 Read it left to right. Time runs along the top, `0` to `160 ns`, and each of the eight rows of
 your truth table occupies 20 ns of it.
@@ -239,7 +239,7 @@ that got 256 of 512 wrong:
 make wave
 ```
 
-![GTKWave on the 512-vector sweep, zoomed in on the start of the run, with a marker at 30 ns and the mismatch signal going high](assets/img/dd102-wave-first-mismatch.png)
+![GTKWave on the 512-vector sweep, zoomed in on the start of the run, with a marker at 30 ns and the mismatch signal going high](../assets/img/dd102-wave-first-mismatch.png)
 
 Four things to notice, in order.
 
@@ -301,7 +301,7 @@ variable_add tb_sweep.mismatch
 zoom_fit
 ```
 
-![Surfer showing the whole 512-vector run at once, with the mismatch row striped on for about half the trace](assets/img/dd102-surfer-sweep.png)
+![Surfer showing the whole 512-vector run at once, with the mismatch row striped on for about half the trace](../assets/img/dd102-surfer-sweep.png)
 
 This is the whole run in one window rather than the first eighty nanoseconds of it, and it
 makes a different point.

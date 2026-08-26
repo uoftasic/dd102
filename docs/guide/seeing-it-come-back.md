@@ -141,7 +141,7 @@ wrote results/full_adder_rtl.svg -- open it in a browser
 **Two `$and`, one `$or`, two `$xor`.** The same five, counted by the same Yosys, printed
 as a number instead of a picture. The SVG it writes alongside them looks like this:
 
-![The full adder as Yosys draws it: five gates, with the wire names you typed](assets/img/full-adder-rtl.svg)
+![The full adder as Yosys draws it: five gates, with the wire names you typed](../assets/img/full-adder-rtl.svg)
 
 Note the labels on the wires in the middle. `ha1_sum`, `ha1_carry`, `ha2_carry` — the names
 *you* invented, on page one of this course, surviving all the way through a synthesizer and
