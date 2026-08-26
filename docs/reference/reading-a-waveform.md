@@ -24,7 +24,7 @@ saves the most time.
 gtkwave results/sweep.vcd
 ```
 
-![GTKWave immediately after opening a VCD with no save file: the signal tree on the left shows only tb_sweep, the signal list below it is empty, and the wave pane on the right is solid black](assets/img/dd102-gtkwave-opened.png)
+![GTKWave immediately after opening a VCD with no save file: the signal tree on the left shows only tb_sweep, the signal list below it is empty, and the wave pane on the right is solid black](../assets/img/dd102-gtkwave-opened.png)
 
 **This is not a broken simulation.** The file is 57,207 bytes and contains 55 signals. The pane
 is black because you have not added any of them yet.
@@ -72,7 +72,7 @@ bug** — something is driving nothing, or two things are fighting.
 
 The same wire, at the same instant, in three notations:
 
-![GTKWave showing the nine-bit signal v three times, as hex 0FA, as decimal 250, and as binary 011111010](assets/img/dd102-gtkwave-radix.png)
+![GTKWave showing the nine-bit signal v three times, as hex 0FA, as decimal 250, and as binary 011111010](../assets/img/dd102-gtkwave-radix.png)
 
 `0FA` and `250` and `011111010` are **one value on one set of nine wires**. Only the notation
 changed. If you ever find yourself thinking a bus "changed to hex", it did not; you changed how
