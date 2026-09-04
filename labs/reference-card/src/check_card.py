@@ -48,7 +48,7 @@ def main():
     print()
     if bad:
         print(f"VERDICT FAIL  — {bad} of {len(want)} cards disagree with the reference run.")
-        print("Every one of these came from hpretl/iic-osic-tools:2026.04. If yours differ,")
+        print("Every one of these came from hpretl/iic-osic-tools:2026.08. If yours differ,")
         print("check `iverilog -V` says 14.0 before you suspect your typing.")
         return 1
     print(f"VERDICT PASS  — all {len(want)} cards match the reference run.")

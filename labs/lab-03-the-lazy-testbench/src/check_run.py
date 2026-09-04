@@ -2,7 +2,7 @@
 """check_run.py -- the grader for Lab 03.
 
 Reads what a testbench printed and compares it against the reference numbers
-measured on hpretl/iic-osic-tools:2026.04 (Icarus Verilog 14.0). Standard
+measured on hpretl/iic-osic-tools:2026.08 (Icarus Verilog 14.0). Standard
 library only; Python 3.12.3.
 
     python3 src/check_run.py results/lazy.txt   --stage lazy

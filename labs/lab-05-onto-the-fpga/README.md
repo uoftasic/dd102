@@ -40,15 +40,15 @@ and `make icetime` unpacks a 27 MB chip database into it. Everything regenerates
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Yosys 0.64, nextpnr-ice40 0.10-33-ge6ecd8fa,
+Measured on `hpretl/iic-osic-tools:2026.08` — Yosys 0.68, nextpnr-0.11.1-9-gb17408e2,
 IceStorm, Python 3.12.3. Every run of this flow is deterministic: the same input gives the same
 bitstream, byte for byte.
 
 ```
-PASS  luts      synth_ice40 mapped ripple4 to 8 SB_LUT4
-PASS  util      nextpnr placed 10/5280 logic cells and 14/39 pins
+PASS  luts      synth_ice40 mapped ripple4 to 9 SB_LUT4
+PASS  util      nextpnr placed 11/5280 logic cells and 14/39 pins
 PASS  lcs       10 logic cells placed: 8 from your RTL + 2 the packer added
-PASS  path      the critical path is 3.85 ns of logic and 19.01 ns of wire
+PASS  path      the critical path is 2.98 ns of logic and 23.24 ns of wire
 PASS  nofmax    no flip-flops, so --freq 50 had nothing to check
 PASS  bitstream r4.bin is 104090 bytes, reference says 104090
 PASS  one_gate  one_gate placed 3/5280 logic cells and 3/39 pins

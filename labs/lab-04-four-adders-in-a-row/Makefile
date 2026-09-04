@@ -1,5 +1,5 @@
 # Lab 04 — Four adders in a row
-# Runs inside hpretl/iic-osic-tools:2026.04 (Icarus 14.0, Yosys 0.64, Python 3.12).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Icarus 14.0, Yosys 0.68, Python 3.12).
 # Needs no environment setup: no .designinit, no PDK, no liberty file.
 #
 #   make            everything below, in order, then the verdict table

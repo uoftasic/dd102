@@ -1,6 +1,6 @@
 # Guide examples — proving it works
 # Every runnable file printed in the "Proving it" guide pages lives here.
-# Runs inside hpretl/iic-osic-tools:2026.04 (Icarus Verilog 14.0, Python 3.12).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Icarus Verilog 14.0, Python 3.12).
 # No environment setup: no .designinit, no mod, no PDK, no liberty file.
 #
 #   make               everything below, in order, then the verdict table

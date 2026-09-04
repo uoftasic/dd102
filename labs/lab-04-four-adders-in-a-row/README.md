@@ -42,7 +42,7 @@ above are how you get *the repo*, not how you get the tools. If your setup is ha
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Yosys 0.64, Python 3.12.3.
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Yosys 0.68, Python 3.12.3.
 
 ```
 PASS  generate      got PASS 0/512, reference says PASS 0/512
@@ -51,10 +51,10 @@ PASS  proof         Yosys proved generate == hand-typed, for every input
 PASS  broken        got FAIL 512/512, reference says FAIL 512/512
 PASS  undriven      `check` names the two undriven wires and counts 3 full adders
 PASS  proof_broken  the same proof against broken/ripple4.sv -- fails on purpose
-PASS  luts4         ripple #(.N(4))  -> 8 SB_LUT4
-PASS  luts8         ripple #(.N(8))  -> 16 SB_LUT4
-PASS  luts16        ripple #(.N(16)) -> 32 SB_LUT4
-PASS  luts32        ripple #(.N(32)) -> 64 SB_LUT4
+PASS  luts4         ripple #(.N(4))  -> 9 SB_LUT4
+PASS  luts8         ripple #(.N(8))  -> 18 SB_LUT4
+PASS  luts16        ripple #(.N(16)) -> 37 SB_LUT4
+PASS  luts32        ripple #(.N(32)) -> 74 SB_LUT4
 PASS  wide4         got PASS 0/512, reference says PASS 0/512
 PASS  wide8         got PASS 0/131072, reference says PASS 0/131072
 ```

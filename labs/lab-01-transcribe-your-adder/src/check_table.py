@@ -8,7 +8,7 @@ does the arithmetic for the rows that disagree.
     python3 src/check_table.py results/yours.txt --label "src/full_adder.sv"
 
 Exit status: 0 on PASS, 1 on FAIL. Runs on the Python 3.12.3 already inside
-hpretl/iic-osic-tools:2026.04. No packages, no imports beyond the standard
+hpretl/iic-osic-tools:2026.08. No packages, no imports beyond the standard
 library.
 """
 

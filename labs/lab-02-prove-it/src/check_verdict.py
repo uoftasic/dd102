@@ -9,7 +9,7 @@ this lab is about.
     python3 src/check_verdict.py results/mut1.txt --expect fail --label "..."
 
 Standard library only. Python 3.12.3, as shipped in
-hpretl/iic-osic-tools:2026.04.
+hpretl/iic-osic-tools:2026.08.
 """
 
 import os

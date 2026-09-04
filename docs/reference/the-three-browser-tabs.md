@@ -203,7 +203,7 @@ curl -sS -o /dev/null -w "playground %{http_code}\n" https://www.edaplayground.c
 curl -sS -o /dev/null -w "hdlbits %{http_code}\n" https://hdlbits.01xz.net/wiki/Main_Page
 ```
 
-On 2026-08-25, from inside `hpretl/iic-osic-tools:2026.04`:
+On 2026-08-25, from inside `hpretl/iic-osic-tools:2026.08`:
 
 ```
 digitaljs 200

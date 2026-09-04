@@ -55,7 +55,7 @@ about **0.4 seconds** and ends with five `PASS` lines.
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Verilator 5.046,
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Verilator 5.050,
 Python 3.12.3. `src/check_sim.py` knows these numbers and will tell you if yours drift.
 
 ```

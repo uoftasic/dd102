@@ -54,16 +54,16 @@ TEXTS = {
          "4   full_adder"],
         "`check` on src/ripple4.sv -- nothing undriven, 4 full adders",
     ),
-    "luts4":  (["8   SB_LUT4"],  "ripple #(.N(4))  -> 8 SB_LUT4"),
-    "luts8":  (["16   SB_LUT4"], "ripple #(.N(8))  -> 16 SB_LUT4"),
-    "luts16": (["32   SB_LUT4"], "ripple #(.N(16)) -> 32 SB_LUT4"),
-    "luts32": (["64   SB_LUT4"], "ripple #(.N(32)) -> 64 SB_LUT4"),
+    "luts4":  (["9   SB_LUT4"],  "ripple #(.N(4))  -> 9 SB_LUT4"),
+    "luts8":  (["18   SB_LUT4"], "ripple #(.N(8))  -> 18 SB_LUT4"),
+    "luts16": (["37   SB_LUT4"], "ripple #(.N(16)) -> 37 SB_LUT4"),
+    "luts32": (["74   SB_LUT4"], "ripple #(.N(32)) -> 74 SB_LUT4"),
 }
 
 VERDICT_RE = re.compile(r"^(PASS|FAIL)\s+(\d+) mismatches out of (\d+)", re.M)
 
 DRIFT = """      Yours differs from the reference run. Either a file in this package
-      was edited, or you are not on hpretl/iic-osic-tools:2026.04.
+      was edited, or you are not on hpretl/iic-osic-tools:2026.08.
       Paste this line into Discord: https://discord.gg/hrJnP5UsGz"""
 
 

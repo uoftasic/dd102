@@ -153,7 +153,7 @@ messages, in waveform hierarchies, and in timing reports. In
 [Lab 05](labs/lab-05-onto-the-fpga-overview.md) the FPGA's critical path prints as
 
 ```
-Info: 3.85 ns logic, 19.01 ns routing
+Info: 2.98 ns logic, 23.24 ns routing
 ```
 
 with `slice[1].fa` and `slice[2].fa` named in the middle of the path. **Drop the `: slice` and
@@ -192,7 +192,7 @@ PASS  09_parameter           N=4 -> 00001111   N=6 -> 00111111
 ```
 
 Here is what that buys, measured with `synth_ice40` on the workbench. One `full_adder` on its
-own maps to **2 `SB_LUT4`**. So:
+own maps to **2 `SB_LUT4`**, and the packer adds a few more on top. So:
 
 | you instantiate | `SB_LUT4` |
 |---|---|
@@ -206,10 +206,10 @@ Two lookup tables per bit, exactly, all the way up — and every one of those fo
 [`labs/lab-04-four-adders-in-a-row/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-04-four-adders-in-a-row):
 
 ```
-PASS  luts4         ripple #(.N(4))  -> 8 SB_LUT4
-PASS  luts8         ripple #(.N(8))  -> 16 SB_LUT4
-PASS  luts16        ripple #(.N(16)) -> 32 SB_LUT4
-PASS  luts32        ripple #(.N(32)) -> 64 SB_LUT4
+PASS  luts4         ripple #(.N(4))  -> 9 SB_LUT4
+PASS  luts8         ripple #(.N(8))  -> 18 SB_LUT4
+PASS  luts16        ripple #(.N(16)) -> 37 SB_LUT4
+PASS  luts32        ripple #(.N(32)) -> 74 SB_LUT4
 ```
 
 The source file did not get longer. The hardware did.
@@ -295,7 +295,7 @@ boxes and count the arrows crossing the gaps.
 - **`generate for` is elaboration-time typing, not hardware.** It leaves four instances behind
   and then it is gone.
 - `begin : slice` is what makes `slice[1].fa` appear in reports. Keep it.
-- `parameter int N = 4` makes one file every width, at **2 `SB_LUT4` per bit** on iCE40.
+- `parameter int N = 4` makes one file every width, at **just over 2 `SB_LUT4` per bit** on iCE40.
 - **N bits plus N bits does not fit in N bits.** The left-hand side decides, and truncation is
   silent.
 

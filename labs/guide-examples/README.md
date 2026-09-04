@@ -58,7 +58,7 @@ ends with a `PASS` line.
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Yosys 0.64,
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Yosys 0.68,
 Python 3.12.3, sky130A. `src/check_area.py` knows these numbers and will tell you if
 yours drift.
 

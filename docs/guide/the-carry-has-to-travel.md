@@ -56,7 +56,7 @@ simply adding a carry that has not arrived yet, exactly as described above.
 
 **The nanoseconds in it are ASIC numbers, not the FPGA numbers on this page.** The animation
 measures this same `ripple.sv` mapped to SKY130 standard cells, where one extra bit costs
-**0.392 ns**. Below, you measure it on an iCE40 UP5K and get **0.96 ns** per bit. Neither is
+**0.392 ns**. Below, you measure it on an iCE40 UP5K and get **0.74 ns** per bit. Neither is
 wrong. The *shape* is identical and the *size* is not, which is the point the rest of this page
 is about to make.
 
@@ -70,7 +70,7 @@ redrawing takes time.
 
 ## Commit to a number
 
-An 8-bit ripple adder on an iCE40 UP5K has a longest path of **43.19 ns**. That is measured,
+An 8-bit ripple adder on an iCE40 UP5K has a longest path of **35.50 ns**. That is measured,
 and you will see the measurement in a moment.
 
 **Now write down what you think a 12-bit one is**, before you scroll. Half again as many
@@ -104,28 +104,28 @@ nextpnr-ice40 --up5k --package sg48 --json results/r8.json --asc results/r8.asc
 
 | width | `SB_LUT4` | logic cells | pins | **logic** | **routing** | **total** |
 |---|---|---|---|---|---|---|
-| 4 bits | 8 | 10 / 5280 | 14 / 39 | 3.85 ns | 19.01 ns | **22.86 ns** |
-| 8 bits | 16 | 18 / 5280 | 26 / 39 | 6.99 ns | 36.20 ns | **43.19 ns** |
-| 12 bits | 24 | 26 / 5280 | 38 / 39 | 10.82 ns | 47.42 ns | **58.24 ns** |
+| 4 bits | 8 | 10 / 5280 | 14 / 39 | 2.98 ns | 23.24 ns | **26.22 ns** |
+| 8 bits | 16 | 18 / 5280 | 26 / 39 | 5.24 ns | 30.26 ns | **35.50 ns** |
+| 12 bits | 24 | 26 / 5280 | 38 / 39 | 8.20 ns | 30.80 ns | **39.00 ns** |
 
-**58.24 ns, not 65.** Your prediction was too slow, and the gap is worth more than the number.
+**39.00 ns, not 65.** Your prediction was too slow, and the gap is worth more than the number.
 
 ## Where the prediction went wrong
 
 Split the two columns and they behave completely differently.
 
-**The logic column is the carry.** 3.85 → 6.99 → 10.82. Four more bits costs
-$10.82 - 6.99 = 3.83$ ns, and $3.83 / 4 = \mathbf{0.96}$ **ns per bit**. That is one full
+**The logic column is the carry.** 2.98 → 5.24 → 8.20. Four more bits costs
+$8.20 - 5.24 = 2.96$ ns, and $2.96 / 4 = \mathbf{0.74}$ **ns per bit**. That is one full
 adder's worth of delay, per extra adder, exactly as the queue picture says. This column is the
 one you predicted correctly.
 
-**The routing column is not the carry at all.** 19.01 → 36.20 → 47.42. It is the time signals
+**The routing column is not the carry at all.** 23.24 → 30.26 → 30.80. It is the time signals
 spend travelling down metal between the lookup tables, and it grew by *less* than proportionally
 from 8 to 12 bits because the placer had a different problem to solve, not because your adder
 got better.
 
-And look at the sizes. On this part, **routing is 83 % of the 4-bit delay** ($19.01/22.86$) and
-still **81 % at 12 bits**. The wires cost four to five times what the gates cost.
+And look at the sizes. On this part, **routing is 89 % of the 4-bit delay** ($23.24/26.22$) and
+still **79 % at 12 bits**. The wires cost four to eight times what the gates cost.
 
 > **The reflex, and it is one line:** *"how many gates deep is it?"* is a bad predictor of speed
 > on an FPGA. Count the gates to understand the **shape** of the delay; read the tool's report to
@@ -137,11 +137,11 @@ still **81 % at 12 bits**. The wires cost four to five times what the gates cost
 Try sixteen bits — `make wall` in the same package — and something else happens first:
 
 ```
-       32   SB_LUT4
+       37   SB_LUT4
 nextpnr exit status 255   (255. this one does tell you.)
 Info: 	         ICESTORM_LC:      34/   5280     0%
 Info: 	               SB_IO:      50/     39   128%
-ERROR: Unable to find a placement location for cell 'b[12]$sb_io'
+ERROR: Unable to find a placement location for cell 'cout$sb_io'
 1 warning, 1 error
 ```
 
@@ -186,7 +186,7 @@ what a digital designer decides, and DD103 is where you start pricing it in squa
 signal arrival time are unrelated things that both sound like "order". The tool reads your file
 in any order it likes and builds the same gates; the *electrons* then take as long as they take.
 
-**"22.86 ns sounds slow."** It is a 4-bit adder with every bit brought out to a physical pin on
+**"26.22 ns sounds slow."** It is a 4-bit adder with every bit brought out to a physical pin on
 a low-power FPGA, placed with no timing constraint at all. It is not a statement about how fast
 adders can be. It is a statement about this part, this package, and a placer that was told
 nothing about what you wanted. Lab 05 turns it into a frequency and shows you where that number
@@ -201,8 +201,8 @@ different delay models over the same silicon. Do not average them.
 - Combinational logic **settles**; it does not compute instantly. The answer is only good once
   it has stopped moving.
 - In a ripple adder the carry walks through every stage in order, so the **logic** delay grows
-  linearly — measured here at **0.96 ns per bit** on an iCE40 UP5K.
-- On an FPGA, **routing dominates**: 19.01 ns of wire against 3.85 ns of logic at four bits.
+  linearly — measured here at **0.74 ns per bit** on an iCE40 UP5K.
+- On an FPGA, **routing dominates**: 23.24 ns of wire against 2.98 ns of logic at four bits.
 - Gate depth predicts the *shape* of the delay, never its *size*. Read the tool's report.
 - Small FPGAs run out of **pins** first: 26 of 5,280 logic cells and 38 of 39 pins, at twelve
   bits.

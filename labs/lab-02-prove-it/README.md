@@ -67,7 +67,7 @@ sum=0` on every one of them.
 
 ## Reference numbers
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Python 3.12.3. With all
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Python 3.12.3. With all
 eight rows in, each mutant fails on a different number of them:
 
 ```

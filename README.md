@@ -13,7 +13,7 @@ on a real Lattice iCE40 UP5K as a 104,090-byte bitstream.
 | | |
 |---|---|
 | **Prerequisites** | [IC101](https://uoftasic.com/ic101/) then [DD101](https://uoftasic.com/dd101/) |
-| **Workbench** | `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Yosys 0.64, nextpnr-ice40, IceStorm, Verilator 5.046 |
+| **Workbench** | `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Yosys 0.68, nextpnr-ice40, IceStorm, Verilator 5.050 |
 | **Time** | 10–14 hours, self-paced |
 | **Ends with** | `ripple4.sv` you wrote, proven on all 512 of its inputs, and the bitstream it becomes |
 

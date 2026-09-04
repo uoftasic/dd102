@@ -1,5 +1,5 @@
 # Guide examples — every runnable file the guide pages print
-# Runs inside hpretl/iic-osic-tools:2026.04 (Icarus 14.0, Yosys 0.64, Python 3.12).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Icarus 14.0, Yosys 0.68, Python 3.12).
 # No environment setup. No `.designinit`. Just `make`.
 #
 #   make            everything, in order, ending in a verdict

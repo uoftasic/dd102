@@ -1,6 +1,6 @@
 # Lab 05 — Onto the FPGA
-# Runs inside hpretl/iic-osic-tools:2026.04
-# (Yosys 0.64, nextpnr-ice40 0.10-33-ge6ecd8fa, IceStorm, Python 3.12).
+# Runs inside hpretl/iic-osic-tools:2026.08
+# (Yosys 0.68, nextpnr-0.11.1-9-gb17408e2, IceStorm, Python 3.12).
 #
 #   make            everything below, in order, then the verdict table
 #   make fpga       your adder -> netlist -> placement -> a real bitstream

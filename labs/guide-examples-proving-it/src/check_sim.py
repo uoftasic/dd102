@@ -58,7 +58,7 @@ def main() -> int:
     if not ok:
         print("      This package expects that exact verdict, so a difference means")
         print("      a file here was edited or you are not on")
-        print("      hpretl/iic-osic-tools:2026.04. Bring this line to Discord.")
+        print("      hpretl/iic-osic-tools:2026.08. Bring this line to Discord.")
     return 0 if ok else 1
 
 
