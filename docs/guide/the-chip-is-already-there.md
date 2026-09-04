@@ -193,7 +193,7 @@ comes out at the speed of the silicon — which is why
 instructions. Your logic really is running as hardware. It is running as hardware that was
 *already there*.
 
-**"8 LUTs from Yosys, 10 logic cells from nextpnr — one of them is wrong."** Neither. Yosys counts
+**"9 LUTs from Yosys, 11 logic cells from nextpnr — one of them is wrong."** Neither. Yosys counts
 what it mapped; `nextpnr` counts what it *placed*, after packing LUTs together with the carry
 logic and the flip-flops that share a cell. The counts stop matching at that step and they are
 supposed to. Quote whichever one answers the question you were asked, and say which tool it came

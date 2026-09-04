@@ -47,14 +47,14 @@ bitstream, byte for byte.
 ```
 PASS  luts      synth_ice40 mapped ripple4 to 9 SB_LUT4
 PASS  util      nextpnr placed 11/5280 logic cells and 14/39 pins
-PASS  lcs       10 logic cells placed: 8 from your RTL + 2 the packer added
+PASS  lcs       11 logic cells placed: 9 from your RTL + 2 the packer added
 PASS  path      the critical path is 2.98 ns of logic and 23.24 ns of wire
 PASS  nofmax    no flip-flops, so --freq 50 had nothing to check
 PASS  bitstream r4.bin is 104090 bytes, reference says 104090
 PASS  one_gate  one_gate placed 3/5280 logic cells and 3/39 pins
 PASS  big       big placed 4001/5280 logic cells and closes timing at 202.92 MHz
 PASS  toobig    toobig needs 64 pins, the package has 39, and nextpnr says so
-PASS  pins      the .pcf placed all 14 pins; the path got 6.7 ns shorter end to end
+PASS  pins      the .pcf placed all 14 pins; the path got 12.1 ns shorter end to end
 PASS  asic      the same RTL on SKY130: 4 maj3_1 + 8 xnor2_1 = 110.1056 um^2
 PASS  sizes     4 designs, all 104090 bytes
 ```
