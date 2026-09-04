@@ -58,8 +58,8 @@ TEXTS = {
         "toobig needs 64 pins, the package has 39, and nextpnr says so",
     ),
     "pins": (
-        [r"Placed 14 cells based on constraints\.", r"3\.50 ns logic, 12\.67 ns routing"],
-        "the .pcf placed all 14 pins; the path got 6.7 ns shorter end to end",
+        [r"Placed 14 cells based on constraints\.", r"2\.95 ns logic, 11\.16 ns routing"],
+        "the .pcf placed all 14 pins; the path got 12.1 ns shorter end to end",
     ),
     "asic": (
         [r"4\s+40\.038\s+sky130_fd_sc_hd__maj3_1",
@@ -131,7 +131,7 @@ def check_lcs(path: Path) -> int:
         print(f"    {k}")
     for k in packer:
         print(f"    {k}      <- nobody wrote this one")
-    ok = (len(yours), sorted(packer)) == (8, ["$PACKER_GND", "$PACKER_VCC"])
+    ok = (len(yours), sorted(packer)) == (9, ["$PACKER_GND", "$PACKER_VCC"])
     print()
     print(f"{'PASS' if ok else 'FAIL'}  lcs       {len(lcs)} logic cells placed: "
           f"{len(yours)} from your RTL + {len(packer)} the packer added")

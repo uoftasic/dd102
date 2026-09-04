@@ -39,7 +39,7 @@ fpga: | $(RES)
 	@grep -E "No PCF file specified" $(RES)/pnr.log
 	@grep -E "(ICESTORM_LC|ICESTORM_RAM|SB_IO|SB_GB): +[0-9]+/" $(RES)/pnr.log
 	@echo ""
-	@echo "--- yosys said 8 SB_LUT4 and nextpnr says 10 cells. Here are all ten. ---"
+	@echo "--- yosys said 9 SB_LUT4 and nextpnr says 11 cells. Here are all eleven. ---"
 	@$(CHECK) --lcs $(RES)/post.json
 	@echo ""
 	@echo "--- where the time goes on the longest path ---"
@@ -107,7 +107,7 @@ contrast: | $(RES)
 	yosys scripts/asic.ys > $(RES)/asic.log 2>&1
 	@$(LAST) $(RES)/asic.log | grep -E "sky130|Chip area|is unknown"
 	@echo ""
-	@echo "  FPGA:  8 SB_LUT4, 10 of 5280 cells used, a 104090-byte bitstream."
+	@echo "  FPGA:  9 SB_LUT4, 11 of 5280 cells used, a 104090-byte bitstream."
 	@echo "  ASIC:  12 named cells, 110.1056 um^2, and no chip yet. That is DD103."
 
 ## icetime — OPTIONAL. It looks like the tool you want. Read the writeup first.

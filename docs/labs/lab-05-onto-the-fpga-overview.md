@@ -123,25 +123,26 @@ Info: 	               SB_GB:       0/      8     0%
 
 The usual answer is that the packer merged something, and that answer is wrong here — the
 packer's own report says `8 LCs used as LUT4 only` and zero for every other category. So
-`make fpga` asks the placed netlist directly and lists all ten by name:
+`make fpga` asks the placed netlist directly and lists all eleven by name:
 
 ```
---- yosys said 9 SB_LUT4 and nextpnr says 10 cells. Here are all ten. ---
+--- yosys said 9 SB_LUT4 and nextpnr says 11 cells. Here are all eleven. ---
     cin_SB_LUT4_I1_LC
+    cin_SB_LUT4_I1_O_SB_LUT4_O_LC
+    cout_SB_LUT4_O_I3_SB_LUT4_O_1_LC
     cout_SB_LUT4_O_I3_SB_LUT4_O_LC
     cout_SB_LUT4_O_LC
     slice[0].fa.sum_SB_LUT4_O_LC
     slice[1].fa.sum_SB_LUT4_O_LC
-    slice[2].fa.sum_SB_LUT4_O_I3_SB_LUT4_O_LC
     slice[2].fa.sum_SB_LUT4_O_LC
     slice[3].fa.sum_SB_LUT4_O_LC
     $PACKER_GND      <- nobody wrote this one
     $PACKER_VCC      <- nobody wrote this one
 
-PASS  lcs       10 logic cells placed: 8 from your RTL + 2 the packer added
+PASS  lcs       11 logic cells placed: 9 from your RTL + 2 the packer added
 ```
 
-$8 + 2 = 10$, and the two are `$PACKER_GND` and `$PACKER_VCC`. **The chip has no wire that is
+$9 + 2 = 11$, and the two are `$PACKER_GND` and `$PACKER_VCC`. **The chip has no wire that is
 permanently 0 and no wire that is permanently 1**, so when the design needs a constant, the
 packer spends a general-purpose logic cell to manufacture one. A hard `0` costs you a cell in
 the warehouse. That is the kind of thing that is true of rented buildings and not of
@@ -278,18 +279,18 @@ make pins
 Info: Placed 14 cells based on constraints.
 Info: 	         ICESTORM_LC:      10/   5280     0%
 Info: 	               SB_IO:      14/     39    35%
-Info: 3.50 ns logic, 12.67 ns routing
+Info: 2.95 ns logic, 11.16 ns routing
   bitstream: 104090 bytes   (295 bytes differ from the unpinned one)
 ```
 
 `Placed 14 cells based on constraints` — open `results/pnr.log` from step 1 and the same line
-reads `Placed 0 cells based on constraints.` Same logic, same ten cells, same 104,090 bytes.
-**295** of those bytes moved.
+reads `Placed 0 cells based on constraints.` Same logic, same eleven cells, same 104,090 bytes.
+**319** of those bytes moved.
 
 And look at the timing. In step 1 the longest path was **2.98 ns of logic and 23.24 ns of
-routing**; here it is **3.50 and 12.67**. Nothing about your design changed. You told the tool
+routing**; here it is **2.95 and 11.16**. Nothing about your design changed. You told the tool
 where the signals had to enter and leave the chip, the placer put the logic near those pins,
-and the wires got 6.3 ns shorter.
+and the wires got 12.1 ns shorter.
 
 **On an FPGA, most of your delay is wire.** 23.24 against 2.98 is nearly eight to one. That
 ratio is why "how many gates deep is it?" is a poor prediction of speed on an FPGA and why the
@@ -349,14 +350,14 @@ picture of your own silicon.
 ```
 PASS  luts      synth_ice40 mapped ripple4 to 9 SB_LUT4
 PASS  util      nextpnr placed 11/5280 logic cells and 14/39 pins
-PASS  lcs       10 logic cells placed: 8 from your RTL + 2 the packer added
+PASS  lcs       11 logic cells placed: 9 from your RTL + 2 the packer added
 PASS  path      the critical path is 2.98 ns of logic and 23.24 ns of wire
 PASS  nofmax    no flip-flops, so --freq 50 had nothing to check
 PASS  bitstream r4.bin is 104090 bytes, reference says 104090
 PASS  one_gate  one_gate placed 3/5280 logic cells and 3/39 pins
 PASS  big       big placed 4001/5280 logic cells and closes timing at 202.92 MHz
 PASS  toobig    toobig needs 64 pins, the package has 39, and nextpnr says so
-PASS  pins      the .pcf placed all 14 pins; the path got 6.7 ns shorter end to end
+PASS  pins      the .pcf placed all 14 pins; the path got 12.1 ns shorter end to end
 PASS  asic      the same RTL on SKY130: 4 maj3_1 + 8 xnor2_1 = 110.1056 um^2
 PASS  sizes     4 designs, all 104090 bytes
 ```
@@ -475,7 +476,7 @@ twelve verdicts, all `PASS`.
 | nextpnr logic cells | **10 / 5280** — 8 yours, `$PACKER_GND` and `$PACKER_VCC` |
 | nextpnr I/O | **14 / 39** |
 | longest path | **26.22 ns** = 2.98 ns logic + 23.24 ns routing |
-| with `constraints/r4.pcf` | **16.17 ns** = 3.50 + 12.67, and `Placed 14 cells based on constraints` |
+| with `constraints/r4.pcf` | **14.11 ns** = 2.95 + 11.16, and `Placed 14 cells based on constraints` |
 | **bitstream** | **104,090 bytes** |
 | `one_gate` / `big` bitstreams | **104,090 bytes** each — 3 and 4001 logic cells |
 | bytes that differ, `one_gate` vs `r4` | **187** |
