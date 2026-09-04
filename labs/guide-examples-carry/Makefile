@@ -1,5 +1,5 @@
 # Guide examples — The carry has to travel
-# Runs inside hpretl/iic-osic-tools:2026.04 (Yosys 0.64, nextpnr-ice40 0.10-33-ge6ecd8fa).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Yosys 0.68, nextpnr-0.11.1-9-gb17408e2).
 # Needs no environment setup: no .designinit, no PDK, no liberty file.
 #
 #   make          the width table, then the pin wall, then the verdicts

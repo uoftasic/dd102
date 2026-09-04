@@ -10,7 +10,7 @@ heard of your adder. What you send it is not a design — it is a **settings fil
 That one sentence explains almost every strange thing about FPGA reports, and it is the whole of
 this page.
 
-Every number below came from `yosys synth_ice40` on the workbench image, `hpretl/iic-osic-tools:2026.04`.
+Every number below came from `yosys synth_ice40` on the workbench image, `hpretl/iic-osic-tools:2026.08`.
 
 ## `SB_LUT4` is not a gate
 
@@ -18,7 +18,7 @@ When you synthesized your adder in [Lab 04](labs/lab-04-four-adders-in-a-row-ove
 back in a currency you did not choose:
 
 ```
-PASS  luts4         ripple #(.N(4))  -> 8 SB_LUT4
+PASS  luts4         ripple #(.N(4))  -> 9 SB_LUT4
 ```
 
 Eight `SB_LUT4`. Not eight XOR gates, not eight ANDs — eight of one thing, whose name is an
@@ -112,8 +112,8 @@ shelf. Five inputs needs two shelves and a way to combine them.
 Now look at the whole report from Lab 05 rather than one line of it:
 
 ```
-PASS  luts      synth_ice40 mapped ripple4 to 8 SB_LUT4
-PASS  util      nextpnr placed 10/5280 logic cells and 14/39 pins
+PASS  luts      synth_ice40 mapped ripple4 to 9 SB_LUT4
+PASS  util      nextpnr placed 11/5280 logic cells and 14/39 pins
 ```
 
 **10 of 5,280.** Your adder occupies two tenths of one percent of the logic on this part. The
@@ -129,7 +129,7 @@ shapes your design needs, which is an ASIC, which is a **GDSII**, and which take
 not need that argument yet. You need to know that the report in front of you counts **slots used
 out of a fixed supply**, and that this is a different kind of number from an area.
 
-### Two more numbers, so 10/5280 has a scale
+### Two more numbers, so 11/5280 has a scale
 
 Lab 05 places two other designs on the same part:
 
@@ -211,7 +211,7 @@ buying FPGAs — and that decision is where DD103 starts.
   it does not compute them.
 - **Cost on an FPGA is input count, not complexity.** Three unrelated 4-input functions were
   **1 `SB_LUT4`** each; one 5-input AND was **2**.
-- The report counts **slots out of a fixed supply** — `10/5280` logic cells, `14/39` pins. That is
+- The report counts **slots out of a fixed supply** — `11/5280` logic cells, `14/39` pins. That is
   an FPGA answer, and it is not an area.
 - A **bitstream** is the settings for the whole warehouse, not a description of your design. That
   is why it loads in seconds.

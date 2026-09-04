@@ -17,10 +17,10 @@ Labs run inside the shared **workspace** you set up in [IC101](https://uoftasic.
 | **Time** | 10–14 hours, self-paced |
 | **You leave with** | `ripple4.sv` that you wrote, and a **104,090-byte bitstream** built from it |
 
-> **This course is pinned to the workbench image `hpretl/iic-osic-tools:2026.04`.** Check yours:
+> **This course is pinned to the workbench image `hpretl/iic-osic-tools:2026.08`.** Check yours:
 >
 > ```bash
-> yosys -V        # Yosys 0.64
+> yosys -V        # Yosys 0.68
 > iverilog -V     # first line: Icarus Verilog version 14.0 (devel)
 > ```
 >
@@ -40,7 +40,7 @@ Labs run inside the shared **workspace** you set up in [IC101](https://uoftasic.
 4. Chain four of them into a **4-bit ripple adder** and prove that against all **512** inputs
 5. Send it to a real FPGA: **8 lookup tables**, **10 of 5,280 logic cells**, one **104,090-byte** bitstream
 6. Find out that your adder tops out somewhere around **23–24 ns, about 42 MHz** — two
-   timing tools will give you 22.86 and 24.26 and neither is lying — and that the carry is why
+   timing tools will give you 26.22 and 24.26 and neither is lying — and that the carry is why
 
 ## Path
 
@@ -80,7 +80,7 @@ this out alone at 2 a.m. — see [Getting help](guide/getting-started.md#getting
 . /foss/designs/common/.designinit
 mod add dd102          # first time only
 mod dd102
-yosys -V               # expect: Yosys 0.64
+yosys -V               # expect: Yosys 0.68
 cd labs/lab-01-transcribe-your-adder && make
 ```
 

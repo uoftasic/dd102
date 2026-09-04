@@ -102,14 +102,14 @@ your work.
 
 ## 4. Check your versions
 
-This course is pinned to `hpretl/iic-osic-tools:2026.04`. Two commands confirm you are on it:
+This course is pinned to `hpretl/iic-osic-tools:2026.08`. Two commands confirm you are on it:
 
 ```bash
 yosys -V
 ```
 
 ```
-Yosys 0.64 (git sha1 6d2c445ae, g++ 13.3.0-6ubuntu2~24.04.1 -fPIC -O3)
+Yosys 0.68 (git sha1 38e001a6f, Release, GNU /usr/bin/c++ 13.3.0)
 ```
 
 ```bash
@@ -117,7 +117,7 @@ iverilog -V
 ```
 
 ```
-Icarus Verilog version 14.0 (devel) (s20251012-145-g9b0d46b4-dirty)
+Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
 ```
 
 **Before you scroll: `iverilog -V` prints 73 lines.** The one above is the first; the other 72
@@ -140,10 +140,10 @@ The rest of the set, if you want to check it:
 
 | Tool | Command | Expect |
 |---|---|---|
-| Yosys | `yosys -V` | `Yosys 0.64` |
+| Yosys | `yosys -V` | `Yosys 0.68` |
 | Icarus Verilog | `iverilog -V` | first line `Icarus Verilog version 14.0 (devel)` |
-| Verilator | `verilator --version` | `Verilator 5.046 2026-02-28 rev v5.046` |
-| nextpnr | `nextpnr-ice40 --version` | `"nextpnr-ice40" -- Next Generation Place and Route (Version nextpnr-0.10-33-ge6ecd8fa)` |
+| Verilator | `verilator --version` | `Verilator 5.050 2026-07-01 rev v5.050` |
+| nextpnr | `nextpnr-ice40 --version` | `"nextpnr-ice40" -- Next Generation Place and Route (Version nextpnr-0.11.1-9-gb17408e2)` |
 | Surfer | `surfer --version` | `surfer 0.6.0 (git: v0.6.0)` |
 
 **`0.64` and `14.0` are the two numbers that matter.** Every printed result in this course came
@@ -312,7 +312,7 @@ most of what looks like your mistake is a tool being unhelpful.
 ```bash
 . /foss/designs/common/.designinit
 mod dd102
-yosys -V                       # Yosys 0.64
+yosys -V                       # Yosys 0.68
 iverilog -V                    # first line: Icarus Verilog version 14.0 (devel)
 ls labs/                       # the five lab packages
 ```

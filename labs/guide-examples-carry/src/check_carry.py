@@ -3,7 +3,7 @@
 
 Reads the yosys and nextpnr logs this package's Makefile already wrote and
 compares every number the guide page prints against the reference run on
-hpretl/iic-osic-tools:2026.04 (Yosys 0.64, nextpnr-ice40 0.10-33-ge6ecd8fa).
+hpretl/iic-osic-tools:2026.08 (Yosys 0.68, nextpnr-0.11.1-9-gb17408e2).
 
 Prints a verdict line. Never raises, never exits non-zero: read the text.
 """
@@ -14,14 +14,14 @@ import pathlib
 import re
 import sys
 
-# Reference run: hpretl/iic-osic-tools:2026.04, Yosys 0.64,
-# nextpnr-ice40 0.10-33-ge6ecd8fa. Every one of these is on the guide page.
+# Reference run: hpretl/iic-osic-tools:2026.08, Yosys 0.68,
+# nextpnr-0.11.1-9-gb17408e2. Every one of these is on the guide page.
 REFERENCE = {
-    4: dict(luts=8, lcs=10, io=14, logic=3.85, routing=19.01, total=22.86),
-    8: dict(luts=16, lcs=18, io=26, logic=6.99, routing=36.20, total=43.19),
-    12: dict(luts=24, lcs=26, io=38, logic=10.82, routing=47.42, total=58.24),
+    4: dict(luts=9, lcs=11, io=14, logic=2.98, routing=23.24, total=26.22),
+    8: dict(luts=18, lcs=20, io=26, logic=5.24, routing=30.26, total=35.50),
+    12: dict(luts=28, lcs=30, io=38, logic=8.20, routing=30.80, total=39.00),
 }
-REF16 = dict(luts=32, lcs=34, io=50, cell="b[12]$sb_io")
+REF16 = dict(luts=37, lcs=39, io=50, cell="cout$sb_io")
 CELLS = 5280
 PINS = 39
 

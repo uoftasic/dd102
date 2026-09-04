@@ -308,7 +308,7 @@ exit status 0
 
 ## Expected results
 
-Every number here came from a run on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0,
+Every number here came from a run on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0,
 Python 3.12.3. `src/check_run.py` refuses to say `MATCH` unless yours agree exactly.
 
 ```

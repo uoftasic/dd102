@@ -233,7 +233,7 @@ make lint
 ==============================================================
  verilator --lint-only src/full_adder.sv        (the default)
 ==============================================================
-- V e r i l a t i o n   R e p o r t: Verilator 5.046 2026-02-28 rev v5.046
+- V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev v5.050
 - Verilator: Built from 0.031 MB sources in 2 modules, into 0.002 MB in 3 C++ files needing 0.000 MB
 exit status 0
 ```
@@ -266,7 +266,7 @@ exit status 1
 
 ## Expected results
 
-Every number here came from a run on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0,
+Every number here came from a run on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0,
 Python 3.12.3.
 
 | what | result |

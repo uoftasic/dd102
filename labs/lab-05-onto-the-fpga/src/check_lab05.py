@@ -28,16 +28,16 @@ BITSTREAM_BYTES = 104090
 # name -> (list of regexes, description)
 TEXTS = {
     "luts": (
-        [r"^\s+8\s+SB_LUT4$"],
-        "synth_ice40 mapped ripple4 to 8 SB_LUT4",
+        [r"^\s+9\s+SB_LUT4$"],
+        "synth_ice40 mapped ripple4 to 9 SB_LUT4",
     ),
     "util": (
-        [r"ICESTORM_LC:\s+10/\s+5280", r"SB_IO:\s+14/\s+39"],
-        "nextpnr placed 10/5280 logic cells and 14/39 pins",
+        [r"ICESTORM_LC:\s+11/\s+5280", r"SB_IO:\s+14/\s+39"],
+        "nextpnr placed 11/5280 logic cells and 14/39 pins",
     ),
     "path": (
-        [r"3\.85 ns logic, 19\.01 ns routing"],
-        "the critical path is 3.85 ns of logic and 19.01 ns of wire",
+        [r"2\.98 ns logic, 23\.24 ns routing"],
+        "the critical path is 2.98 ns of logic and 23.24 ns of wire",
     ),
     "nofmax": (
         [r"No Fmax available; no interior timing paths found in design\."],
@@ -54,7 +54,7 @@ TEXTS = {
     ),
     "toobig": (
         [r"SB_IO:\s+64/\s+39\s+164%",
-         r"ERROR: Unable to find a placement location for cell 'p\[17\]\$sb_io'"],
+         r"ERROR: Unable to find a placement location for cell 'p\[29\]\$sb_io'"],
         "toobig needs 64 pins, the package has 39, and nextpnr says so",
     ),
     "pins": (
@@ -70,7 +70,7 @@ TEXTS = {
 }
 
 DRIFT = """      Yours differs from the reference run. Either a file in this package
-      was edited, or you are not on hpretl/iic-osic-tools:2026.04.
+      was edited, or you are not on hpretl/iic-osic-tools:2026.08.
       Paste this line into Discord: https://discord.gg/hrJnP5UsGz"""
 
 

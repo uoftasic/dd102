@@ -32,7 +32,7 @@ about **0.3 seconds** and ends with `VERDICT PASS — all 12 cards match the ref
 | `src/check_card.py` | **the grader.** Compares your twelve lines against the reference run |
 | `broken/card.log` | the answer most people predict for card 11. `make broken` feeds it in |
 | `broken/narrow_only.sv` | card 11's mistake alone in a file, so `make lint` can fail to find it |
-| `reference/card.expected` | the twelve lines, as printed on `hpretl/iic-osic-tools:2026.04` |
+| `reference/card.expected` | the twelve lines, as printed on `hpretl/iic-osic-tools:2026.08` |
 
 ## Targets
 
@@ -48,14 +48,14 @@ about **0.3 seconds** and ends with `VERDICT PASS — all 12 cards match the ref
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Verilator 5.046,
-Yosys 0.64, Python 3.12.3.
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Verilator 5.050,
+Yosys 0.68, Python 3.12.3.
 
 ```
 VERDICT PASS  — all 12 cards match the reference run.
 ```
 
-`make synth` ends with `12 cells` — `4 $scopeinfo` and **`8 SB_LUT4`**. The four
+`make synth` ends with `12 cells` — `4 $scopeinfo` and **`9 SB_LUT4`**. The four
 `$scopeinfo` are bookkeeping, not hardware.
 
 `make lint` ends with `iverilog exit 0` and `verilator exit 0`, both silent about a

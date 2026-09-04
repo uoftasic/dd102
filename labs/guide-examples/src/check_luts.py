@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Grade the LUT-cost experiment against the reference run.
 
-Reference numbers were measured with Yosys 0.64 (`synth_ice40`) inside
-hpretl/iic-osic-tools:2026.04. They are printed on the guide page
+Reference numbers were measured with Yosys 0.68 (`synth_ice40`) inside
+hpretl/iic-osic-tools:2026.08. They are printed on the guide page
 docs/guide/the-chip-is-already-there.md and must not drift from it.
 
     python3 src/check_luts.py results/luts.txt

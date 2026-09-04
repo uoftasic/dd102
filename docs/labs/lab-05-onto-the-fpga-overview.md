@@ -27,7 +27,7 @@ the binary.
 - [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md) done: you have a `ripple4.sv` built from one
   `generate for`, and a proof that it is correct
 - Read [The chip is already there](guide/the-chip-is-already-there.md)
-- `yosys -V` says **`0.64`** and `nextpnr-ice40 --version` says **`Version nextpnr-0.10-33-ge6ecd8fa`**
+- `yosys -V` says **`0.64`** and `nextpnr-ice40 --version` says **`Version nextpnr-0.11.1-9-gb17408e2`**
 
 ## Objectives
 
@@ -61,7 +61,7 @@ fact explains every surprising number in this lab.
 . /foss/designs/common/.designinit
 mod dd102
 cd labs/lab-05-onto-the-fpga
-yosys -V                 # expect: Yosys 0.64
+yosys -V                 # expect: Yosys 0.68
 make                     # all five steps, well under a minute
 ```
 
@@ -80,8 +80,8 @@ The first is Yosys, in the same shape you have used since Lab 02, with one word 
 ```
 yosys -p "read_verilog -sv src/ripple4.sv src/full_adder.sv; synth_ice40 -top ripple4 -json results/r4.json" > results/ys.log 2>&1
     yosys wrote 910 lines to results/ys.log. The answer is one of them:
-        8   SB_LUT4
-        8   SB_LUT4
+        9   SB_LUT4
+        9   SB_LUT4
 ```
 
 > **Yosys writes 910 lines and says nothing about it.** That is normal, it is why `make`
@@ -126,7 +126,7 @@ packer's own report says `8 LCs used as LUT4 only` and zero for every other cate
 `make fpga` asks the placed netlist directly and lists all ten by name:
 
 ```
---- yosys said 8 SB_LUT4 and nextpnr says 10 cells. Here are all ten. ---
+--- yosys said 9 SB_LUT4 and nextpnr says 10 cells. Here are all ten. ---
     cin_SB_LUT4_I1_LC
     cout_SB_LUT4_O_I3_SB_LUT4_O_LC
     cout_SB_LUT4_O_LC
@@ -237,7 +237,7 @@ make fits
 nextpnr exit status 255
 Info: 	         ICESTORM_LC:     692/   5280    13%
 Info: 	               SB_IO:      64/     39   164%
-ERROR: Unable to find a placement location for cell 'p[17]$sb_io'
+ERROR: Unable to find a placement location for cell 'p[29]$sb_io'
 1 warning, 1 error
     The error names ONE pin. The line above it names the real problem.
 ```
@@ -286,17 +286,17 @@ Info: 3.50 ns logic, 12.67 ns routing
 reads `Placed 0 cells based on constraints.` Same logic, same ten cells, same 104,090 bytes.
 **295** of those bytes moved.
 
-And look at the timing. In step 1 the longest path was **3.85 ns of logic and 19.01 ns of
+And look at the timing. In step 1 the longest path was **2.98 ns of logic and 23.24 ns of
 routing**; here it is **3.50 and 12.67**. Nothing about your design changed. You told the tool
 where the signals had to enter and leave the chip, the placer put the logic near those pins,
 and the wires got 6.3 ns shorter.
 
-**On an FPGA, most of your delay is wire.** 19.01 against 3.85 is roughly five to one. That
+**On an FPGA, most of your delay is wire.** 23.24 against 2.98 is nearly eight to one. That
 ratio is why "how many gates deep is it?" is a poor prediction of speed on an FPGA and why the
 next course cares so much about where things physically sit.
 
 The longest path in step 1, in full, reads: input pin `cin` → `cin_SB_LUT4_I1_LC` →
-`slice[1].fa` → `slice[2].fa` → `cout` → output pin, totalling **22.86 ns**. That is your carry,
+`slice[1].fa` → `slice[2].fa` → `cout` → output pin, totalling **26.22 ns**. That is your carry,
 walking. [The carry has to travel](guide/the-carry-has-to-travel.md) said it would take time;
 this is the number, on a real part, with your generate-block label printed in the middle of it.
 
@@ -315,7 +315,7 @@ untouched — and sends them somewhere that is not an FPGA:
    Area for cell type $scopeinfo is unknown!
    Chip area for module '\ripple4': 110.105600
 
-  FPGA:  8 SB_LUT4, 10 of 5280 cells used, a 104090-byte bitstream.
+  FPGA:  9 SB_LUT4, 10 of 5280 cells used, a 104090-byte bitstream.
   ASIC:  12 named cells, 110.1056 um^2, and no chip yet. That is DD103.
 ```
 
@@ -347,10 +347,10 @@ picture of your own silicon.
 ### The self-check
 
 ```
-PASS  luts      synth_ice40 mapped ripple4 to 8 SB_LUT4
-PASS  util      nextpnr placed 10/5280 logic cells and 14/39 pins
+PASS  luts      synth_ice40 mapped ripple4 to 9 SB_LUT4
+PASS  util      nextpnr placed 11/5280 logic cells and 14/39 pins
 PASS  lcs       10 logic cells placed: 8 from your RTL + 2 the packer added
-PASS  path      the critical path is 3.85 ns of logic and 19.01 ns of wire
+PASS  path      the critical path is 2.98 ns of logic and 23.24 ns of wire
 PASS  nofmax    no flip-flops, so --freq 50 had nothing to check
 PASS  bitstream r4.bin is 104090 bytes, reference says 104090
 PASS  one_gate  one_gate placed 3/5280 logic cells and 3/39 pins
@@ -426,7 +426,7 @@ Three observations, in order of usefulness.
 as part of a run you were doing anyway. The tool that looks like the answer was a detour around
 a number you already had.
 
-**The two tools disagree: 22.86 ns and 24.26 ns.** They also disagree about where the path
+**The two tools disagree: 26.22 ns and 24.26 ns.** They also disagree about where the path
 starts — nextpnr traced it from `cin`, icetime from `a[0]`. Neither is lying. They use
 different delay models over the same silicon, and a 6 % spread between two static timing tools
 is ordinary. **Do not average them, and do not quote one to three decimal places as if it were
@@ -465,7 +465,7 @@ it — we would like to put it in the course.
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Yosys 0.64, nextpnr-ice40 0.10-33-ge6ecd8fa,
+Measured on `hpretl/iic-osic-tools:2026.08` — Yosys 0.68, nextpnr-0.11.1-9-gb17408e2,
 IceStorm, Python 3.12.3. `make` completes in **well under a minute** and ends with a table of
 twelve verdicts, all `PASS`.
 
@@ -474,7 +474,7 @@ twelve verdicts, all `PASS`.
 | `synth_ice40` on `ripple4` | **8 × `SB_LUT4`** (+ 4 `$scopeinfo`) |
 | nextpnr logic cells | **10 / 5280** — 8 yours, `$PACKER_GND` and `$PACKER_VCC` |
 | nextpnr I/O | **14 / 39** |
-| longest path | **22.86 ns** = 3.85 ns logic + 19.01 ns routing |
+| longest path | **26.22 ns** = 2.98 ns logic + 23.24 ns routing |
 | with `constraints/r4.pcf` | **16.17 ns** = 3.50 + 12.67, and `Placed 14 cells based on constraints` |
 | **bitstream** | **104,090 bytes** |
 | `one_gate` / `big` bitstreams | **104,090 bytes** each — 3 and 4001 logic cells |

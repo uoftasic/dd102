@@ -1,5 +1,5 @@
 # Lab 03 -- The lazy testbench
-# Runs inside hpretl/iic-osic-tools:2026.04 (Icarus Verilog 14.0, Python 3.12.3).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Icarus Verilog 14.0, Python 3.12.3).
 # No PDK, no liberty file, no environment variables. `make` alone is enough.
 #
 #   make            all three stages, in order. Run this one.

@@ -1,5 +1,5 @@
 # Lab 01 -- Transcribe your adder
-# Runs inside hpretl/iic-osic-tools:2026.04 (Icarus Verilog 14.0, Python 3.12.3).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Icarus Verilog 14.0, Python 3.12.3).
 # Nothing here reads a PDK, a liberty file, or an environment variable.
 # `make` alone, in a bare container, is the whole story.
 #

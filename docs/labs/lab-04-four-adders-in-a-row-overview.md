@@ -87,7 +87,7 @@ quietly, with a piece missing — experiment 3 is exactly that.
 . /foss/designs/common/.designinit
 mod dd102
 cd labs/lab-04-four-adders-in-a-row
-yosys -V                 # expect: Yosys 0.64
+yosys -V                 # expect: Yosys 0.68
 make                     # all five experiments, under five seconds
 ```
 
@@ -255,11 +255,11 @@ answers and in other people's course notes.
 ```
  4a. FOLKLORE: 'you cannot write i++ in a generate for'
 yosys exit status 0
-        8   SB_LUT4
-    ^ same 8 SB_LUT4 as src/ripple4.sv. On THIS workbench, folklore.
+        9   SB_LUT4
+    ^ same 9 SB_LUT4 as src/ripple4.sv. On THIS workbench, folklore.
 ```
 
-`errors/ripple4_incr.sv` is your adder with `i++` instead of `i = i + 1`. On Yosys 0.64 with
+`errors/ripple4_incr.sv` is your adder with `i++` instead of `i = i + 1`. On Yosys 0.68 with
 `-sv` it reads, elaborates and synthesises to the identical eight lookup tables. Icarus 14.0
 accepts it too.
 
@@ -316,10 +316,10 @@ make wide
 ```
 
 ```
-  N = 4   ->         8   SB_LUT4
-  N = 8   ->        16   SB_LUT4
-  N = 16  ->        32   SB_LUT4
-  N = 32  ->        64   SB_LUT4
+  N = 4   ->         9   SB_LUT4
+  N = 8   ->        18   SB_LUT4
+  N = 16  ->        37   SB_LUT4
+  N = 32  ->        74   SB_LUT4
 ```
 
 Two lookup tables per bit, exactly, at every width — one for the sum, one for the carry. The
@@ -369,10 +369,10 @@ PASS  proof         Yosys proved generate == hand-typed, for every input
 PASS  broken        got FAIL 512/512, reference says FAIL 512/512   (broken/ripple4.sv, all 512 inputs)
 PASS  undriven      `check` names the two undriven wires and counts 3 full adders
 PASS  proof_broken  the same proof against broken/ripple4.sv -- fails on purpose
-PASS  luts4         ripple #(.N(4))  -> 8 SB_LUT4
-PASS  luts8         ripple #(.N(8))  -> 16 SB_LUT4
-PASS  luts16        ripple #(.N(16)) -> 32 SB_LUT4
-PASS  luts32        ripple #(.N(32)) -> 64 SB_LUT4
+PASS  luts4         ripple #(.N(4))  -> 9 SB_LUT4
+PASS  luts8         ripple #(.N(8))  -> 18 SB_LUT4
+PASS  luts16        ripple #(.N(16)) -> 37 SB_LUT4
+PASS  luts32        ripple #(.N(32)) -> 74 SB_LUT4
 PASS  wide4         got PASS 0/512, reference says PASS 0/512   (ripple #(.N(4)), all 512 inputs)
 PASS  wide8         got PASS 0/131072, reference says PASS 0/131072   (ripple #(.N(8)), all 131072 inputs)
 ```
@@ -384,7 +384,7 @@ deliberate failure stopped working.
 
 ## Expected results
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Yosys 0.64, Python 3.12.3.
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Yosys 0.68, Python 3.12.3.
 `make` completes in **under five seconds** and ends with a table of twelve verdicts, all `PASS`.
 
 | what | number |

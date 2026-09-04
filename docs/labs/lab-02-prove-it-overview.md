@@ -214,7 +214,7 @@ and now the thing being tested and the thing testing it are both yours.
 
 ## Expected results
 
-Every number here came from a run on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0,
+Every number here came from a run on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0,
 Python 3.12.3. `make reference` reproduces all of it using `reference/tb_full_adder.sv`.
 
 ```

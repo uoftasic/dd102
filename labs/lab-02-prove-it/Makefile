@@ -1,5 +1,5 @@
 # Lab 02 -- Prove it
-# Runs inside hpretl/iic-osic-tools:2026.04 (Icarus Verilog 14.0, Python 3.12.3).
+# Runs inside hpretl/iic-osic-tools:2026.08 (Icarus Verilog 14.0, Python 3.12.3).
 # No PDK, no liberty file, no environment variables. `make` alone is enough.
 #
 #   make            your testbench vs. one good adder and three broken ones

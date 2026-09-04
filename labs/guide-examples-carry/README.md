@@ -13,7 +13,7 @@ make
 ```
 
 No environment setup. No `.designinit`, no PDK, no liberty file, no `mod`. `make` alone in
-a bare `hpretl/iic-osic-tools:2026.04` container runs the whole thing in a few seconds and
+a bare `hpretl/iic-osic-tools:2026.08` container runs the whole thing in a few seconds and
 ends in five `PASS`/`FAIL` verdicts.
 
 | target | what it does |
@@ -37,14 +37,14 @@ ends in five `PASS`/`FAIL` verdicts.
 
 ## Reference numbers
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Yosys 0.64, nextpnr-ice40 0.10-33-ge6ecd8fa.
+Measured on `hpretl/iic-osic-tools:2026.08` — Yosys 0.68, nextpnr-0.11.1-9-gb17408e2.
 
 | width | `SB_LUT4` | logic cells | pins | logic | routing | total |
 |---|---|---|---|---|---|---|
-| 4 bits | 8 | 10 / 5280 | 14 / 39 | 3.85 ns | 19.01 ns | **22.86 ns** |
-| 8 bits | 16 | 18 / 5280 | 26 / 39 | 6.99 ns | 36.20 ns | **43.19 ns** |
-| 12 bits | 24 | 26 / 5280 | 38 / 39 | 10.82 ns | 47.42 ns | **58.24 ns** |
-| 16 bits | 32 | 34 / 5280 | **50 / 39** | — | — | `ERROR: Unable to find a placement location for cell 'b[12]$sb_io'` |
+| 4 bits | 8 | 10 / 5280 | 14 / 39 | 2.98 ns | 23.24 ns | **26.22 ns** |
+| 8 bits | 16 | 18 / 5280 | 26 / 39 | 5.24 ns | 30.26 ns | **35.50 ns** |
+| 12 bits | 24 | 26 / 5280 | 38 / 39 | 8.20 ns | 30.80 ns | **39.00 ns** |
+| 16 bits | 32 | 34 / 5280 | **50 / 39** | — | — | `ERROR: Unable to find a placement location for cell 'cout$sb_io'` |
 
 The logic column grows **0.96 ns per bit** — one full adder each. The routing column does
 not, and it is **83 %** of the four-bit delay. Sixteen bits runs out of **pins** while using

@@ -27,14 +27,14 @@ same words this page uses. The package is
 [`labs/reference-card/`](https://github.com/uoftasic/dd102/tree/main/labs/reference-card).
 
 **Check your tool first.** These outputs came from Icarus Verilog 14.0 in
-`hpretl/iic-osic-tools:2026.04`:
+`hpretl/iic-osic-tools:2026.08`:
 
 ```bash
 iverilog -V
 ```
 
 ```
-Icarus Verilog version 14.0 (devel) (s20251012-145-g9b0d46b4-dirty)
+Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
 ```
 
 That is the first of **73 lines** — the rest is the GPL. Normal.
@@ -208,7 +208,7 @@ make synth
 === ripple4 ===
    12 cells
     4   $scopeinfo
-    8   SB_LUT4
+    9   SB_LUT4
 ```
 
 **Eight.** Exactly what four hand-written instances cost, because it *is* four instances. The

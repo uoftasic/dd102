@@ -480,7 +480,7 @@ verilator --lint-only -Wall --top-module full_adder broken/full_adder.sv
 ```
 
 ```
-- V e r i l a t i o n   R e p o r t: Verilator 5.046 2026-02-28 rev v5.046
+- V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev v5.050
 - Verilator: Built from 0.031 MB sources in 2 modules, into 0.010 MB in 3 C++ files needing 0.000 MB
 - Verilator: Walltime 0.008 s (elab=0.000, cvt=0.002, bld=0.000); cpu 0.005 s on 1 threads; allocated 30.570 MB
 ```
@@ -533,7 +533,7 @@ that rate and the rest is arithmetic:
 | a 32-bit adder | 65 | 36,893,488,147,419,103,232 | about **5.3 million years** |
 
 The counts in that table are exact and the two "instant" rows and the 0.6 s row were measured
-on `hpretl/iic-osic-tools:2026.04`. The last two rows are arithmetic from the measured rate, so
+on `hpretl/iic-osic-tools:2026.08`. The last two rows are arithmetic from the measured rate, so
 treat them as the right order of magnitude rather than a stopwatch reading. The order of
 magnitude is the entire point.
 

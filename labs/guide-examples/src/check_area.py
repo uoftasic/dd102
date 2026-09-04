@@ -5,7 +5,7 @@
     python3 src/check_area.py --table results/*.json
 
 Nobody is grading this lab. This script is the grader. The numbers below
-were measured on hpretl/iic-osic-tools:2026.04 (Yosys 0.64, sky130A). Yours
+were measured on hpretl/iic-osic-tools:2026.08 (Yosys 0.68, sky130A). Yours
 should match to the digit; the tolerance exists only so a future Yosys
 patch release nudging one cell does not tell you that you failed.
 

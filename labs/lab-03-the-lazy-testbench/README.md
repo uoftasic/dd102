@@ -42,7 +42,7 @@ No environment setup. `make` alone, in a bare container, three stages, about two
 
 ## Reference numbers
 
-Measured on `hpretl/iic-osic-tools:2026.04` — Icarus Verilog 14.0, Python 3.12.3.
+Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Python 3.12.3.
 
 ```
 stage           design   testbench                 tested   wrong   verdict
