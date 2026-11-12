@@ -1,27 +1,29 @@
-# DD102 — Digital Logic & FPGAs
+# DD102: Digital Logic & FPGAs
 
 Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA.
 
-**Course site: <https://uoftasic.com/dd102/>** · Part of the
+Course site: <https://uoftasic.com/dd102/> · Part of the
 [UofT ASIC Team](https://github.com/uoftasic) education materials ·
 [Education hub](https://edu.uoftasic.com/)
 
 You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). This course turns that
-drawing into text a machine reads, proves it against every input it can ever see, and lands it
-on a real Lattice iCE40 UP5K as a 104,090-byte bitstream.
+drawing into text a machine reads, proves it against every input it can ever see, and puts it on
+a real Lattice iCE40 UP5K as a 104,090-byte bitstream. Students follow the Course path on the
+[course home page](docs/README.md#course-path): guide pages to read, alternating with five labs.
 
 | | |
 |---|---|
-| **Prerequisites** | [IC101](https://uoftasic.com/ic101/) then [DD101](https://uoftasic.com/dd101/) |
-| **Workbench** | `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Yosys 0.68, nextpnr-ice40, IceStorm, Verilator 5.050 |
-| **Time** | 10–14 hours, self-paced |
-| **Ends with** | `ripple4.sv` you wrote, proven on all 512 of its inputs, and the bitstream it becomes |
+| Prerequisites | [IC101](https://uoftasic.com/ic101/) then [DD101](https://uoftasic.com/dd101/) |
+| Workbench | `hpretl/iic-osic-tools:2026.08`: Icarus Verilog 14.0, Yosys 0.68, nextpnr-ice40, IceStorm, Verilator 5.050 |
+| Time | 10–14 hours, self-paced |
+| Ends with | a `ripple4.sv` the student wrote, proven on all 512 of its inputs, and the bitstream it becomes |
 
 ## Running the labs
 
-Every package under `labs/` runs with **`make` alone, in a bare container, with no environment
-setup** — no `.designinit`, no `mod`, no PDK, no liberty file, no environment variables — and
-ends in a `PASS`/`FAIL` verdict rather than a shrug.
+Every package under `labs/` runs with `make` alone in a bare container, with no `.designinit`,
+`mod`, PDK variable or other environment variable, and ends in a `PASS`/`FAIL` verdict. The two
+steps that price a design in SKY130 cells (`make area` in `guide-examples`, `make contrast` in
+Lab 05) read the liberty file from its fixed path in the image.
 
 ```bash
 git clone https://github.com/uoftasic/dd102.git
@@ -38,17 +40,17 @@ mod dd102
 cd labs/lab-01-transcribe-your-adder && make
 ```
 
-| package | what it is |
+| Package | What it is |
 |---|---|
-| `labs/lab-01-transcribe-your-adder/` | your paper drawing, typed out, graded on eight rows |
-| `labs/lab-02-prove-it/` | write the testbench, then three mutants grade *it* |
-| `labs/lab-03-the-lazy-testbench/` | six hand-picked cases pass; all 512 do not |
-| `labs/lab-04-four-adders-in-a-row/` | one `generate for`, and Yosys **proves** it equals the hand-typed version |
+| `labs/lab-01-transcribe-your-adder/` | the paper drawing, typed out, graded on eight rows |
+| `labs/lab-02-prove-it/` | write the testbench, then three mutants grade it |
+| `labs/lab-03-the-lazy-testbench/` | six hand-picked cases pass; all 512 don't |
+| `labs/lab-04-four-adders-in-a-row/` | one `generate for`, and Yosys proves it equals the hand-typed version |
 | `labs/lab-05-onto-the-fpga/` | `yosys` → `nextpnr` → `icepack`, and a real bitstream |
-| `labs/guide-examples/` | the runnable half of Part I and II of the guide |
-| `labs/guide-examples-proving-it/` | the runnable half of Part III |
-| `labs/guide-examples-carry/` | the width sweep behind *The carry has to travel* |
-| `labs/reference-card/` | twelve one-file cards, the whole DD102 SystemVerilog subset |
+| `labs/guide-examples/` | the files behind the first guide pages and Inside an FPGA; used in Labs 01 and 05 |
+| `labs/guide-examples-proving-it/` | the testbenches behind Testbenches and Waveforms; used in Labs 02 and 03 |
+| `labs/guide-examples-carry/` | the width sweep behind Carry delay; used in Lab 05 |
+| `labs/reference-card/` | twelve one-file cards, the whole DD102 SystemVerilog subset; used in Lab 04 |
 
 Docs preview (requires Node.js):
 
@@ -60,8 +62,10 @@ npx docsify-cli serve docs      # → http://localhost:3000
 
 | Path | On Pages? | Purpose |
 |------|-----------|---------|
-| `docs/` | **Yes** | The Docsify site published at uoftasic.com/dd102/ |
-| `docs/guide/`, `docs/labs/`, `docs/reference/` | Yes | Guide pages, lab writeups, reference |
+| `docs/` | Yes | The Docsify site published at uoftasic.com/dd102/ |
+| `docs/guide/` | Yes | Guide pages: reading only, no required commands |
+| `docs/labs/` | Yes | Lab writeups: the one place students run things, in numbered steps |
+| `docs/reference/` | Yes | Lookup pages |
 | `labs/` | No | Runnable packages (HDL, Python graders, Makefiles) |
 | `scripts/`, `notebooks/`, `data/`, `figures/` | No | Team utilities, exploratory work, sources |
 
@@ -75,8 +79,8 @@ No solutions or grade keys are published under `docs/`.
 | Branch | `main` |
 | Folder | `/docs` |
 
-No Actions deploy step is required. `.github/workflows/docs-link-check.yml` link-checks
-`docs/**` on push and pull request.
+No Actions deploy step is needed. `.github/workflows/docs-link-check.yml` link-checks `docs/**`
+on push and pull request.
 
 ## Contributing
 
@@ -86,4 +90,4 @@ from [uoftasic/course-template](https://github.com/uoftasic/course-template); se
 
 ## License
 
-[MIT](LICENSE) — Copyright UofT ASIC Team / `uoftasic`
+[MIT](LICENSE). Copyright UofT ASIC Team / `uoftasic`.

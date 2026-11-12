@@ -1,14 +1,15 @@
 # Agent guide — UofT ASIC course repos
 
-You are working in a **course repository** for the UofT ASIC Team (`uoftasic`): pedagogical materials for IC / RTL / FPGA / open-source ASIC flows. The site under `docs/` is published on GitHub Pages (Docsify, zero build). Runnable work lives outside `docs/`.
+You are working in a course repository for the UofT ASIC Team (`uoftasic`): teaching materials for IC / RTL / FPGA / open-source ASIC flows. The site under `docs/` is published on GitHub Pages (Docsify, zero build). Runnable work lives outside `docs/`.
 
-Optimize for **clear student learning paths**, not template maintenance. Prefer concrete labs and notes students can follow end-to-end over meta documentation.
+Optimize for clear student learning paths, not template maintenance. Prefer concrete labs and notes students can follow end-to-end over meta documentation.
 
 ## Goals
 
 - Teach IC development skills: RTL (SystemVerilog/Verilog), simulation, synthesis, FPGA bring-up, and/or open ASIC flows (e.g. Yosys, LibreLane, SKY130) as the course requires.
-- Keep each lab **self-contained**: prerequisites → objectives → short theory → procedure → expected results → links to code.
-- Separate **what students read** (`docs/`) from **what they run** (`labs/`, `scripts/`, `notebooks/`).
+- Keep each lab writeup self-contained: what you'll build or measure → before you start (guide pages to read, setup) → time estimate → numbered parts with numbered steps, each part ending in a "you should see" check → finishing (how to tell you're done).
+- Separate what students read from what they do. Guide pages (`docs/guide/`) are reading only, with no required commands; every command a student runs is a numbered step in a lab writeup (`docs/labs/`). Runnable files live in `labs/`, `scripts/` and `notebooks/`.
+- Keep the Course path table on `docs/README.md` (Read rows and Do rows, alternating, with time estimates) and `docs/_sidebar.md` in the same order.
 - Never publish grades, solution keys, or PII under `docs/`. Put keys in `labs/**/solutions/` and gitignore them on student forks when policy requires.
 
 ## Layout (do not fight this)
@@ -16,7 +17,7 @@ Optimize for **clear student learning paths**, not template maintenance. Prefer 
 | Path | Published? | Put here |
 |------|------------|----------|
 | `docs/` | Yes | Guides, lab writeups, figures for the site |
-| `docs/guide/` | Yes | Conceptual notes (flows, tools, theory) |
+| `docs/guide/` | Yes | Conceptual notes (flows, tools, theory), reading only |
 | `docs/labs/` | Yes | Lab writeups only (`lab-NN-*-overview.md`) |
 | `docs/assets/img/` | Yes | Small diagrams / waveforms for docs |
 | `labs/<lab-id>/` | No | HDL, Python, testbenches, local data, graders |
@@ -35,26 +36,27 @@ Lab IDs: `lab-NN-short-name` (e.g. `lab-02-counter-sv`).
    - `src/` — HDL / Python / entrypoints
    - `data/` — small inputs (large binaries → Git LFS or external)
    - `requirements.txt` or tool notes when needed
-2. Add `docs/labs/<lab-id>-overview.md` with: Prerequisites, Objectives, Theory (short), Procedure, Expected results, Links.
-3. Link the writeup from `docs/_sidebar.md` (and `_navbar.md` only if it belongs in top nav).
-4. Cross-link: writeup → GitHub `labs/<lab-id>/`; package README → `docs/labs/<lab-id>-overview.md`.
+2. Add `docs/labs/<lab-id>-overview.md` in the shape described under Goals. Questions students must answer go at the step where they arise.
+3. Add a Do row to the Course path table in `docs/README.md` and link the writeup from `docs/_sidebar.md` in the same position (and `_navbar.md` only if it belongs in top nav).
+4. Keep `labs/<lab-id>/README.md` short: a link to the writeup, how to run, the make targets, the file list. Don't repeat the writeup's teaching there.
+5. Cross-link: writeup → GitHub `labs/<lab-id>/`; package README → `docs/labs/<lab-id>-overview.md`.
 
-**Writeups teach; packages execute.** Do not dump long HDL into Docsify pages — reference files under `labs/`.
+Writeups teach; packages execute. Don't paste long HDL into Docsify pages; link to the files under `labs/`.
 
 ## Adding a guide page
 
-1. Add kebab-case Markdown under `docs/guide/` (e.g. `yosys-synth.md`).
-2. Link from `docs/_sidebar.md`.
-3. Images under `docs/assets/img/` with paths relative to `docs/`.
+1. Add kebab-case Markdown under `docs/guide/` (e.g. `yosys-synth.md`). Reading only: concepts, figures, worked examples. If the page needs the student to run something, put that in the matching lab as a numbered step and leave a one-line pointer in the guide. Pencil-and-paper "Check yourself" questions go in a short block at the end.
+2. Add it to a Read row of the Course path in `docs/README.md`, and link it from `docs/_sidebar.md` in the same order.
+3. Images go under `docs/assets/img/`. Markdown images resolve relative to the page (`../assets/img/x.png` from a guide page); raw `<video>` or `<img>` HTML resolves from `docs/` (`assets/img/x.mp4`). `.github/workflows/docs-link-check.yml` checks both.
 4. Prefer relative Docsify links between pages; use GitHub URLs for `labs/` and `scripts/`.
 
 ## Pedagogy checklist (use when authoring)
 
-- State **learning objectives** in student language (“You will synthesize a counter and inspect the netlist”).
+- State learning objectives in student language (“You will synthesize a counter and inspect the netlist”).
 - Assume a clone of this repo and the course’s documented workbench; do not bundle Docker in every lab unless the course already does.
-- For EDA-heavy work (LibreLane / SKY130 / IIC-OSIC-TOOLS), document the **team workbench** steps in-course rather than inventing a one-off container story.
+- For EDA-heavy work (LibreLane / SKY130 / IIC-OSIC-TOOLS), document the team workbench steps in-course rather than inventing a one-off container story.
 - Keep procedures copy-pasteable (`cd`, install, simulate/synth, check artifact).
-- Define **expected results** (printout, waveform check, area/timing ballpark, golden hash) so students know they succeeded.
+- Define expected results (printout, waveform check, area/timing ballpark, golden hash) so students know they succeeded.
 - Progress difficulty across labs; reuse naming and directory conventions so later labs feel familiar.
 - Prefer small, inspectable designs over opaque blobs; when using IP or PDK artifacts, keep secrets and huge binaries out of git.
 
@@ -76,4 +78,4 @@ Lab IDs: `lab-NN-short-name` (e.g. `lab-02-counter-sv`).
 
 - Repo conventions: `CONTRIBUTING.md`
 - Bootstrap tokens / Pages checklist: `TEMPLATE.md`
-- Sample lab shape: `labs/lab-01/` + `docs/labs/lab-01-overview.md`
+- Sample lab shape: `labs/lab-01-transcribe-your-adder/` + `docs/labs/lab-01-transcribe-your-adder-overview.md`
