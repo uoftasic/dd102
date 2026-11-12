@@ -246,7 +246,7 @@ The solver hands you an input: `a = 14`, `b = 8`, `cin = 1`. $14 + 8 + 1 = 23$, 
 Three tools just described the same one-character bug three ways: a simulator said `Z`, a
 structural check named the wires, and a solver produced the input. None of them said "line 15".
 
-## Part 5: Two claims about generate loops
+## Part 5: `i++` and a block named `bit`
 
 1. Run:
 

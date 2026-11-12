@@ -87,7 +87,7 @@ Two things to know before your first run:
 Its Icarus is 12.0 against your workbench's 14.0, and its Yosys is 0.37 against your 0.68. For
 everything DD102 asks you to write this makes no difference; where it could, the lab says so.
 
-#### The one account
+#### EDA Playground account
 
 This is the only account the DD digital track asks you for. The site's front page says:
 

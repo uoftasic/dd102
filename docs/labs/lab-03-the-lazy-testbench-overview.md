@@ -222,7 +222,7 @@ means it correctly refuses to draw into a text terminal, not that the install is
 
 5. Optional: the browser route, on [EDA Playground](https://www.edaplayground.com/).
    1. Log in (the one Google account the DD courses ask for; see
-      [Getting started](guide/getting-started.md#the-one-account)).
+      [Getting started](guide/getting-started.md#eda-playground-account)).
    2. Paste [`src/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/full_adder.sv)
       into the **`design.sv`** tab and [`src/tb_eight_rows.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/tb_eight_rows.sv)
       into the **`testbench.sv`** tab. The file names are fixed; your module is still

@@ -13,7 +13,7 @@ two of them you build two, and both cost money. This page shows that four ways.
 
 `errors/call_it_like_a_function.sv` in
 [`labs/guide-examples`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples) is a
-complete file that tries the obvious thing:
+complete file that calls a module like a function:
 
 ```systemverilog
     assign sum  = full_adder(a, b, cin);
@@ -61,7 +61,7 @@ module full_adder_hier (
 endmodule
 ```
 
-Read one of those lines aloud in order and it stops being syntax:
+Read one of those lines aloud in order:
 
 > `half_adder`: place one of these.
 > `ha1`: the one I just placed is called `ha1`.

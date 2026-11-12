@@ -1,11 +1,10 @@
 # Inside an FPGA
 
-If your adder becomes hardware, how can somebody reprogram an FPGA in three seconds? Hardware is
-supposed to be the part you can't change.
-
-Nothing is being built. The chip exists, complete, before you write a line. Every wire and
-transistor on the FPGA was manufactured months ago in a fab that had never heard of your adder.
-What you send it isn't a design; it is a settings file. That explains most of the surprising
+Your adder becomes hardware, and yet an FPGA can be reprogrammed in three seconds, when hardware
+is supposed to be the part you can't change. The reason is that nothing is being built. The chip
+exists, complete, before you write a line. Every wire and transistor on the FPGA was manufactured
+months ago in a fab that had never heard of your adder. What you send it isn't a design; it is a
+settings file. That explains most of the surprising
 numbers in FPGA reports, and it is what this page is about.
 
 Every number below came from `yosys synth_ice40` and `nextpnr-ice40` on the workbench image,
