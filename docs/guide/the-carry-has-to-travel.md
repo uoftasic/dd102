@@ -28,7 +28,7 @@ Four boxes, and the carry has to walk through all of them in order. Nothing is w
 and nothing is taking turns: all four adders compute continuously. But three of them are computing
 from a carry that is still wrong, and they keep doing so until the change reaches them.
 
-### Watch it happen
+### Animation
 
 The video is 3 min 12 s, silent and captioned; the captions are the narration. It shows four full
 adders adding `1111 + 0001`, with the carry walking the line one stage at a time and the sum bits
@@ -94,7 +94,7 @@ you an FPGA speed from a gate count alone has guessed.
 
 ## Sixteen bits: the pin limit
 
-At sixteen bits something else happens first:
+At sixteen bits the design runs out of pins before anything else:
 
 ```
        37   SB_LUT4

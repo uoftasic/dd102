@@ -278,7 +278,7 @@ PLL, the I2C blocks and the routing switches between them, whether you touched t
 `one_gate` configures 5,277 logic cells to do nothing; your adder configures 5,269. Both take the
 same number of bytes to write down, because "do nothing" is a setting like any other.
 
-So what is different between them?
+Here is how many bytes actually differ:
 
 ```
 --- so how many of those 104090 bytes actually differ? ---
