@@ -106,7 +106,7 @@ The whole test finished at time zero. Settling a chain of `assign` statements co
 time; `#0` tells the simulator to finish everything scheduled for now before carrying on, and that
 is all that was ever needed. The testbench uses `#10` for the waveform you open in Lab 03: `#0`
 would stack all eight rows on top of each other at t = 0, and the waits spread them into eight
-evenly spaced columns you can point at. The ten is for your eyes, not for the gates.
+evenly spaced columns you can point at.
 
 Hold on to this. A number in a delay doesn't buy time for logic to work. In DD103 you'll watch a
 synthesizer throw a delay like `#5` away without a warning, because no gate's job is to be late. Real delay is
