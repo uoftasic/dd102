@@ -72,3 +72,26 @@ verilator --lint-only -Wall --top-module add5 reference/add5.sv                 
 
 Each lint command is also given `src/full_adder.sv`. Your own `tb_lazy.sv` reports however many
 cases you wrote: 6 after Part 4, and `FOUND` once a case whose sum doesn't fit in four bits is in.
+
+## Lab 04: Four adders in a row
+
+Icarus Verilog 14.0, Yosys 0.68, Python 3.12.3:
+
+| What | Number |
+|---|---|
+| inputs a 4-bit adder can have | 512 |
+| `full_adder` instances the loop builds | 4 (broken: 3) |
+| SAT problem for the proof | 294 variables, 751 clauses |
+| broken design, exhaustive | FAIL 512/512 |
+| counterexample the solver returns | `a = 14`, `b = 8`, `cin = 1` |
+| counterexample with `assign c[0] = 1'b0;` planted (Part 7) | `a = 8`, `b = 15`, `cin = 1` |
+| `iverilog` exit status on `errors/ripple4_bit.sv` | 134, `Aborted (core dumped)` |
+| `SB_LUT4` at N = 4 / 8 / 16 / 32 | 9 / 18 / 37 / 74 |
+| exhaustive at 8 bits | 131,072 cases, 0.78 s |
+
+| What you see | What it means |
+|---|---|
+| `make: yosys: No such file or directory` | You're not inside the workbench container. Every command here runs in the noVNC terminal, not on your laptop. |
+| `FAIL` on any line of `make check` | Something drifted. Paste the whole FAIL line into [Discord](https://discord.gg/hrJnP5UsGz); it contains both your number and the reference. |
+| `Aborted (core dumped)` from `iverilog` | Expected only for `errors/ripple4_bit.sv`. Anywhere else, read the first error line above it. |
+| `vvp` says nothing and exits 0 | The testbench didn't reach its verdict. Read the log from the top; the first error is the real one. |

@@ -35,7 +35,7 @@ file. `make` takes under five seconds and ends with twelve verdicts, all `PASS`.
 
 | File | What it is |
 |---|---|
-| `src/ripple4.sv` | The design: four full adders from one `generate for` loop. |
+| `src/ripple4.sv` | The design: four full adders from one `generate for` loop. You rewrite its loop in Part 7 of the writeup. |
 | `src/full_adder.sv` | The Lab 01 module. |
 | `src/ripple.sv` | The same adder with its width as a `parameter`. Used by `make wide`. |
 | `reference/ripple4_hand.sv` | The Lab 03 style: four instances typed out by hand. The proof compares against this. |
