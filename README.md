@@ -15,8 +15,8 @@ a real Lattice iCE40 UP5K as a 104,090-byte bitstream. Students follow the Cours
 |---|---|
 | Prerequisites | [IC101](https://uoftasic.com/ic101/) then [DD101](https://uoftasic.com/dd101/) |
 | Workbench | `hpretl/iic-osic-tools:2026.08`: Icarus Verilog 14.0, Yosys 0.68, nextpnr-ice40, IceStorm, Verilator 5.050 |
-| Time | 10–14 hours, self-paced |
-| Ends with | a `ripple4.sv` the student wrote, proven on all 512 of its inputs, and the bitstream it becomes |
+| Time | about 12 h 20 min, self-paced (the sum of the Course path rows) |
+| Ends with | a `ripple4.sv` the student rewrote and proved equal to a hand-typed version, tested on all 512 of its inputs, and the bitstream it becomes |
 
 ## Running the labs
 
