@@ -22,132 +22,60 @@ and Parts 6 and 7 use [`labs/guide-examples/`](https://github.com/uoftasic/dd102
 
 Time: about 2½ hours.
 
-## Part 1: Set up the workbench
+## Part 1: Load the course
 
-You installed everything in IC101: Docker, the `workspace` clone and the noVNC desktop. This
-part loads DD102 into it. Nothing here installs anything new. DD102 needs one Docker image,
-`hpretl/iic-osic-tools:2026.08` (the one IC101's `start_vnc.sh` pulls), and a browser.
+If you haven't set up the workbench, do
+[IC101 Lab 03](https://uoftasic.com/ic101/#/labs/lab-03-launch-the-workbench-overview) first.
+DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing new.
 
-1. On your own machine, in your `workspace` clone, start the desktop:
-
-   ```bash
-   cd workspace
-   ./scripts/start_vnc.sh          # Windows: scripts\start_vnc.bat
-   ```
-
-2. Open **http://localhost/** and open a terminal on that desktop. Type every command from here
-   on in that terminal, not on your laptop. Ports, passwords, resolution and what to do when the
-   page is blank are in [IC101: Launch the noVNC desktop](https://uoftasic.com/ic101/#/guide/launch-novnc).
-
-3. Load the environment:
+1. Start the desktop from your `workspace` clone (`./scripts/start_vnc.sh`, or
+   `scripts\start_vnc.bat` on Windows), open <http://localhost/> and open a terminal on the
+   desktop. Type every command from here on in that terminal, not on your laptop.
+2. Load the environment and get the course files:
 
    ```bash
    . /foss/designs/common/.designinit
-   ```
-
-   ```
-   ASIC-EDU: PDK=sky130A  PDK_ROOT=/foss/pdks  designs=/foss/designs
-             run 'mod' to list course modules, or 'mod <name>' to enter one.
-   ```
-
-   The leading `.` is the shell's `source` command. It runs the file in your current shell
-   instead of a child process, which is the only way a script can change your environment.
-   Without the dot and the space, the command does nothing useful. You have to do this in every
-   new terminal.
-
-   You can ignore the `sky130A` in the banner. A PDK describes how to build a chip, and DD102
-   never builds one; it configures a chip somebody else already built. Two steps in the course
-   price your adder in sky130 standard cells for comparison, and they read the cell library from
-   its fixed path in the image, so you never need to set a PDK or cell-library variable. The one
-   thing you need from `.designinit` is the `mod` command in the next step.
-
-4. Get the course files:
-
-   ```bash
    mod add dd102      # first time only: clones github.com/uoftasic/dd102
-   mod dd102          # every time after that
    ```
 
-   ```
-   Cloning https://github.com/uoftasic/dd102.git
-        into /foss/designs/modules/dd102
-   Cloning into '/foss/designs/modules/dd102'...
-   OK  module ready: /foss/designs/modules/dd102
-       run: mod dd102
-   cwd: /foss/designs/modules/dd102
-   ```
+   You should see `OK  module ready: /foss/designs/modules/dd102` and then
+   `cwd: /foss/designs/modules/dd102`: `mod add` also moves your shell into the repo, where the
+   rest of this lab starts. In every new terminal, load `.designinit` again and run `mod dd102`.
 
-   The output above is from `mod add dd102`: it clones the repo and then moves your shell into
-   it (the `cwd:` line), so the first time you don't need `mod dd102` as well. In every later
-   terminal, run only `mod dd102`, which prints the same `cwd:` line. The rest of this lab starts
-   from that folder.
-
-   `mod` is a shell function that `.designinit` defines. `mod` on its own lists what you have
-   (`dd102`, and `ic101_setup` from IC101). Everything lands under `/foss/designs/modules/`, which
-   is your `workspace` folder shared into the container, so your files are on your own disk and
-   deleting the container does not delete your work.
-
-5. Check the two versions every printed result in this course depends on:
+   You can ignore the `PDK=sky130A` in the `ASIC-EDU:` banner that `.designinit` prints. A PDK
+   describes how to build a chip, and DD102 configures a chip somebody else already built. The two
+   steps that price your adder in sky130 cells read the cell library from its fixed path in the
+   image, so you never set a PDK variable.
+3. Check the two versions every printed result in this course depends on, unpiped:
 
    ```bash
    yosys -V
    iverilog -V
    ```
 
-   ```
-   Yosys 0.68 (git sha1 38e001a6f, Release, GNU /usr/bin/c++ 13.3.0)
-   Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
-   ```
+   You should see `Yosys 0.68 (git sha1 38e001a6f, Release, GNU /usr/bin/c++ 13.3.0)`, and
+   `Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)` as the first of 73 lines,
+   exit status 0 (the rest are the GPL and a list of code generators). Any other version means a
+   different image, and the numbers on these pages may not match yours. `iverilog -V | head -2`
+   closes the pipe while Icarus is still asking its sub-programs for their versions, so it adds
+   lines like `Unable to get version from "/foss/tools/iverilog/lib/ivl/ivlpp -V"`, a different
+   number each run. They don't mean your install is broken; [Icarus error
+   messages](reference/when-icarus-says-syntax-error.md) has more on pipes.
 
-   `iverilog -V` prints 73 lines and exits 0. The line above is the first; the other 72 are the
-   GNU General Public License and a list of code generators. That is normal.
+   Three more versions appear in later output: `Verilator 5.050 2026-07-01 rev v5.050`
+   (`verilator --version`), `nextpnr-0.11.1-9-gb17408e2` (`nextpnr-ice40 --version`) and
+   `surfer 0.7.0 (git: v0.7.0)` (`surfer --version`).
+4. Run `ls labs/`. You should see nine folders: `guide-examples`, `guide-examples-carry`,
+   `guide-examples-proving-it`, the five `lab-0N-...` packages and `reference-card`.
 
-   > Don't pipe it into `head`. `iverilog -V | head -2` closes the pipe while Icarus is still
-   > asking its sub-programs for their versions, and Icarus complains with lines like
-   > `Unable to get version from "/foss/tools/iverilog/lib/ivl/ivlpp -V"`. How many of those you
-   > get changes from run to run, and none of them means your install is broken. Run version
-   > checks unpiped. A pipe can hide or add output, and you'll meet that again in
-   > [Icarus error messages](reference/when-icarus-says-syntax-error.md).
-
-   The other tools, if you want to check them:
-
-   | Tool | Command | Expect |
-   |---|---|---|
-   | Verilator | `verilator --version` | `Verilator 5.050 2026-07-01 rev v5.050` |
-   | nextpnr | `nextpnr-ice40 --version` | `"nextpnr-ice40" -- Next Generation Place and Route (Version nextpnr-0.11.1-9-gb17408e2)` |
-   | Surfer | `surfer --version` | `surfer 0.7.0 (git: v0.7.0)` |
-
-   If `yosys` doesn't say `0.68` or `iverilog` doesn't say `14.0`, you are on a different image
-   and the numbers on these pages may not match yours.
-
-6. List the lab packages:
-
-   ```bash
-   ls labs/
-   ```
-
-You should see these nine folders:
-
-```
-guide-examples
-guide-examples-carry
-guide-examples-proving-it
-lab-01-transcribe-your-adder
-lab-02-prove-it
-lab-03-the-lazy-testbench
-lab-04-four-adders-in-a-row
-lab-05-onto-the-fpga
-reference-card
-```
-
-If something fails:
-
-| What you see | What it means |
+| If you see | It means |
 |---|---|
-| `bash: mod: command not found` | You didn't run step 3 in this terminal. Every new tab starts clean. |
 | `mod: no such module: dd102` | You ran `mod dd102` before `mod add dd102`. It lists the modules you do have underneath. |
-| `fatal: could not read Username for 'https://github.com'` | git is being asked to log in, which means the repo didn't answer anonymously. It is almost never your spelling. Open <https://github.com/uoftasic/dd102> in a browser. If it 404s, the repo isn't published yet; that's on us, so say so in [Discord](https://discord.gg/hrJnP5UsGz). |
-| `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace isn't mounted. `ls /foss/designs/` should list `common/` and `modules/`; if it's empty you started a bare container instead of the workbench. Relaunch with `start_vnc.sh` from your `workspace` clone ([IC101](https://uoftasic.com/ic101/)). You can still run every lab: `git clone https://github.com/uoftasic/dd102.git` and then `cd dd102` gets the files without `mod`, and `make` needs none of this setup. |
+| `fatal: could not read Username for 'https://github.com'` | The repo didn't answer anonymously, so git asked you to log in. It is almost never your spelling. If <https://github.com/uoftasic/dd102> 404s in a browser, the repo isn't published yet; that's on us, so say so in [Discord](https://discord.gg/hrJnP5UsGz). |
+| `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace isn't mounted (`ls /foss/designs/` should list `common/` and `modules/`), so you started a bare container. Relaunch with `start_vnc.sh` from your `workspace` clone. Or skip `mod` entirely: `git clone https://github.com/uoftasic/dd102.git` and `cd dd102` get the files, and `make` in every lab package needs none of this setup. |
+
+Anything else about Docker, the desktop or `.designinit` is on IC101's
+[Troubleshooting](https://uoftasic.com/ic101/#/reference/troubleshooting) page.
 
 ## Part 2: Run the package before you write anything
 
