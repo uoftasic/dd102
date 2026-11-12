@@ -168,7 +168,7 @@ a tool being unhelpful.
   the missing semicolon. When one tool's message is vague, try the other. `ERROR:` is also the
   word to search for in a Yosys log: it marks the real failures, and `Warning:` marks the rest.
 - If a command on these pages doesn't do what the page says, that's a bug in the course. Every
-  command here was run before it was written, so a mismatch means something drifted. Saying so in
+  command in the course was run before it was written, so a mismatch means something drifted. Saying so in
   the Discord helps.
 
 Before you ask about a lab, run `make` once more in a fresh terminal. No DD102 lab needs any

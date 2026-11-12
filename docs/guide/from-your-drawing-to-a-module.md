@@ -137,6 +137,7 @@ is correct" are different questions, and `vvp` only answers the first. Never tru
 exit status; trust a line of output you told it to print. The `guide-examples` Makefile decides
 pass or fail with `grep -q "^PASS"`, and that one line is what makes `make` a test rather than a
 light show.
+
 You produce this failure yourself in Lab 01, Part 6.
 
 ## Two mistakes worth making once
