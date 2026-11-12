@@ -1,7 +1,7 @@
 # `assign` and `always_comb`
 
 The five `assign` lines on the last two pages sit one under another, so it is natural to ask what
-order they run in. They don't run. This is what catches everyone who has written Python: the five
+order they run in. They don't run. This catches everyone who has written Python: the five
 lines aren't executed in order, or at all. Each one is a permanent connection, a soldered joint,
 and all five are live at the same moment for as long as the circuit exists. `assign` doesn't mean
 "put this value here". It means "from now on, this wire is that expression".

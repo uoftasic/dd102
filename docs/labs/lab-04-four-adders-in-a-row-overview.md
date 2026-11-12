@@ -269,7 +269,7 @@ line `make gotcha` prints under the count says "same 8 SB_LUT4"; that text is ou
 the 9 above it is the real count.)
 Icarus 14.0 accepts it too. `src/ripple4.sv` still uses `i = i + 1`, because that form is
 Verilog-2001 and works in every tool that has ever existed, at a cost of six characters. But you
-settled the question by running it, not by believing a page, including this one.
+settled the question by running it rather than by taking a page's word for it.
 
 The second claim is "you can't label a generate block `bit`". This one is true:
 
