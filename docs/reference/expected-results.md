@@ -95,3 +95,49 @@ Icarus Verilog 14.0, Yosys 0.68, Python 3.12.3:
 | `FAIL` on any line of `make check` | Something drifted. Paste the whole FAIL line into [Discord](https://discord.gg/hrJnP5UsGz); it contains both your number and the reference. |
 | `Aborted (core dumped)` from `iverilog` | Expected only for `errors/ripple4_bit.sv`. Anywhere else, read the first error line above it. |
 | `vvp` says nothing and exits 0 | The testbench didn't reach its verdict. Read the log from the top; the first error is the real one. |
+
+## Lab 05: Onto the FPGA
+
+Yosys 0.68, nextpnr-0.11.1-9-gb17408e2, IceStorm, Python 3.12.3:
+
+| What | Number |
+|---|---|
+| `synth_ice40` on `ripple4` | 9 × `SB_LUT4` (+ 4 `$scopeinfo`) |
+| nextpnr logic cells | 11 / 5280: 9 yours, plus `$PACKER_GND` and `$PACKER_VCC` |
+| nextpnr I/O | 14 / 39 |
+| longest path | 26.22 ns = 2.98 ns logic + 23.24 ns routing |
+| with `constraints/r4.pcf` | 14.11 ns = 2.95 + 11.16, and `Placed 14 cells based on constraints` |
+| bitstream | 104,090 bytes |
+| your Lab 04 rewrite (`i++`, label `stage`) | the same 104,090 bytes; `cmp` with the shipped copy's bitstream reports no difference |
+| `one_gate` / `big` bitstreams | 104,090 bytes each, with 3 and 4001 logic cells |
+| bytes that differ, `one_gate` vs `r4` | 201 |
+| `toobig` | 685/5280 logic, 64/39 pins, `ERROR: Unable to find a placement location` |
+| the same file on SKY130 | 4 `maj3_1` + 8 `xnor2_1`, 110.1056 µm² |
+| `icetime` step 2 | exit 139, `Segmentation fault (core dumped)` |
+
+| What you see | What it means |
+|---|---|
+| `nextpnr-ice40: command not found` | You're not inside the workbench container. |
+| `Warning: No PCF file specified` | Expected in Parts 2 to 5. It is the only warning the good runs produce. |
+| `No Fmax available` | Expected. Your adder has no clock. `src/big.sv` in Part 4 does, and reports 202.92 MHz. |
+| `ERROR: Unable to find a placement location` | Expected in Part 5 only. Read the utilisation table above it. |
+| `Segmentation fault (core dumped)` | Expected from `make icetime` step 2 only. |
+| `FAIL  n12  12 bits -- total: got 38.99, reference says 39.0` from `make` in `guide-examples-carry` | The checker's stored 12-bit total is 39.00 (8.20 + 30.80), while nextpnr's own end-to-end total prints as 38.99. Your 12-bit run matches the reference run, and this FAIL doesn't mean you have anything left to do. |
+| `FAIL` on any line of `make check` | Paste the whole line into [Discord](https://discord.gg/hrJnP5UsGz); it has your number and the reference side by side. |
+
+`make icetime`, step 3 (the uncompressed chip database), prints the last twelve lines of
+`icetime`'s report:
+
+```
+        pre_io_13_31_0 (PRE_IO) DOUT0 [setup]: 0.187 ns
+    27.424 ns io_pad_13_31_0_din
+
+Resolvable net names on path:
+     1.105 ns ..  8.946 ns cin$SB_IO_IN
+    10.231 ns .. 16.654 ns cin_SB_LUT4_I1_O[3]
+    17.860 ns .. 20.813 ns cout_SB_LUT4_O_I3[3]
+    22.098 ns .. 27.237 ns cout$SB_IO_OUT
+
+Total number of logic levels: 4
+Total path delay: 27.42 ns (36.46 MHz)
+```
