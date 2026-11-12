@@ -1,31 +1,28 @@
 - [Home](README.md)
-- **Guide**
+- **1. Drawing to text**
   - [Getting started](guide/getting-started.md)
-  - **I. Drawing to text**
-    - [From your drawing to a module](guide/from-your-drawing-to-a-module.md)
-    - [What a module actually is](guide/what-a-module-is.md)
-    - [Everything happens at once](guide/assign-and-always-comb.md)
-  - **II. Seeing it back**
-    - [Seeing it come back as a schematic](guide/seeing-it-come-back.md)
-  - **III. Proving it**
-    - [Eight rows and no opinions](guide/eight-rows-and-no-opinions.md)
-    - [Two lines make the waveform appear](guide/two-lines-make-the-waveform-appear.md)
-  - **IV. More than one bit**
-    - [Four adders in a row](guide/four-adders-in-a-row.md)
-  - **V. Onto the chip**
-    - [The carry has to travel](guide/the-carry-has-to-travel.md)
-    - [The chip is already there](guide/the-chip-is-already-there.md)
-- **Labs**
-  - [Lab 01 — Transcribe your adder](labs/lab-01-transcribe-your-adder-overview.md)
-  - [Lab 02 — Prove it](labs/lab-02-prove-it-overview.md)
-  - [Lab 03 — The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md)
-  - [Lab 04 — Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md)
-  - [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md)
+  - [From your drawing to a module](guide/from-your-drawing-to-a-module.md)
+  - [Modules and instances](guide/what-a-module-is.md)
+  - [`assign` and `always_comb`](guide/assign-and-always-comb.md)
+  - [Seeing your adder as a schematic](guide/seeing-it-come-back.md)
+  - [Lab 01: Transcribe your adder](labs/lab-01-transcribe-your-adder-overview.md)
+- **2. Testing it**
+  - [Testbenches](guide/eight-rows-and-no-opinions.md)
+  - [Lab 02: Prove it](labs/lab-02-prove-it-overview.md)
+  - [Waveforms](guide/two-lines-make-the-waveform-appear.md)
+  - [Lab 03: The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md)
+- **3. More than one bit**
+  - [Vectors, generate loops and parameters](guide/four-adders-in-a-row.md)
+  - [Lab 04: Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md)
+- **4. Onto the FPGA**
+  - [Carry delay](guide/the-carry-has-to-travel.md)
+  - [Inside an FPGA](guide/the-chip-is-already-there.md)
+  - [Lab 05: Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md)
 - **Reference**
   - [The DD102 subset](reference/the-dd102-subset.md)
   - [Reading a waveform](reference/reading-a-waveform.md)
-  - [When Icarus says syntax error](reference/when-icarus-says-syntax-error.md)
-  - [The three services](reference/the-three-browser-tabs.md)
+  - [Icarus error messages](reference/when-icarus-says-syntax-error.md)
+  - [The browser tools](reference/the-three-browser-tabs.md)
 - **Repo**
   - [Lab packages](https://github.com/uoftasic/dd102/tree/main/labs)
   - [Scripts](https://github.com/uoftasic/dd102/tree/main/scripts)
