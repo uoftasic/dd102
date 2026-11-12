@@ -21,6 +21,8 @@ Time: about 1½ hours.
 
 ## Part 1: Run a testbench by hand
 
+What does a self-checking testbench print when the adder is right?
+
 1. Go to the package:
 
    ```bash
@@ -72,6 +74,8 @@ paper disagree, your paper is the specification and something upstream is wrong;
 
 ## Part 2: Break the adder
 
+Which rows does one wrong character break, and why those?
+
 [`broken/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/broken/full_adder.sv)
 is `src/full_adder.sv` with the comments stripped and one character changed on the last line:
 
@@ -79,8 +83,9 @@ is `src/full_adder.sv` with the comments stripped and one character changed on t
 assign cout      = ha1_carry & ha2_carry;   // <-- & where the drawing has an Or
 ```
 
-1. Before you run it, write down how many of the eight rows you think that one character breaks.
-2. Run the same testbench against it:
+It is the same mistake as the broken adder you ran in Lab 01, Part 6.
+
+1. Run the same testbench against it:
 
    ```bash
    iverilog -g2012 -o bad.vvp src/tb_eight_rows.sv broken/full_adder.sv
@@ -109,13 +114,19 @@ assign cout      = ha1_carry & ha2_carry;   // <-- & where the drawing has an Or
    src/tb_eight_rows.sv:66: $finish called at 160000 (1ps)
    ```
 
-   Four, and the arithmetic accounts for exactly those four. `ha1_carry` is `a & b` and
-   `ha2_carry` is `(a ^ b) & cin`. They can never both be 1: `a & b` needs `a` and `b` equal, and
-   `a ^ b` needs them different. So `ha1_carry & ha2_carry` is 0 on every row, and this adder's
-   `cout` is a constant 0. It is wrong on exactly the rows where `cout` should be 1, and your
-   DD101 table has four of those: `0 1 1`, `1 0 1`, `1 1 0` and `1 1 1`. `sum` is still right on
-   all eight rows. Half of the module is flawless, which is why "it mostly works" tells you
-   nothing.
+2. Exactly four rows fail, and `sum` is right on all eight. Work out why from the two carries:
+   `ha1_carry` is `a & b` and `ha2_carry` is `(a ^ b) & cin`. Can they ever both be 1?
+
+   <details>
+   <summary>Answer</summary>
+
+   No. `a & b` needs `a` and `b` equal, and `a ^ b` needs them different. So
+   `ha1_carry & ha2_carry` is 0 on every row, and this adder's `cout` is a constant 0. It is wrong
+   on exactly the rows where `cout` should be 1, and your DD101 table has four of those: `0 1 1`,
+   `1 0 1`, `1 1 0` and `1 1 1`. `sum` is still right on all eight rows. Half of the module is
+   flawless, which is why "it mostly works" tells you nothing.
+
+   </details>
 
 3. Ask the shell what it thought of that run:
 
@@ -134,6 +145,8 @@ The `.vvp` and `.vcd` files these commands leave in the package folder are ignor
 `make` writes its own copies under `results/`.
 
 ## Part 3: Run the one-row testbench
+
+How much does a testbench that checks one row catch?
 
 Now you write the testbench. A testbench in this lab is a module with no ports: it declares
 wires, connects them to the adder, drives values in and looks at what comes back. The pieces
@@ -203,19 +216,30 @@ You should see:
  mutants caught: 0 of 3
 ```
 
-Zero of three. Your testbench printed `VERDICT PASS` four times, and three of those four adders
-are wrong. Run the one row you check, `a=0 b=0 cin=0`, through each mutant by hand:
+A line like `tb/tb_full_adder.sv:56: $finish called at 1000 (1ps)` appears after every one of
+these runs, passing or failing. It means the testbench reached its last line, and the time is
+1 ns per `check(...)`: `1000 (1ps)` for the shipped one-row testbench, `8000 (1ps)` once all eight
+rows are in. (The line number moves as you add rows.)
 
-| | `sum` | `cout` |
-|---|---|---|
-| correct | `0 ^ 0 ^ 0` = 0 | `(0&0)\|(0&0)\|(0&0)` = 0 |
-| mut1 | `0 ^ 0` = 0 | unchanged = 0 |
-| mut2 | unchanged = 0 | `0 & 0 & 0` = 0 |
-| mut3 | majority = 0 | xor = 0 |
+5. Zero of three: your testbench printed `VERDICT PASS` four times, and three of those four
+   adders are wrong. Run the one row you check, `a=0 b=0 cin=0`, through each mutant by hand.
+   Why does that row miss all three?
 
-All four agree. `a=0 b=0 cin=0` is the row on which almost every wrong adder is accidentally
-right, because zero in, zero out is what nearly any combination of these gates does. It is also
-the first row everybody tests.
+   <details>
+   <summary>Answer</summary>
+
+   | | `sum` | `cout` |
+   |---|---|---|
+   | correct | `0 ^ 0 ^ 0` = 0 | `(0&0)\|(0&0)\|(0&0)` = 0 |
+   | mut1 | `0 ^ 0` = 0 | unchanged = 0 |
+   | mut2 | unchanged = 0 | `0 & 0 & 0` = 0 |
+   | mut3 | majority = 0 | xor = 0 |
+
+   All four agree. `a=0 b=0 cin=0` is the row on which almost every wrong adder is accidentally
+   right, because zero in, zero out is what nearly any combination of these gates does. It is
+   also the first row everybody tests.
+
+   </details>
 
 The grader calls this `THIN`, not `WRONG`. Your testbench isn't incorrect; it isn't finished, and
 nothing in its output tells those two states apart. `PASS` is a claim about the rows you looked
@@ -223,9 +247,13 @@ at and says nothing about the rows you didn't.
 
 ## Part 4: Write the other seven rows
 
-1. Add the other seven `check(...)` lines. They are the other seven rows of the table in your
-   DD101 handwriting. Keep the column order `a, b, cin, cout, sum`.
-2. Run `make` again and read the middle section before the summary.
+Does a full truth table catch all three mutants, and what does each failure tell you?
+
+1. Add the other seven `check(...)` lines to `tb/tb_full_adder.sv`. They are the other seven rows
+   of the table in your DD101 handwriting. Keep the column order `a, b, cin, cout, sum`.
+2. `mut3` has the right expressions on the wrong ports. Write down how many of the eight rows you
+   expect it to get wrong.
+3. Run `make` again and read the middle section before the summary.
 
 You should see three different failures, each describing its own bug:
 
@@ -241,10 +269,6 @@ VERDICT FAIL
 CAUGHT  -- mutants/mut1_cin_ignored.sv: 4 of 8 rows disagreed. Your testbench noticed.
 ```
 
-Four rows, every one with `cin=1`, and `cout` right every time. You can read the bug out of the
-pattern without opening the file: whatever is wrong only matters when `cin` is 1, and only
-`sum` is affected. That is a `sum` that doesn't look at `cin`.
-
 ```
 --- mutants/mut2_carry_needs_all_three.sv ---
   MISMATCH  a=0 b=1 cin=1 : got cout=0 sum=0, want cout=1 sum=0
@@ -255,14 +279,7 @@ ERRORS 3
 VERDICT FAIL
 ```
 
-Three rows: exactly the three where two inputs are 1 and the third is 0. Where all three are 1
-this mutant is right, and where fewer than two are 1 it is right. It is wrong only in the gap
-between "at least two" and "all three".
-
-`mut3_outputs_swapped.sv` fails 6 of 8: every row except `000` and `111`, the two where the sum
-bit and the carry bit happen to be equal.
-
-The summary should now say:
+and `mut3_outputs_swapped.sv` failing 6 of 8. The summary should now say:
 
 ```
  against the working adder             : GOOD (8 of 8 rows checked)
@@ -278,9 +295,23 @@ The summary should now say:
 That is 4 + 3 + 6 = 13 wrong rows out of the 24 the mutants offer, and the one-row testbench saw
 none of them.
 
-`MISMATCH` lines are the useful output of a testbench. A test that has only ever printed `PASS`
-has never shown it can print anything else. Before you trust a testbench, break the design on
-purpose and check that it notices: change a `|` to a `&`, run it, put the character back.
+4. Read the bugs out of the patterns without opening the files. What do `mut1`'s four rows have
+   in common, what do `mut2`'s three have in common, and which two rows does `mut3` get right?
+
+   <details>
+   <summary>Answer</summary>
+
+   `mut1`: every failing row has `cin=1`, and `cout` is right every time. Whatever is wrong only
+   matters when `cin` is 1, and only `sum` is affected: a `sum` that doesn't look at `cin`.
+
+   `mut2`: exactly the three rows where two inputs are 1 and the third is 0. Where all three are
+   1 this mutant is right, and where fewer than two are 1 it is right. It is wrong only in the
+   gap between "at least two" and "all three".
+
+   `mut3` is right on `000` and `111`, the two rows where the sum bit and the carry bit happen to
+   be equal, and wrong on the other six.
+
+   </details>
 
 ## Part 5: Two more checks
 
@@ -303,40 +334,54 @@ purpose and check that it notices: change a `|` to a `&`, run it, put the charac
    grader that only said "fail" would have folded them into one word. Put the value back.
 
 2. Test your own Lab 01 adder. `src/full_adder.sv` here is a shipped working adder so that nobody
-   is blocked. Copy your own Lab 01 file over it and run `make`. If Lab 01 passed, this passes
-   too, and now the thing being tested and the thing testing it are both yours.
+   is blocked. Copy your own Lab 01 file over it and run `make`:
+
+   ```bash
+   cp ../lab-01-transcribe-your-adder/src/full_adder.sv src/full_adder.sv
+   make
+   ```
+
+   If Lab 01 passed, you should see the same summary as in Part 4, ending
+   `All 8 rows checked, all 3 mutants caught. Lab 02 is done.` Now the thing being tested and the
+   thing testing it are both yours.
 
 ## Finishing
 
-You're done when `make` in `labs/lab-02-prove-it/` ends with
-`All 8 rows checked, all 3 mutants caught. Lab 02 is done.`
+### You're done when
+
+`make` in `labs/lab-02-prove-it/`, with your eight `check(...)` rows in `tb/tb_full_adder.sv`,
+ends with `All 8 rows checked, all 3 mutants caught. Lab 02 is done.`
 
 `make` always exits 0; the verdict is the text. `make grade` is the same run with an exit status
 and prints `make: *** [Makefile:75: grade] Error 1` until every box is ticked. `make reference`
-reproduces the table below using `reference/tb_full_adder.sv`.
+runs the working adder and the mutants against `reference/tb_full_adder.sv` instead of yours. The lab's reference
+numbers are on [Expected results](reference/expected-results.md#lab-02-prove-it).
 
-A line like `tb/tb_full_adder.sv:56: $finish called at 1000 (1ps)` appears after every one of
-these runs, passing or failing. It means the testbench reached its last line, and the time is
-1 ns per `check(...)`: `1000 (1ps)` for the shipped one-row testbench, `8000 (1ps)` once all eight
-rows are in. (The line number moves as you add rows.)
+### Questions
 
-Reference numbers, from `hpretl/iic-osic-tools:2026.08` (Icarus Verilog 14.0, Python 3.12.3):
+1. Before Part 4, your testbench printed `VERDICT PASS` on the working adder. Why isn't that
+   enough to trust it, and what should you do before you trust any testbench?
 
-```
-testbench            design                                  tested  errors  verdict
-------------------------------------------------------------------------------------
-yours, as shipped    src/full_adder.sv                            1       0  PASS  (THIN)
-yours, as shipped    mutants/mut1_cin_ignored.sv                  1       0  PASS  (SLIPPED)
-yours, as shipped    mutants/mut2_carry_needs_all_three.sv        1       0  PASS  (SLIPPED)
-yours, as shipped    mutants/mut3_outputs_swapped.sv              1       0  PASS  (SLIPPED)
-all eight rows       src/full_adder.sv                            8       0  PASS  (GOOD)
-all eight rows       mutants/mut1_cin_ignored.sv                  8       4  FAIL  (CAUGHT)
-all eight rows       mutants/mut2_carry_needs_all_three.sv        8       3  FAIL  (CAUGHT)
-all eight rows       mutants/mut3_outputs_swapped.sv              8       6  FAIL  (CAUGHT)
-```
+   <details>
+   <summary>Answer</summary>
 
-Optional practice: [HDLBits Fadd](https://hdlbits.01xz.net/wiki/Fadd) is the same problem
-graded by somebody else's testbench. Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz).
+   `PASS` is a claim about the rows you looked at (Part 3). `MISMATCH` lines are the useful output
+   of a testbench: a test that has only ever printed `PASS` has never shown it can print anything
+   else. Before you trust a testbench, break the design on purpose and check that it notices:
+   change a `|` to a `&`, run it, put the character back.
+
+   </details>
+
+### Submit
+
+Nothing to submit.
+
+## Going further (optional)
+
+[HDLBits Fadd](https://hdlbits.01xz.net/wiki/Fadd) is the same problem graded by somebody else's
+testbench.
+
+Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz).
 
 Next on the [Course path](README.md#course-path): read [Waveforms](guide/two-lines-make-the-waveform-appear.md),
 then do [Lab 03: The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md).
