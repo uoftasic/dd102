@@ -2,8 +2,8 @@
 
 Twelve files, one for each construct on [The DD102 subset](../../docs/reference/the-dd102-subset.md).
 Each is complete and runs on its own, and nothing on that page is printed without the whole file
-being here. [Lab 04](../../docs/labs/lab-04-four-adders-in-a-row-overview.md) (Part 1) walks
-through it.
+being here. [Lab 04](../../docs/labs/lab-04-four-adders-in-a-row-overview.md) (Part 1, and
+`make synth` under Going further) walks through it.
 
 ```bash
 cd labs/reference-card
