@@ -32,7 +32,7 @@ text, and it ends with a table of the three stages.
 
 | File | What it is |
 |---|---|
-| [`tb/tb_lazy.sv`](tb/tb_lazy.sv) | The file you write. Three cases in; you add three. |
+| [`tb/tb_lazy.sv`](tb/tb_lazy.sv) | The file you write. Three cases in; you add three, then one that catches the bug. |
 | [`src/add4.sv`](src/add4.sv) | Four `full_adder` instances chained carry to carry. |
 | [`src/full_adder.sv`](src/full_adder.sv) | The one-bit adder from Lab 01. |
 | [`tb/tb_exhaustive.sv`](tb/tb_exhaustive.sv) | All 512 inputs of `add4`. |
