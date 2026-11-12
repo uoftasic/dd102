@@ -50,10 +50,10 @@ The times are estimates. Reference pages are for looking things up whenever you 
 [Icarus error messages](reference/when-icarus-says-syntax-error.md) ·
 [The browser tools](reference/the-three-browser-tabs.md)
 
-Lab files live in package folders under `labs/`. Every package runs with `make` alone,
-with no environment setup, and prints a `PASS`/`FAIL` verdict. So if a setup step in Lab 01,
-Part 1 fails, the table at the end of that part shows how to get the files and run `make`
-anyway.
+Lab files live in package folders under `labs/` in the course repo, which you download in
+Lab 01, Part 1. Every package runs with `make` alone, with no environment setup, and prints a
+`PASS`/`FAIL` verdict. So if a setup step in Lab 01, Part 1 fails, the table at the end of that
+part shows how to get the files and run `make` anyway.
 
 Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). See
 [Getting help](guide/getting-started.md#getting-help) for what to post.

@@ -228,9 +228,10 @@ Three things in that output to understand before they worry you:
 
 ## Part 3: Lint the stub
 
-`verilator` is on your `PATH`. It is a widely used industrial tool, and "lint your RTL before
-you simulate it" is real advice. Run it on the stub while it is still empty, a module that
-drives nothing at all:
+`verilator` is on your `PATH`. It is a widely used industrial tool, and here it works as a
+linter: it reads your source without simulating it and warns about its shape. "Lint your RTL
+(your design's source) before you simulate it" is real advice. Run it on the stub while it is
+still empty, a module that drives nothing at all:
 
 ```bash
 make lint
