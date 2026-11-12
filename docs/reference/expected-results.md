@@ -33,3 +33,42 @@ all eight rows       mutants/mut1_cin_ignored.sv                  8       4  FAI
 all eight rows       mutants/mut2_carry_needs_all_three.sv        8       3  FAIL  (CAUGHT)
 all eight rows       mutants/mut3_outputs_swapped.sv              8       6  FAIL  (CAUGHT)
 ```
+
+## Lab 03: The lazy testbench
+
+`make` in `labs/guide-examples-proving-it/` runs five checks; `eight` and `eight_broken` are the
+two runs from Lab 02, and lines 3 and 4 are the same broken adder passing six cases and failing
+256:
+
+```
+PASS  eight         got PASS 0/8, reference says PASS 0/8
+PASS  eight_broken  got FAIL 4/8, reference says FAIL 4/8
+PASS  six           got PASS 0/6, reference says PASS 0/6
+PASS  sweep         got FAIL 256/512, reference says FAIL 256/512
+PASS  fixed         got PASS 0/512, reference says PASS 0/512
+```
+
+In `labs/lab-03-the-lazy-testbench/`, Icarus Verilog 14.0 and Python 3.12.3. `src/check_run.py`
+won't say `MATCH` unless yours agree exactly:
+
+```
+stage      design                        testbench                tested  wrong  verdict
+-----------------------------------------------------------------------------------------
+lazy       src/add4.sv                   tb_lazy.sv (as shipped)       3      0  PASS
+lazy       src/add4.sv                   reference/tb_lazy.sv          6      0  PASS
+lazy       src/add4.sv                   reference six + 15+1+0        7      1  FAIL (FOUND)
+exhaustive src/add4.sv                   tb_exhaustive.sv            512    256  FAIL
+trap       broken/add4_wider_inside.sv   tb_exhaustive.sv            512    256  FAIL
+fixed      reference/add5.sv             tb_exhaustive_fixed.sv      512      0  PASS
+```
+
+```
+command                                                                  warnings  exit
+----------------------------------------------------------------------------------------
+verilator --lint-only -Wall --top-module add4 src/add4.sv                       1     1
+verilator --lint-only -Wall --top-module add4 broken/add4_wider_inside.sv       3     1
+verilator --lint-only -Wall --top-module add5 reference/add5.sv                 0     0
+```
+
+Each lint command is also given `src/full_adder.sv`. Your own `tb_lazy.sv` reports however many
+cases you wrote: 6 after Part 4, and `FOUND` once a case whose sum doesn't fit in four bits is in.

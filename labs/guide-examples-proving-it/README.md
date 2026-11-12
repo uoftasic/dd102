@@ -5,7 +5,7 @@ The testbenches, adders and waveform views behind the guide pages
 [Waveforms](../../docs/guide/two-lines-make-the-waveform-appear.md), complete, plus two files that
 are wrong on purpose. This isn't a lab of its own; [Lab 02](../../docs/labs/lab-02-prove-it-overview.md)
 (Parts 1 and 2) and [Lab 03](../../docs/labs/lab-03-the-lazy-testbench-overview.md) (Parts 1 to 3
-and 8) walk through it.
+and 9) walk through it.
 
 ```bash
 cd labs/guide-examples-proving-it
