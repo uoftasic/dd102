@@ -1,68 +1,164 @@
-# Lab 01 — Transcribe your adder
+# Lab 01: Transcribe your adder
 
-Full runnable package:
-[`labs/lab-01-transcribe-your-adder/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-01-transcribe-your-adder).
+You type your DD101 full-adder drawing into a SystemVerilog file, check it against your
+eight-row truth table, and look at it again as a schematic that a machine drew from your text.
+Then you break an adder on purpose and try three other ways of writing the same circuit.
 
-**The question this lab answers:** *I have a drawing on paper. How do I know the file I typed
-is the same circuit?*
+Each lab's files are in a package, a folder under `labs/` with its own `Makefile`. This lab uses
+[`labs/lab-01-transcribe-your-adder/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-01-transcribe-your-adder),
+and Parts 6 and 7 use [`labs/guide-examples/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples).
 
-You have read [From your drawing to a module](guide/from-your-drawing-to-a-module.md). You
-know that the five labels on the edge of your drawing are the port list and that each wire
-inside becomes one `assign`. This lab is where you type your own drawing out and then find
-out — from a machine, not from your own eyes — whether you typed what you meant.
+## Before you start
 
-Two things check you, and they check different things. The workbench runs your file and
-compares eight rows of numbers. [DigitalJS Online](https://digitaljs.tilk.eu/) draws your
-file back as a picture you can hold next to the paper. Neither one is optional and neither
-one catches what the other catches.
+- Finish [IC101](https://uoftasic.com/ic101/) and [DD101](https://uoftasic.com/dd101/).
+- Read [Getting started](guide/getting-started.md),
+  [From your drawing to a module](guide/from-your-drawing-to-a-module.md),
+  [Modules and instances](guide/what-a-module-is.md),
+  [`assign` and `always_comb`](guide/assign-and-always-comb.md) and
+  [Seeing your adder as a schematic](guide/seeing-it-come-back.md).
+- Put your DD101 hand-drawn full adder and your filled-in eight-row truth table on the desk.
+  They are the input to this lab. Nothing digital comes across from DD101.
 
-## Prerequisites
+Time: about 2½ hours.
 
-- [IC101](https://uoftasic.com/ic101/) complete, [DD101](https://uoftasic.com/dd101/) complete
-- [Getting started](guide/getting-started.md) done — `iverilog -V` says
-  `Icarus Verilog version 14.0 (devel)` on its first line
-- Read [From your drawing to a module](guide/from-your-drawing-to-a-module.md)
-- **Your DD101 hand-drawn full adder and your filled-in eight-row table, on the desk.** They
-  are the input to this lab. Nothing digital crossed the boundary from DD101 on purpose.
+## Part 1: Set up the workbench
 
-## Objectives
+You installed everything in IC101: Docker, the `workspace` clone and the noVNC desktop. This
+part loads DD102 into it. Nothing here installs anything new. DD102 needs one Docker image,
+`hpretl/iic-osic-tools:2026.08` (the one IC101's `start_vnc.sh` pulls), and a browser.
 
-- Turn a drawing you made into a file a simulator accepts
-- Read a column of `x` correctly, the first time, without guessing
-- Tell "my file is wrong" apart from "my setup is wrong", using a command instead of a feeling
-- Watch a tool that looks authoritative say nothing at all about a completely empty module
+1. On your own machine, in your `workspace` clone, start the desktop:
 
-## Theory (short)
+   ```bash
+   cd workspace
+   ./scripts/start_vnc.sh          # Windows: scripts\start_vnc.bat
+   ```
 
-A module is a box with named holes in its edge. Inside, `assign` makes a permanent connection
-— not a step that runs, a joint that is soldered. Everything is live at once, forever, which
-is why the order of the lines does not matter and why the language does not need loops to
-describe a circuit that does five things simultaneously.
+2. Open **http://localhost/** and open a terminal on that desktop. Type every command from here
+   on in that terminal, not on your laptop. Ports, passwords, resolution and what to do when the
+   page is blank are in [IC101: Launch the noVNC desktop](https://uoftasic.com/ic101/#/guide/launch-novnc).
 
-Your full adder has exactly three one-bit inputs. Three one-bit inputs is $2^3 = 8$ possible
-situations, and eight is small enough to check **all of them**. That is not a testing strategy
-you will get to keep. Enjoy it while it lasts; [Lab 03](labs/lab-03-the-lazy-testbench-overview.md) is
-where it stops being possible.
+3. Load the environment:
 
-## Procedure
+   ```bash
+   . /foss/designs/common/.designinit
+   ```
 
-```bash
-cd labs/lab-01-transcribe-your-adder
-make
+   ```
+   ASIC-EDU: PDK=sky130A  PDK_ROOT=/foss/pdks  designs=/foss/designs
+             run 'mod' to list course modules, or 'mod <name>' to enter one.
+   ```
+
+   The leading `.` is the shell's `source` command. It runs the file in your current shell
+   instead of a child process, which is the only way a script can change your environment.
+   Without the dot and the space, the command does nothing useful. You have to do this in every
+   new terminal.
+
+   You can ignore the `sky130A` in the banner. A PDK describes how to build a chip, and DD102
+   never builds one; it configures a chip somebody else already built. Two steps in the course
+   price your adder in sky130 standard cells for comparison, and they read the cell library from
+   its fixed path in the image, so you never need to set a PDK or cell-library variable. The one
+   thing you need from `.designinit` is the `mod` command in the next step.
+
+4. Get the course files:
+
+   ```bash
+   mod add dd102      # first time only: clones github.com/uoftasic/dd102
+   mod dd102          # every time after that
+   ```
+
+   ```
+   Cloning https://github.com/uoftasic/dd102.git
+        into /foss/designs/modules/dd102
+   Cloning into '/foss/designs/modules/dd102'...
+   OK  module ready: /foss/designs/modules/dd102
+       run: mod dd102
+   cwd: /foss/designs/modules/dd102
+   ```
+
+   `mod` is a shell function that `.designinit` defines. `mod` on its own lists what you have
+   (`dd102`, and `ic101_setup` from IC101). Everything lands under `/foss/designs/modules/`, which is your
+   `workspace` folder bind-mounted into the container, so your files are on your own disk and
+   deleting the container does not delete your work.
+
+5. Check the two versions every printed result in this course depends on:
+
+   ```bash
+   yosys -V
+   iverilog -V
+   ```
+
+   ```
+   Yosys 0.68 (git sha1 38e001a6f, Release, GNU /usr/bin/c++ 13.3.0)
+   Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
+   ```
+
+   `iverilog -V` prints 73 lines and exits 0. The line above is the first; the other 72 are the
+   GNU General Public License and a list of code generators. That is normal.
+
+   > Don't pipe it into `head`. `iverilog -V | head -2` closes the pipe while Icarus is still
+   > asking its sub-programs for their versions, and Icarus complains with lines like
+   > `Unable to get version from "/foss/tools/iverilog/lib/ivl/ivlpp -V"`. How many of those you
+   > get changes from run to run, and none of them means your install is broken. Run version
+   > checks unpiped. A pipe can hide or add output, and you'll meet that again in
+   > [Icarus error messages](reference/when-icarus-says-syntax-error.md).
+
+   The other tools, if you want to check them:
+
+   | Tool | Command | Expect |
+   |---|---|---|
+   | Verilator | `verilator --version` | `Verilator 5.050 2026-07-01 rev v5.050` |
+   | nextpnr | `nextpnr-ice40 --version` | `"nextpnr-ice40" -- Next Generation Place and Route (Version nextpnr-0.11.1-9-gb17408e2)` |
+   | Surfer | `surfer --version` | `surfer 0.7.0 (git: v0.7.0)` |
+
+   If `yosys` doesn't say `0.68` or `iverilog` doesn't say `14.0`, you are on a different image
+   and the numbers on these pages may not match yours.
+
+6. List the lab packages:
+
+   ```bash
+   ls labs/
+   ```
+
+You should see these nine folders:
+
+```
+guide-examples
+guide-examples-carry
+guide-examples-proving-it
+lab-01-transcribe-your-adder
+lab-02-prove-it
+lab-03-the-lazy-testbench
+lab-04-four-adders-in-a-row
+lab-05-onto-the-fpga
+reference-card
 ```
 
-That is the whole setup. No `.designinit`, no `mod`, no PDK, no liberty file, no environment
-variables — this package reads none of them. If your shell profile is broken, this lab still
-runs.
+If something fails:
 
----
+| What you see | What it means |
+|---|---|
+| `bash: mod: command not found` | You didn't run step 3 in this terminal. Every new tab starts clean. |
+| `mod: no such module: dd102` | You ran `mod dd102` before `mod add dd102`. It lists the modules you do have underneath. |
+| `fatal: could not read Username for 'https://github.com'` | git is being asked to log in, which means the repo didn't answer anonymously. It is almost never your spelling. Open <https://github.com/uoftasic/dd102> in a browser. If it 404s, the repo isn't published yet; that's on us, so say so in [Discord](https://discord.gg/hrJnP5UsGz). |
+| `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace isn't mounted. `ls /foss/designs/` should list `common/` and `modules/`; if it's empty you started a bare container instead of the workbench. Relaunch with `start_vnc.sh` from your `workspace` clone ([IC101](https://uoftasic.com/ic101/)). You can still run every lab: `git clone https://github.com/uoftasic/dd102.git` gets the files without `mod`, and `make` needs none of this setup. |
 
-### 1 — Run it before you write anything
+## Part 2: Run the package before you write anything
 
-- **Try this:** Before you open the file, **write down what you think an empty module prints.**
-  Not what it should print. What it *will* print.
+1. Go to the package and run it:
 
-- **What you should see:** `make` runs twice. The shipped answer first:
+   ```bash
+   cd labs/lab-01-transcribe-your-adder
+   make
+   ```
+
+   This package needs no `.designinit`, no `mod` and no environment variables, so it runs even
+   if your shell profile is broken.
+
+2. Before you read the output, write down what you think an empty module will print.
+
+`make` runs two files through the same printer and grader. First the shipped answer,
+`reference/full_adder.sv`:
 
 ```
 ==============================================================
@@ -85,7 +181,7 @@ tb/print_table.sv:30: $finish called at 8000 (1ps)
 PASS -- reference/full_adder.sv: all 8 rows match the truth table.
 ```
 
-  and then your file:
+Then your file, `src/full_adder.sv`, which has its ports and nothing else:
 
 ```
 a b cin | cout sum
@@ -99,135 +195,38 @@ a b cin | cout sum
 1 1  1  |  x    x
 ```
 
-**Three things to name before they worry you.**
-
-`tb/print_table.sv:30: $finish called at 8000 (1ps)` appears after **every** run in this lab,
-including the ones that pass. It is Icarus saying the testbench reached its last line after 8
-nanoseconds of pretend time, one per row. It is not a warning and it never means anything is
-wrong.
-
-`x` is not a wrong answer. **`x` means nobody drove this wire.** `logic` carries four values —
-`0`, `1`, `x` ("nobody has said"), and `z` ("disconnected") — and the simulator refuses to
-invent one. Your module has an edge with five holes in it and nothing in the middle.
-
-The reference passing while yours fails is **the design of this lab, not a bug in it**. Both
-files go through the same `iverilog`, the same printer, and the same grader. If the top block
-says PASS, your toolchain is fine and the only variable left is your file. That question — *is
-it me or is it the setup?* — is the one that ends async courses, and this is how you settle it
-in one command.
-
-- **Why an engineer cares:** A column of `x` on an output is not a logic bug and you should
-  not debug it like one. It is a **missing line**. Go and find the `assign` that should be
-  there and is not. That reflex saves you an hour the first time a 200-line module comes up
-  half-`x`.
-
----
-
-### 2 — Write the two lines, or the five
-
-Open [`src/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-01-transcribe-your-adder/src/full_adder.sv).
-The ports are done. The commented block in the middle is the shape from
-[the guide page](guide/from-your-drawing-to-a-module.md): name the three wires that never
-touch the edge of your box, then write one `assign` per wire.
-
-You may also write it as two lines, straight off the truth table — one for `sum`, one for
-`cout`. **Both pass.** The grader checks the eight rows, not the shape, and you already know
-why: in DD101 you generated a completely different-looking circuit with Combinational Analysis
-and it disagreed with yours on zero of eight rows. A truth table does not have *a* circuit.
-
-Run `make` again.
+and it ends:
 
 ```
-==============================================================
- VERDICT
-==============================================================
- reference/full_adder.sv : PASS  8/8
- src/full_adder.sv       : PASS  8/8   <-- Lab 01 is done.
+ reference/full_adder.sv : PASS  8/8   (so your toolchain is fine)
+ src/full_adder.sv       : FAIL        <-- this one is yours to write.
 ```
 
-If a row disagrees, the grader does the arithmetic for you rather than just marking it:
+Three things in that output to understand before they worry you:
 
-```
-       a=0 b=1 cin=1: you printed cout=0 sum=0; the table says cout=1 sum=0.
-                     0 + 1 + 1 = 2, which is 10 in binary.
-```
+- `tb/print_table.sv:30: $finish called at 8000 (1ps)` appears after every run in this lab,
+  passing or failing. It is Icarus saying the testbench reached its last line after 8 ns of
+  simulated time, one per row. It is not a warning.
+- `x` is not a wrong answer. It means nobody drove this wire. `logic` carries four values: `0`,
+  `1`, `x` ("nobody has said") and `z` ("disconnected"), and the simulator won't invent one. A
+  column of `x` on an output is a missing line, not a logic bug: go and find the `assign` that
+  should be there.
+- The reference passing while yours fails is how this lab is designed. Both files go through
+  the same `iverilog`, the same printer and the same grader. If the top block says PASS, your
+  toolchain works and the only thing left to fix is your file. That settles "is it me or is it
+  the setup?" in one command.
 
-> **If it will not compile at all**, the first error line is the real one and everything after
-> it is fallout. Two you are likely to meet, both produced by editing this package's own
-> `src/full_adder.sv` and running `make`. Your line numbers will not be these ones; the shape
-> is what to recognise.
->
-> Leave the word `assign` off the first line:
->
-> ```
-> src/full_adder.sv:21: syntax error
-> src/full_adder.sv:21: error: Invalid module instantiation
-> ```
->
-> Without the keyword, `ha1_sum = a ^ b;` is not an assignment at all, and Icarus's best guess
-> is that you were trying to instantiate a module called `ha1_sum`. **"Invalid module
-> instantiation" on a line with an `=` in it means a missing `assign`.**
->
-> Leave the semicolon off the first line:
->
-> ```
-> src/full_adder.sv:22: syntax error
-> src/full_adder.sv:21: error: Syntax error in left side of continuous assignment.
-> ```
->
-> The mistake is on **21** and the first message points at **22**, because a parser only
-> notices a missing semicolon when it reaches the next word. **Reflex: when a syntax error
-> points at a line that looks fine, look at the line above it.**
+## Part 3: Lint the stub
 
-### 3 — Now look at the picture
-
-Numbers agreeing is not the same as the drawing agreeing. A transcription can be correct and
-still not be *your* circuit — you might have typed a different right answer than the one on
-your paper, and you would never know from eight rows.
-
-[Seeing it come back as a schematic](guide/seeing-it-come-back.md) is the page about this;
-here is the four-second version.
-
-- **Try this:** Open **<https://digitaljs.tilk.eu/>** — no account, nothing to install. Paste
-  the **whole finished contents** of `src/full_adder.sv` into the `.sv` tab, press **Run**, and
-  switch to the **Circuit** view. Put your paper drawing next to the screen.
-
-- **What you should see:** a schematic with your five port names on it, wired the way you
-  wired them. If you wrote the five-`assign` version, the two half-adder halves are visible as
-  two Xor/And pairs feeding an Or. If you wrote the two-line version, they are not — and that
-  is the picture telling you something true: *you typed a different circuit than you drew, and
-  both are correct.*
-
-  Toggle the input switches. They drive the logic live, so you can walk your own eight rows by
-  clicking.
-
-> **Do not paste the stub.** An empty module renders as a box with five ports and nothing
-> inside, which looks like the tool failed. It did not.
->
-> **Use DigitalJS for the picture, never for the count.** It is Yosys compiled to WebAssembly,
-> pulled from a feed with no version pinned — a different Yosys from your workbench's 0.64.
-> [Getting started](guide/getting-started.md) has the details. No lab in this course ever asks
-> you to compare a browser cell count against a workbench cell count.
-
-- **Why an engineer cares:** these two checks fail differently. The simulator catches *wrong
-  behaviour*. The schematic catches *right behaviour that is not the design you meant* — a
-  swapped port, a wire you connected to the neighbouring net, a gate you typed twice. Reviewing
-  a picture of the netlist against the intent is a real step in real design, and this is the
-  four-second version of it.
-
----
-
-### 4 — The dead end: the tool that says nothing
-
-`verilator` is on your `PATH`. It is a serious, widely used, industrial-strength tool, and
-"lint your RTL before you simulate it" is real advice that real engineers give. So run it on
-the empty stub — a module that drives nothing whatsoever:
+`verilator` is on your `PATH`. It is a widely used industrial tool, and "lint your RTL before
+you simulate it" is real advice. Run it on the stub while it is still empty, a module that
+drives nothing at all:
 
 ```bash
 make lint
 ```
 
-- **What you should see:** first, this.
+You should see the default lint pass the stub:
 
 ```
 ==============================================================
@@ -238,10 +237,8 @@ make lint
 exit status 0
 ```
 
-  **Exit 0, and not one word about the fact that neither output has a value.** A module that
-  cannot possibly work, and the professional tool is happy.
-
-  Then, the same file with one more flag:
+Exit 0, and not a word about neither output having a value. `make lint` then runs the same file
+with `-Wall`:
 
 ```
 %Warning-UNUSEDSIGNAL: src/full_adder.sv:12:18: Signal is not used: 'a'
@@ -253,42 +250,355 @@ exit status 0
 exit status 1
 ```
 
-  Five warnings and exit 1, from the identical file. (Verilator prints the offending source
-  line and a link to its documentation under each warning; the block above is trimmed to the
-  headline of each. Run `make lint` for the full text.)
+Five warnings and exit 1 from the identical file. (Verilator prints the source line and a
+documentation link under each warning; this block keeps only the first line of each.)
 
-- **Why an engineer cares:** you will spend your career reading tools that answer the question
-  you asked instead of the question you meant. `verilator --lint-only` was asked "is this legal
-  SystemVerilog?" and truthfully answered yes.
+`verilator --lint-only` was asked "is this legal SystemVerilog?" and it answered truthfully:
+yes. Tools answer the question you asked, not the one you meant. Verilator's default lint is
+nearly silent, so if you use it, use `-Wall`. In this course lint is never the verdict; `make`
+is.
 
-> **Reflex: Verilator's default lint is nearly silent — if you reach for it, reach for
-> `-Wall`.** And in this course, lint is never the verdict. `make` is.
+## Part 4: Write your adder
 
-## Expected results
+1. Open `src/full_adder.sv` ([on GitHub](https://github.com/uoftasic/dd102/blob/main/labs/lab-01-transcribe-your-adder/src/full_adder.sv))
+   in a text editor. Edit it inside the noVNC desktop, or on your own machine: the file is in
+   your `workspace` folder, under `modules/dd102/labs/lab-01-transcribe-your-adder/`. The ports
+   are done. The commented block in the middle has the shape from
+   [From your drawing to a module](guide/from-your-drawing-to-a-module.md): name the three wires
+   that never touch the edge of your box, then write one `assign` for each of the five wires on
+   your drawing (those three plus `sum` and `cout`).
 
-Every number here came from a run on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0,
-Python 3.12.3.
+   You can also write it as two lines straight off the truth table, one for `sum` and one for
+   `cout`. Both pass. The grader checks the eight rows, not the shape. (In DD101, the Combinational
+   Analysis tool built a different-looking circuit from your table, and it disagreed with yours on
+   zero of eight rows.)
 
-| what | result |
+2. Run `make` again.
+
+You should see:
+
+```
+==============================================================
+ VERDICT
+==============================================================
+ reference/full_adder.sv : PASS  8/8
+ src/full_adder.sv       : PASS  8/8   <-- Lab 01 is done.
+```
+
+If a row disagrees, the grader does the arithmetic for you:
+
+```
+       a=0 b=1 cin=1: you printed cout=0 sum=0; the table says cout=1 sum=0.
+                     0 + 1 + 1 = 2, which is 10 in binary.
+```
+
+If the file won't compile at all, the first error line is the real one and the rest are fallout.
+Two you are likely to meet, both made by editing this package's `src/full_adder.sv`. Your line
+numbers will differ; recognise the shape.
+
+- The word `assign` left off the first line:
+
+  ```
+  src/full_adder.sv:21: syntax error
+  src/full_adder.sv:21: error: Invalid module instantiation
+  ```
+
+  Without the keyword, `ha1_sum = a ^ b;` isn't an assignment, and Icarus guesses you were
+  instantiating a module called `ha1_sum`. "Invalid module instantiation" on a line with an `=`
+  in it means a missing `assign`.
+
+- The semicolon left off the first line:
+
+  ```
+  src/full_adder.sv:22: syntax error
+  src/full_adder.sv:21: error: Syntax error in left side of continuous assignment.
+  ```
+
+  The mistake is on line 21 and the first message points at 22, because a parser only notices a
+  missing semicolon when it reaches the next word. When a syntax error points at a line that
+  looks fine, look at the line above it.
+
+## Part 5: Check the picture in DigitalJS
+
+Eight rows agreeing doesn't mean the drawing agrees. You might have typed a different correct
+circuit from the one on your paper, and eight rows would never tell you; a schematic would.
+
+1. Open **<https://digitaljs.tilk.eu/>**. There is no account and nothing to install. The page
+   opens split down the middle: a panel with **Setup** and **I/O** tabs on the left, empty space
+   for the circuit on the right, and a toolbar whose left-most control is a blue **Run** button
+   (tooltip: *Synthesize and simulate!*). The rest of the toolbar stays greyed out until you have
+   run something once. On a narrow screen the halves stack and two buttons, **`</>` Code** and
+   **Circuit**, switch between them. It works on a phone, but use a laptop.
+2. On the **Setup** tab, find the row with a `file name` box, a small grey dropdown showing
+   **`.sv`** and a blue **Create file** button. Type `full_adder` in the box. Leave the dropdown
+   on `.sv` (its full label is *".sv (SystemVerilog, Yosys native)"*).
+3. Press **Create file**. A third tab with an editor appears beside *Setup* and *I/O*.
+4. Paste the whole finished contents of your `src/full_adder.sv` into it, comments and all. To
+   get text out of the noVNC desktop, use the clipboard control in the noVNC sidebar (see
+   [IC101](https://uoftasic.com/ic101/#/guide/launch-novnc)), or open the file from your
+   `workspace` folder on your own machine.
+   Don't paste the stub: an empty module renders as a box with five ports and nothing inside,
+   which looks like the tool failed when it didn't.
+5. Leave every checkbox at its default. These pages were written against *Simplify diagram*
+   ticked, *Optimize in Yosys* unticked, *Convert to logic gates* unticked, *Synthesis mode* on
+   *WebAssembly (faster and local)*, and *Lint source code using Verilator* ticked. That last one
+   runs Verilator over your file; a correct adder passes silently, and if it didn't you would
+   get a message instead of a diagram.
+6. Press **Run**, and switch to the circuit view if your screen is narrow. Put your paper drawing
+   next to the screen.
+7. Click `a`, `b` and `cin` through all eight combinations in the order on your worksheet, and
+   read the `sum` and `cout` lamps each time. Hover any wire, including `ha1_sum` and
+   `ha1_carry` in the middle, to see its value.
+
+You should see your five port names on a schematic wired the way you wired them. If you wrote
+the five-`assign` version: five gates (two Xor, two And, one Or), with the two Xors on the path
+to `sum` and the And/And/Or on the path to `cout`. If you wrote the two-line version, the two
+half adders won't be visible as two Xor/And pairs. That picture is telling you something true:
+you typed a different circuit from the one you drew, and both are correct.
+
+The lamps should match your table on all eight rows:
+
+| a | b | cin | cout | sum |
+|---|---|-----|------|-----|
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 0 | 1 |
+| 0 | 1 | 0 | 0 | 1 |
+| 0 | 1 | 1 | 1 | 0 |
+| 1 | 0 | 0 | 0 | 1 |
+| 1 | 0 | 1 | 1 | 0 |
+| 1 | 1 | 0 | 1 | 0 |
+| 1 | 1 | 1 | 1 | 1 |
+
+The two checks catch different mistakes. The simulator catches wrong behaviour. The schematic
+catches right behaviour that isn't the design you meant: a swapped port, a wire connected to the
+neighbouring net, a gate typed twice. Reviewing a picture of the netlist against the intent is a
+real step in real design.
+
+> Use DigitalJS for the picture, never for the count. Its Yosys comes from a feed with no
+> version pinned, so it isn't your workbench's 0.68. No lab in this course asks you to compare a
+> browser cell count with a workbench cell count.
+
+## Part 6: Break an adder on purpose
+
+The rest of this lab uses `labs/guide-examples/`, which holds every runnable file the first four
+guide pages print. It needs no environment setup either.
+
+1. Run the finished adder against the eight rows:
+
+   ```bash
+   cd ../guide-examples
+   make sim
+   ```
+
+   You should see eight `ok` rows, then `PASS - all 8 rows match your DD101 table.` and
+   `src/tb_full_adder.sv:46: $finish called at 8000 (1ps)`.
+
+2. Run the same testbench against `broken/full_adder.sv`, which is `src/full_adder.sv` with one
+   character changed: the `|` on the last line is an `&`.
+
+   ```bash
+   make broken
+   ```
+
+   You should see:
+
+   ```
+     a b cin | cout sum
+     --------+---------
+     0 0  0  |   0   0   ok
+     0 0  1  |   0   1   ok
+     0 1  0  |   0   1   ok
+     0 1  1  |   0   0   WRONG - expected cout=1 sum=0
+     1 0  0  |   0   1   ok
+     1 0  1  |   0   0   WRONG - expected cout=1 sum=0
+     1 1  0  |   0   0   WRONG - expected cout=1 sum=0
+     1 1  1  |   0   1   WRONG - expected cout=1 sum=1
+
+   FAIL - 4 of 8 rows disagree.
+   ```
+
+   followed by `vvp exited 0. Yes. Zero.` (`vvp` is the program that runs the compiled
+   simulation.)
+
+   The first three rows pass. Someone testing by hand in a hurry tries `000`, `001`, `010`, sees
+   three passes, and ships a design that is half wrong. And `vvp` exited 0 after finding four
+   wrong rows, because "the simulation ran" and "the design is correct" are different questions
+   and `vvp` only answers the first. The package's `Makefile` decides with `grep -q "^PASS"`:
+   trust a line you told the simulator to print, never its exit status.
+
+3. Run the files that misbehave on purpose:
+
+   ```bash
+   make errors
+   ```
+
+   You should see each file's name followed by what the tools say about it. Check these against
+   the guide pages:
+
+   | File | What you should see | Guide page |
+   |---|---|---|
+   | `errors/two_drivers.sv` | `error: Variable 'sum' cannot have multiple drivers.` | [From your drawing to a module](guide/from-your-drawing-to-a-module.md) |
+   | `errors/undeclared_wire.sv` | Icarus: `iverilog exit 0 - silent`. Yosys: three `Warning: Identifier ... is implicitly declared.` lines | [From your drawing to a module](guide/from-your-drawing-to-a-module.md) |
+   | `errors/call_it_like_a_function.sv` | ``error: No function named `full_adder' found in this context`` | [Modules and instances](guide/what-a-module-is.md) |
+   | `errors/both_ways_at_once.sv` | Icarus: `Cannot perform procedural assignment to variable 'sum' because it is also continuously assigned.` Yosys: `yosys exit 0` and one `Warning: multiple conflicting drivers` line | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
+   | `errors/forgot_a_branch.sv` | Icarus: `iverilog exit 0 - not one word about it`. Yosys: `yosys exit 1` and ``ERROR: Latch inferred for signal `\forgot_a_branch.\sum' ...`` | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
+   | `errors/if_inside_assign.sv` | five errors, all on line 9, for one mistake | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
+
+   You'll also see four lines like `make: [Makefile:92: errors] Error 2 (ignored)`. That is
+   `make` reporting that a command failed and that it was told in advance not to care. These
+   files are supposed to fail.
+
+## Part 7: Other spellings of the same adder
+
+1. Run the full adder written with its five lines in reverse order (`cout` first, `ha1_sum`
+   last):
+
+   ```bash
+   make backwards
+   ```
+
+   You should see `PASS - the lines in reverse order, all 8 rows still match.`
+
+2. Drive four spellings (five `assign`s, one expression per output, `always_comb` + `case`, and
+   two `half_adder` instances) from the same eight rows:
+
+   ```bash
+   make spellings
+   ```
+
+   You should see:
+
+   ```
+     every column below is cout then sum, on the same eight rows
+
+              drawing  flat  table  boxes
+     a b cin |   cs     cs     cs     cs
+     --------+---------------------------
+     0 0  0  |   00     00     00     00
+     0 0  1  |   01     01     01     01
+     0 1  0  |   01     01     01     01
+     0 1  1  |   10     10     10     10
+     1 0  0  |   01     01     01     01
+     1 0  1  |   10     10     10     10
+     1 1  0  |   10     10     10     10
+     1 1  1  |   11     11     11     11
+
+   PASS - four spellings, eight rows, zero disagreements.
+   ```
+
+3. Price each spelling in sky130 standard cells:
+
+   ```bash
+   make area
+   ```
+
+   You should see:
+
+   ```
+   ---- 1. drawing - five assigns, one per wire on your paper
+      Chip area for module '\full_adder': 33.782400
+   ---- 2. flat - one expression per output
+      Chip area for module '\full_adder_flat': 33.782400
+   ---- 3. table - always_comb + case, your eight rows
+      Chip area for module '\full_adder_table': 33.782400
+   ---- 4. half - one half adder, alone
+      Chip area for module '\half_adder': 15.014400
+   ---- 5. boxes - two half_adder instances + an Or, walls up
+      Chip area for module '\half_adder': 15.014400
+      Chip area for module '\full_adder_hier': 6.256000
+      Chip area for top module '\full_adder_hier': 36.284800
+   ---- 6. boxes_flat - the same two boxes, walls knocked down
+      Chip area for module '\full_adder_hier': 33.782400
+   ```
+
+   Rows 1 to 3 are identical to four decimal places: one `sky130_fd_sc_hd__xor3_1` and one
+   `sky130_fd_sc_hd__maj3_1` each. Areas are in square micrometres. Check rows 4 to 6 against the
+   arithmetic in
+   [Modules and instances](guide/what-a-module-is.md): $15.0144 \times 2 + 6.2560 = 36.2848$
+   with the walls up, and 33.7824 with them knocked down.
+
+   `make` with no target runs the same synthesis and ends with the area checker's table:
+
+   ```
+   file                cells   area (um^2)   verdict  cells used
+   ------------------------------------------------------------------------------
+   drawing.json            2       33.7824   PASS     1x maj3_1 + 1x xor3_1
+   flat.json               2       33.7824   PASS     1x maj3_1 + 1x xor3_1
+   table.json              2       33.7824   PASS     1x maj3_1 + 1x xor3_1
+   half.json               2       15.0144   PASS     1x and2_0 + 1x xor2_1
+   boxes.json              7       36.2848   PASS     2x half_adder + 2x and2_0 + 1x lpflow_inputiso1p_1 + 2x xor2_1
+   boxes_flat.json         2       33.7824   PASS     1x maj3_1 + 1x xor3_1
+
+   PASS - every number matches the reference run, to four decimals.
+   ```
+
+   `boxes.json` says 7 cells because Yosys counts the two `half_adder` instances as cells and
+   also counts what is inside them: 5 real gates plus 2 boxes (`lpflow_inputiso1p_1` is the Or
+   gate under an odd catalogue name). `boxes_flat.json` says 2 because the Yosys command `flatten`
+   removed the module boundaries and let the synthesizer rebuild across them.
+
+4. Draw the schematic in the workbench with the same Yosys commands DigitalJS runs:
+
+   ```bash
+   make picture
+   ```
+
+   You should see `5 cells`, `2 $and`, `1 $or`, `2 $xor` and
+   `wrote results/full_adder_rtl.svg -- open it in a browser`. Open the SVG in a web browser (on
+   your own machine it is in your `workspace` folder, under
+   `modules/dd102/labs/guide-examples/results/`) and find the wire names you typed (`ha1_sum`, `ha1_carry`, `ha2_carry`).
+
+5. Back in DigitalJS, paste
+   [`src/full_adder_table.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder_table.sv)
+   (the `always_comb` + `case` version) into a new `.sv` file and press **Run**. You should see a
+   single box labelled **Memory** with an address input, and no gates. The circuit isn't
+   different; [Seeing your adder as a schematic](guide/seeing-it-come-back.md) explains why.
+
+6. Load the two-file version. Reload the DigitalJS page first so only these two files are loaded.
+   Create a file named `full_adder_hier` and paste
+   [`src/full_adder_hier.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder_hier.sv)
+   into it, press **Create file** again to make a second file named `half_adder`, paste
+   [`src/half_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/half_adder.sv)
+   into it, and press **Run**. On its own, `full_adder_hier.sv` won't run, because DigitalJS has
+   never heard of `half_adder`. You should see `half_adder` drawn as one box, twice. Hover one
+   box, click the **🔍** that appears above it, and the view descends into the box to show its Xor
+   and And. (The *Additional SystemVerilog files:* picker further down the Setup tab does the
+   same job from files on your disk.)
+
+7. Optional, about two minutes: put your own `full_adder` back, tick **Convert to logic gates**
+   and then **Map into subset of gates** with its default set, and press **Run**. You should see
+   three NANDs and two XORs; Yosys rebuilt your Or and both Ands out of NAND, as you did by hand
+   in [DD101 Lab 02](https://uoftasic.com/dd101/#/labs/lab-02-gates-from-one-gate). Ticking only
+   **Convert to logic gates** just renames your five gates from `$and`/`$or`/`$xor` to
+   `$_AND_`/`$_OR_`/`$_XOR_`. Neither option shows an area or what a factory would build. Untick
+   them before you compare anything with your drawing.
+
+8. With a circuit on screen, the 📁 (*Load from file*), 💾 (*Save to file*) and 🔗 (*Get link*)
+   buttons wake up. The first two save and reload the circuit as JSON. 🔗 turns what you are
+   looking at into a URL. When you ask for help in [Discord](https://discord.gg/hrJnP5UsGz), post
+   that link rather than a screenshot, so whoever answers can click your inputs themselves.
+
+## Finishing
+
+You're done when `make` in `labs/lab-01-transcribe-your-adder/` prints
+`src/full_adder.sv : PASS  8/8   <-- Lab 01 is done.`
+
+`make` always exits 0; the verdict is the text. `make grade` is the same check with an exit
+status a script can read. It prints `make: *** [Makefile:92: grade] Error 1` until you pass.
+
+Reference numbers, from `hpretl/iic-osic-tools:2026.08` (Icarus Verilog 14.0, Python 3.12.3):
+
+| What | Result |
 |---|---|
-| `reference/full_adder.sv`, all 8 rows | **PASS** |
-| `src/full_adder.sv` as shipped | **FAIL**, 8 of 8 rows disagree, every output `x` |
-| `src/full_adder.sv` once you write it | **PASS**, 8 of 8 |
-| `verilator --lint-only` on the stub | 0 warnings, **exit 0** |
-| `verilator --lint-only -Wall` on the stub | **5 warnings**, exit 1 |
-| `make` exit status | always **0** — the verdict is the text |
+| `reference/full_adder.sv`, all 8 rows | PASS |
+| `src/full_adder.sv` as shipped | FAIL, 8 of 8 rows disagree, every output `x` |
+| `src/full_adder.sv` once you write it | PASS, 8 of 8 |
+| `verilator --lint-only` on the stub | 0 warnings, exit 0 |
+| `verilator --lint-only -Wall` on the stub | 5 warnings, exit 1 |
 
-`make grade` is the same check with an exit status a script can read; it prints
-`make: *** [Makefile:92: grade] Error 1` until you pass, and that line is the point of it.
+Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). Save a DigitalJS link (Part 7,
+step 8) or an [EDA Playground](https://www.edaplayground.com/) link (see
+[Getting started](guide/getting-started.md)) and paste that instead of describing the problem.
 
-## Links
-
-- Package: [`labs/lab-01-transcribe-your-adder/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-01-transcribe-your-adder)
-- Guide: [From your drawing to a module](guide/from-your-drawing-to-a-module.md) ·
-  [What a module actually is](guide/what-a-module-is.md) ·
-  [Seeing it come back as a schematic](guide/seeing-it-come-back.md)
-- Stuck? [Team Discord](https://discord.gg/hrJnP5UsGz). Save an
-  [EDA Playground](https://www.edaplayground.com/) link and paste that instead of describing it.
-
-Next: [Lab 02 — Prove it](labs/lab-02-prove-it-overview.md), where you stop being handed a testbench and
-write one — and then find out what it is worth.
+Next on the [Course path](README.md#course-path): read [Testbenches](guide/eight-rows-and-no-opinions.md),
+then do [Lab 02: Prove it](labs/lab-02-prove-it-overview.md).
