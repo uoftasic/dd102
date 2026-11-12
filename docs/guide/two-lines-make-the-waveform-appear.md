@@ -131,8 +131,7 @@ That is the whole skill. A waveform is a truth table with time on the x-axis.
 ## Finding the moment something went wrong
 
 This is a broken 4-bit ripple adder that gets 256 of its 512 inputs wrong, opened with its save
-file. You run it in Lab 03, Part 1.
-
+file. You run the sweep in Lab 03, Part 1 and open this view in Part 2.
 
 ![GTKWave on the 512-vector sweep, zoomed in on the start of the run, with a marker at 30 ns and the mismatch signal going high](../assets/img/dd102-wave-first-mismatch.png)
 
