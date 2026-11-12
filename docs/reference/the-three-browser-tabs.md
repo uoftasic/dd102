@@ -22,7 +22,7 @@ on them.
 | Cost | free | free | free |
 | Who runs it | Marek Materzok, University of Wrocław | Doulos | Henry Wong |
 | Runs where | in your browser (WebAssembly) | on their servers | on their servers |
-| Used in | Lab 01 (Parts 5 and 7), Lab 05 (Part 1, optional) | Lab 03 (Part 2, optional), and any Discord question | optional practice between labs |
+| Used in | Lab 01 (Part 5, and Going further), Lab 05 (Part 1, optional) | Lab 03 (Part 2, optional), and any Discord question | optional practice between labs |
 | If it is down | `yosys scripts/digitaljs.ys` | `make` in any lab package | nothing replaces it, and nothing needs it |
 
 ## DigitalJS Online
