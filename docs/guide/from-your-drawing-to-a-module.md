@@ -3,7 +3,7 @@
 This page turns your DD101 full-adder drawing into a SystemVerilog file, one piece at a time:
 the labels on its edge, then the wires inside. You type your own version in
 [Lab 01](labs/lab-01-transcribe-your-adder-overview.md); keep the drawing from
-[DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) (three blocks, seven wires,
+[DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) (three blocks, eight wires,
 eight rows of a truth table) next to you while you read.
 
 The whole course rests on one idea: you type the drawing out. You don't upload it, convert it or
@@ -75,8 +75,9 @@ this table when you first run Lab 01.
 Now fill in the middle by walking your drawing from left to right and writing down each wire as
 you meet it.
 
-Your drawing has two wires nobody has named yet, the ones between the two half adders, plus the
-carry out of the second one. Name them, because you can't write down a wire you can't say:
+Your drawing has three wires nobody has named yet: the sum and the carry coming out of the first
+half adder, and the carry coming out of the second one. Name them, because you can't write down a
+wire you can't say:
 
 ```systemverilog
     logic ha1_sum, ha1_carry, ha2_carry;
@@ -92,13 +93,14 @@ Then write one line per wire:
     assign cout      = ha1_carry | ha2_carry;   // the Or gate
 ```
 
-Five wires on the drawing that weren't named before, five `assign` lines. Read them against your
-paper one at a time. `^` is Xor, `&` is And and `|` is Or, the same three gates you built out of
+Five wires, five `assign` lines: the three you just named, plus `sum` and `cout`. Read them
+against your paper one at a time. `^` is Xor, `&` is And and `|` is Or, the same three gates you built out of
 NANDs in DD101 Lab 02.
 
 The complete file is
 [`labs/guide-examples/src/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder.sv).
-It is 21 lines including comments, and it is the two blocks above joined together.
+It is 21 lines including comments: the port list from the top of this page, with the `logic`
+line and the five `assign`s inside it, before `endmodule`.
 
 ## Checking it against your eight rows
 
@@ -118,9 +120,9 @@ src/full_adder.sv:16:      : This is allowed when SystemVerilog is enabled.
 Read the second line: Icarus is telling you the fix. This is the friendliest error message in the
 toolchain, and the next tool won't be this kind.
 
-The last line of a successful run is `$finish called at 8000 (1ps)`. That is the simulator
-reaching the end of the testbench after 8 ns of simulated time, one nanosecond per row. It appears
-at the end of every successful run in this course and isn't a warning.
+The last line of the run is `$finish called at 8000 (1ps)`. That is the simulator
+reaching the end of the testbench after 8 ns of simulated time, one nanosecond per row. A line
+like it ends every simulation run in this course, passing or failing, and it isn't a warning.
 
 ## Reading a failure
 
@@ -138,7 +140,7 @@ exit status; trust a line of output you told it to print. The `guide-examples` M
 pass or fail with `grep -q "^PASS"`, and that one line is what makes `make` a test rather than a
 light show.
 
-You produce this failure yourself in Lab 01, Part 6.
+You run this broken file yourself in Lab 01, Part 6.
 
 ## Two mistakes worth making once
 
