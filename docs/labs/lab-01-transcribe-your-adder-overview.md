@@ -2,7 +2,8 @@
 
 You type your DD101 full-adder drawing into a SystemVerilog file, check it against your
 eight-row truth table, and look at it again as a schematic that a machine drew from your text.
-Then you break an adder on purpose and try three other ways of writing the same circuit.
+Then you run a deliberately broken adder, some files that fail on purpose, and several other
+ways of writing the same circuit.
 
 Each lab's files are in a package, a folder under `labs/` with its own `Makefile`. This lab uses
 [`labs/lab-01-transcribe-your-adder/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-01-transcribe-your-adder),
@@ -76,9 +77,14 @@ part loads DD102 into it. Nothing here installs anything new. DD102 needs one Do
    cwd: /foss/designs/modules/dd102
    ```
 
+   The output above is from `mod add dd102`: it clones the repo and then moves your shell into
+   it (the `cwd:` line), so the first time you don't need `mod dd102` as well. In every later
+   terminal, run only `mod dd102`, which prints the same `cwd:` line. The rest of this lab starts
+   from that folder.
+
    `mod` is a shell function that `.designinit` defines. `mod` on its own lists what you have
-   (`dd102`, and `ic101_setup` from IC101). Everything lands under `/foss/designs/modules/`, which is your
-   `workspace` folder bind-mounted into the container, so your files are on your own disk and
+   (`dd102`, and `ic101_setup` from IC101). Everything lands under `/foss/designs/modules/`, which
+   is your `workspace` folder shared into the container, so your files are on your own disk and
    deleting the container does not delete your work.
 
 5. Check the two versions every printed result in this course depends on:
@@ -141,7 +147,7 @@ If something fails:
 | `bash: mod: command not found` | You didn't run step 3 in this terminal. Every new tab starts clean. |
 | `mod: no such module: dd102` | You ran `mod dd102` before `mod add dd102`. It lists the modules you do have underneath. |
 | `fatal: could not read Username for 'https://github.com'` | git is being asked to log in, which means the repo didn't answer anonymously. It is almost never your spelling. Open <https://github.com/uoftasic/dd102> in a browser. If it 404s, the repo isn't published yet; that's on us, so say so in [Discord](https://discord.gg/hrJnP5UsGz). |
-| `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace isn't mounted. `ls /foss/designs/` should list `common/` and `modules/`; if it's empty you started a bare container instead of the workbench. Relaunch with `start_vnc.sh` from your `workspace` clone ([IC101](https://uoftasic.com/ic101/)). You can still run every lab: `git clone https://github.com/uoftasic/dd102.git` gets the files without `mod`, and `make` needs none of this setup. |
+| `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace isn't mounted. `ls /foss/designs/` should list `common/` and `modules/`; if it's empty you started a bare container instead of the workbench. Relaunch with `start_vnc.sh` from your `workspace` clone ([IC101](https://uoftasic.com/ic101/)). You can still run every lab: `git clone https://github.com/uoftasic/dd102.git` and then `cd dd102` gets the files without `mod`, and `make` needs none of this setup. |
 
 ## Part 2: Run the package before you write anything
 
@@ -155,10 +161,11 @@ If something fails:
    This package needs no `.designinit`, no `mod` and no environment variables, so it runs even
    if your shell profile is broken.
 
-2. Before you read the output, write down what you think an empty module will print.
+2. `src/full_adder.sv`, the file you will write, ships with its ports and nothing inside. Before
+   you read the output, write down what you think that empty module will print.
 
-`make` runs two files through the same printer and grader. First the shipped answer,
-`reference/full_adder.sv`:
+`make` runs two files through the same printer (`tb/print_table.sv`) and the same grader
+(`src/check_table.py`). First the shipped answer, `reference/full_adder.sv`:
 
 ```
 ==============================================================
@@ -195,9 +202,12 @@ a b cin | cout sum
 1 1  1  |  x    x
 ```
 
-and it ends:
+then the grader's note on each of the eight rows, and it ends:
 
 ```
+==============================================================
+ VERDICT
+==============================================================
  reference/full_adder.sv : PASS  8/8   (so your toolchain is fine)
  src/full_adder.sv       : FAIL        <-- this one is yours to write.
 ```
@@ -206,7 +216,7 @@ Three things in that output to understand before they worry you:
 
 - `tb/print_table.sv:30: $finish called at 8000 (1ps)` appears after every run in this lab,
   passing or failing. It is Icarus saying the testbench reached its last line after 8 ns of
-  simulated time, one per row. It is not a warning.
+  simulated time, 1 ns per row. It is not a warning.
 - `x` is not a wrong answer. It means nobody drove this wire. `logic` carries four values: `0`,
   `1`, `x` ("nobody has said") and `z` ("disconnected"), and the simulator won't invent one. A
   column of `x` on an output is a missing line, not a logic bug: go and find the `assign` that
@@ -237,7 +247,7 @@ You should see the default lint pass the stub:
 exit status 0
 ```
 
-Exit 0, and not a word about neither output having a value. `make lint` then runs the same file
+Exit 0, and no mention that neither output is ever given a value. `make lint` then runs the same file
 with `-Wall`:
 
 ```
@@ -296,7 +306,7 @@ If the file won't compile at all, the first error line is the real one and the r
 Two you are likely to meet, both made by editing this package's `src/full_adder.sv`. Your line
 numbers will differ; recognise the shape.
 
-- The word `assign` left off the first line:
+- The word `assign` left off the first `assign` line:
 
   ```
   src/full_adder.sv:21: syntax error
@@ -307,7 +317,7 @@ numbers will differ; recognise the shape.
   instantiating a module called `ha1_sum`. "Invalid module instantiation" on a line with an `=`
   in it means a missing `assign`.
 
-- The semicolon left off the first line:
+- The semicolon left off the first `assign` line:
 
   ```
   src/full_adder.sv:22: syntax error
@@ -346,9 +356,10 @@ circuit from the one on your paper, and eight rows would never tell you; a schem
    get a message instead of a diagram.
 6. Press **Run**, and switch to the circuit view if your screen is narrow. Put your paper drawing
    next to the screen.
-7. Click `a`, `b` and `cin` through all eight combinations in the order on your worksheet, and
-   read the `sum` and `cout` lamps each time. Hover any wire, including `ha1_sum` and
-   `ha1_carry` in the middle, to see its value.
+7. Click `a`, `b` and `cin` through all eight combinations in the order on your truth table,
+   and read the `sum` and `cout` lamps each time. Hover any wire, including the internal wires
+   you named (`ha1_sum`, `ha1_carry` and `ha2_carry`, if you used the guide's names), to see its
+   value.
 
 You should see your five port names on a schematic wired the way you wired them. If you wrote
 the five-`assign` version: five gates (two Xor, two And, one Or), with the two Xors on the path
@@ -378,12 +389,13 @@ real step in real design.
 > version pinned, so it isn't your workbench's 0.68. No lab in this course asks you to compare a
 > browser cell count with a workbench cell count.
 
-## Part 6: Break an adder on purpose
+## Part 6: Run files that fail on purpose
 
-The rest of this lab uses `labs/guide-examples/`, which holds every runnable file the first four
-guide pages print. It needs no environment setup either.
+The rest of this lab uses `labs/guide-examples/`, which holds the runnable files printed in the
+guide pages you read before this lab. It needs no environment setup either.
 
-1. Run the finished adder against the eight rows:
+1. Run the package's own finished adder, `src/full_adder.sv` in `guide-examples` (not yours),
+   against the eight rows:
 
    ```bash
    cd ../guide-examples
@@ -444,9 +456,9 @@ guide pages print. It needs no environment setup either.
    | `errors/forgot_a_branch.sv` | Icarus: `iverilog exit 0 - not one word about it`. Yosys: `yosys exit 1` and ``ERROR: Latch inferred for signal `\forgot_a_branch.\sum' ...`` | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
    | `errors/if_inside_assign.sv` | five errors, all on line 9, for one mistake | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
 
-   You'll also see four lines like `make: [Makefile:92: errors] Error 2 (ignored)`. That is
-   `make` reporting that a command failed and that it was told in advance not to care. These
-   files are supposed to fail.
+   You'll also see four lines like `make: [Makefile:92: errors] Error 2 (ignored)`, one for each
+   file Icarus refuses to compile. That is `make` reporting that a command failed and that it was
+   told in advance not to care. These files are supposed to fail.
 
 ## Part 7: Other spellings of the same adder
 
@@ -486,7 +498,7 @@ guide pages print. It needs no environment setup either.
    PASS - four spellings, eight rows, zero disagreements.
    ```
 
-3. Price each spelling in sky130 standard cells:
+3. Measure the area of each spelling in sky130 standard cells:
 
    ```bash
    make area
@@ -511,13 +523,14 @@ guide pages print. It needs no environment setup either.
       Chip area for module '\full_adder_hier': 33.782400
    ```
 
-   Rows 1 to 3 are identical to four decimal places: one `sky130_fd_sc_hd__xor3_1` and one
-   `sky130_fd_sc_hd__maj3_1` each. Areas are in square micrometres. Check rows 4 to 6 against the
+   Sections 1 to 3 are identical to four decimal places: one `sky130_fd_sc_hd__xor3_1` and one
+   `sky130_fd_sc_hd__maj3_1` each. Areas are in square micrometres. Check sections 4 to 6 against the
    arithmetic in
    [Modules and instances](guide/what-a-module-is.md): $15.0144 \times 2 + 6.2560 = 36.2848$
    with the walls up, and 33.7824 with them knocked down.
 
-   `make` with no target runs the same synthesis and ends with the area checker's table:
+   `make` with no target in `guide-examples` runs most of the steps in Parts 6 and 7, including
+   this synthesis, and ends with the area checker's table:
 
    ```
    file                cells   area (um^2)   verdict  cells used
@@ -548,16 +561,17 @@ guide pages print. It needs no environment setup either.
    your own machine it is in your `workspace` folder, under
    `modules/dd102/labs/guide-examples/results/`) and find the wire names you typed (`ha1_sum`, `ha1_carry`, `ha2_carry`).
 
-5. Back in DigitalJS, paste
+5. Back in DigitalJS, reload the page so only one file is loaded. Type `full_adder_table` in the
+   file-name box, press **Create file**, paste
    [`src/full_adder_table.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder_table.sv)
-   (the `always_comb` + `case` version) into a new `.sv` file and press **Run**. You should see a
+   (the `always_comb` + `case` version) into it and press **Run**. You should see a
    single box labelled **Memory** with an address input, and no gates. The circuit isn't
    different; [Seeing your adder as a schematic](guide/seeing-it-come-back.md) explains why.
 
 6. Load the two-file version. Reload the DigitalJS page first so only these two files are loaded.
-   Create a file named `full_adder_hier` and paste
+   Type `full_adder_hier` in the file-name box, press **Create file** and paste
    [`src/full_adder_hier.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder_hier.sv)
-   into it, press **Create file** again to make a second file named `half_adder`, paste
+   into it, then type `half_adder` in the box and press **Create file** again for a second file, paste
    [`src/half_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/half_adder.sv)
    into it, and press **Run**. On its own, `full_adder_hier.sv` won't run, because DigitalJS has
    never heard of `half_adder`. You should see `half_adder` drawn as one box, twice. Hover one
@@ -565,7 +579,8 @@ guide pages print. It needs no environment setup either.
    and And. (The *Additional SystemVerilog files:* picker further down the Setup tab does the
    same job from files on your disk.)
 
-7. Optional, about two minutes: put your own `full_adder` back, tick **Convert to logic gates**
+7. Optional, about two minutes: reload the page and load your own `full_adder.sv` again as in
+   Part 5, then tick **Convert to logic gates**
    and then **Map into subset of gates** with its default set, and press **Run**. You should see
    three NANDs and two XORs; Yosys rebuilt your Or and both Ands out of NAND, as you did by hand
    in [DD101 Lab 02](https://uoftasic.com/dd101/#/labs/lab-02-gates-from-one-gate). Ticking only

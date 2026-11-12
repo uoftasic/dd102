@@ -2,7 +2,8 @@
 
 You drew a full adder on paper in DD101. In this course you type that drawing into
 SystemVerilog, test it against every input it can ever see, chain four copies into a 4-bit adder,
-and turn the result into a bitstream for a real FPGA.
+and turn the result into a bitstream, the settings file that configures a real FPGA. You don't
+need an FPGA board; no lab needs one.
 
 Part of the UofT ASIC Team education materials, published at <https://uoftasic.com/dd102/>. The
 labs run inside the shared workbench you set up in [IC101](https://uoftasic.com/ic101/).
@@ -49,10 +50,10 @@ The times are estimates. Reference pages are for looking things up whenever you 
 [Icarus error messages](reference/when-icarus-says-syntax-error.md) ·
 [The browser tools](reference/the-three-browser-tabs.md)
 
-If a workbench setup command in Lab 01, Part 1 fails, run `make` in the lab's folder anyway. Each
-lab's files live in a package folder under `labs/`, and no package needs `.designinit`, a PDK
-variable or any other environment variable; each one runs to a PASS/FAIL verdict in a bare
-container.
+Lab files live in package folders under `labs/`. Every package runs with `make` alone,
+with no environment setup, and prints a `PASS`/`FAIL` verdict. So if a setup step in Lab 01,
+Part 1 fails, the table at the end of that part shows how to get the files and run `make`
+anyway.
 
 Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). See
 [Getting help](guide/getting-started.md#getting-help) for what to post.
