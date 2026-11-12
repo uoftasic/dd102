@@ -190,8 +190,7 @@ A **latch**. You didn't ask for one and you got one, because the description has
 and only one kind of hardware fits the hole: something that remembers what `sum` was last time,
 for the case you didn't describe. That is memory, in a block named `always_comb`. Yosys refuses
 outright, with exit 1 and `ERROR` at the start of the line. That refusal helps you; most tools
-in this business would have built it. The lesson isn't that Yosys is strict; it is what the hole in your
-description means.
+in this business would have built it.
 
 Every `always_comb` block must assign every signal it writes on every path through it. The
 cheapest way to guarantee that is to assign every output once at the top of the block, before any
