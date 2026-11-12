@@ -36,7 +36,7 @@ Under half a minute, ending in twelve verdicts, all `PASS`. No board is needed o
 
 | File | What it is |
 |---|---|
-| `src/ripple4.sv`, `src/full_adder.sv` | Your Lab 04 adder, copied so you can edit the original freely. |
+| `src/ripple4.sv`, `src/full_adder.sv` | Your Lab 04 adder, copied so you can edit the original freely. Part 8 of the writeup copies your own rewritten `ripple4.sv` over it. |
 | `src/one_gate.sv` | One AND gate. Used by `make sizes`. |
 | `src/big.sv` | A 4000-stage shift register. Also `make sizes`. |
 | `src/toobig.sv` | A 16×16 multiplier. Fits in logic, not in pins. `make fits`. |
