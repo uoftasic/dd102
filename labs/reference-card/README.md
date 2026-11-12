@@ -1,19 +1,31 @@
-# Reference card — every example on the SystemVerilog survival card
+# Reference card
 
-Twelve files. Each one is **complete and runs on its own** — nothing in this folder
-is a fragment, and nothing on
-[the survival card](../../docs/reference/systemverilog-survival-card.md) is printed
-without the whole file being here.
+Twelve files, one for each construct on [The DD102 subset](../../docs/reference/the-dd102-subset.md).
+Each is complete and runs on its own, and nothing on that page is printed without the whole file
+being here. [Lab 04](../../docs/labs/lab-04-four-adders-in-a-row-overview.md) (Part 1) walks
+through it.
 
 ```bash
 cd labs/reference-card
 make
 ```
 
-No `.designinit`, no `mod`, no PDK, no liberty file, no environment variables. It takes
-about **0.3 seconds** and ends with `VERDICT PASS — all 12 cards match the reference run.`
+No `.designinit`, `mod`, PDK, liberty file or environment variables. It takes about 0.3 seconds
+and ends with `VERDICT PASS  — all 12 cards match the reference run.`
 
-## What's here
+## Targets
+
+| Command | What it does |
+|---|---|
+| `make` | run all twelve, then the verdict |
+| `make card N=11` | run exactly one card |
+| `make broken` | feed the checker a wrong card 11 and read the FAIL |
+| `make lint` | show card 11's bug to Icarus and Verilator; neither notices |
+| `make synth` | card 08 through Yosys for the iCE40 |
+| `make check` | re-run the verdict on a `card.log` you already have |
+| `make clean` | empty `results/`, keep sources |
+
+## Files
 
 | File | The card it belongs to |
 |---|---|
@@ -23,40 +35,13 @@ about **0.3 seconds** and ends with `VERDICT PASS — all 12 cards match the ref
 | `src/04_concatenation.sv` | `{cout, sum}` |
 | `src/05_always_comb.sv` | `always_comb`, `=`, `if`/`else` |
 | `src/06_case_default.sv` | `case` with a `default:` |
-| `src/07_instantiation.sv` | putting a module inside a module, `.port(signal)` |
+| `src/07_instantiation.sv` | a module inside a module, `.port(signal)` |
 | `src/08_generate_for.sv` | `genvar`, `generate for`, `begin : slice` |
 | `src/09_parameter.sv` | `parameter int N = 4`, and `#(.N(6))` |
 | `src/10_literals.sv` | `4'b1010`, `4'd10`, `4'hA`, `'0`, `'1`, bare `10` |
-| `src/11_width_truncation.sv` | the trap: the **left** side decides the width |
+| `src/11_width_truncation.sv` | the left side decides the width |
 | `src/12_testbench_only.sv` | `` `timescale ``, `initial`, `$display`, `$dumpfile`, `$dumpvars`, `$finish` |
-| `src/check_card.py` | **the grader.** Compares your twelve lines against the reference run |
-| `broken/card.log` | the answer most people predict for card 11. `make broken` feeds it in |
-| `broken/narrow_only.sv` | card 11's mistake alone in a file, so `make lint` can fail to find it |
-| `reference/card.expected` | the twelve lines, as printed on `hpretl/iic-osic-tools:2026.08` |
-
-## Targets
-
-| Command | What it does |
-|---|---|
-| `make` | run all twelve, then the verdict table |
-| `make card N=11` | run exactly one card |
-| `make broken` | read a **FAIL** you caused on purpose |
-| `make lint` | show card 11's bug to Icarus and Verilator. Neither notices |
-| `make synth` | card 08 through Yosys: how many LUTs a `generate for` costs |
-| `make check` | re-run the verdict on a `card.log` you already have |
-| `make clean` | empty `results/`, keep sources |
-
-## Expected results
-
-Measured on `hpretl/iic-osic-tools:2026.08` — Icarus Verilog 14.0, Verilator 5.050,
-Yosys 0.68, Python 3.12.3.
-
-```
-VERDICT PASS  — all 12 cards match the reference run.
-```
-
-`make synth` ends with `12 cells` — `4 $scopeinfo` and **`9 SB_LUT4`**. The four
-`$scopeinfo` are bookkeeping, not hardware.
-
-`make lint` ends with `iverilog exit 0` and `verilator exit 0`, both silent about a
-real bug. That is the point of the target.
+| `src/check_card.py` | The grader. Compares your twelve lines with the reference run |
+| `broken/card.log` | The answer most people predict for card 11. `make broken` feeds it in |
+| `broken/narrow_only.sv` | Card 11's mistake alone in a file, for `make lint` |
+| `reference/card.expected` | The twelve lines, as printed on `hpretl/iic-osic-tools:2026.08` |
