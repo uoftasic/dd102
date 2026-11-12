@@ -23,6 +23,7 @@
   - [Reading a waveform](reference/reading-a-waveform.md)
   - [Icarus error messages](reference/when-icarus-says-syntax-error.md)
   - [The browser tools](reference/the-three-browser-tabs.md)
+  - [Expected results](reference/expected-results.md)
 - **Repo**
   - [Lab packages](https://github.com/uoftasic/dd102/tree/main/labs)
   - [Scripts](https://github.com/uoftasic/dd102/tree/main/scripts)

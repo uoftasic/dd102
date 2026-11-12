@@ -48,7 +48,8 @@ The times are estimates. Reference pages are for looking things up whenever you 
 [The DD102 subset](reference/the-dd102-subset.md) ·
 [Reading a waveform](reference/reading-a-waveform.md) ·
 [Icarus error messages](reference/when-icarus-says-syntax-error.md) ·
-[The browser tools](reference/the-three-browser-tabs.md)
+[The browser tools](reference/the-three-browser-tabs.md) ·
+[Expected results](reference/expected-results.md)
 
 Lab files live in package folders under `labs/` in the course repo, which you download in
 Lab 01, Part 1. Every package runs with `make` alone, with no environment setup, and prints a

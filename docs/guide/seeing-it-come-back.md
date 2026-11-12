@@ -77,7 +77,7 @@ by the same Yosys and printed as numbers instead of a picture. The SVG it writes
 Look at the labels on the wires in the middle: `ha1_sum`, `ha1_carry`, `ha2_carry`, the names you
 made up in [From your drawing to a module](guide/from-your-drawing-to-a-module.md), still there
 after a synthesizer. Naming your wires well is what
-makes the output of these tools readable. You run this script in Lab 01, Part 7.
+makes the output of these tools readable. You can run this script in Lab 01, under Going further.
 
 ## Four things that would otherwise confuse you
 
