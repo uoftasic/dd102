@@ -1,6 +1,6 @@
 # Scripts
 
-Utilities for **DD102 — Digital Logic & FPGAs** under the UofT ASIC org (`uoftasic`).
+Utilities for DD102: Digital Logic & FPGAs, under the UofT ASIC org (`uoftasic`).
 
 ## Entry points
 
