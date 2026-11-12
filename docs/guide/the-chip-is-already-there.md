@@ -1,51 +1,46 @@
-# The chip is already there
+# Inside an FPGA
 
-**Question this page answers:** *If my adder becomes hardware, how can somebody reprogram an
-FPGA in three seconds? Hardware is supposed to be the part you cannot change.*
+If your adder becomes hardware, how can somebody reprogram an FPGA in three seconds? Hardware is
+supposed to be the part you can't change.
 
-Because nothing is being built. **The chip already exists, complete, before you write a line.**
-Every wire and every transistor on that FPGA was manufactured months ago in a fab that had never
-heard of your adder. What you send it is not a design — it is a **settings file**.
+Nothing is being built. The chip exists, complete, before you write a line. Every wire and
+transistor on the FPGA was manufactured months ago in a fab that had never heard of your adder.
+What you send it isn't a design; it is a settings file. That explains most of the surprising
+numbers in FPGA reports, and it is what this page is about.
 
-That one sentence explains almost every strange thing about FPGA reports, and it is the whole of
-this page.
+Every number below came from `yosys synth_ice40` and `nextpnr-ice40` on the workbench image,
+`hpretl/iic-osic-tools:2026.08`. You run them in [Lab 05](labs/lab-05-onto-the-fpga-overview.md).
 
-Every number below came from `yosys synth_ice40` on the workbench image, `hpretl/iic-osic-tools:2026.08`.
+## What an `SB_LUT4` is
 
-## `SB_LUT4` is not a gate
-
-When you synthesized your adder in [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md), the answer came
-back in a currency you did not choose:
+When you synthesized your adder for the iCE40 in Lab 04, the answer came back in a unit you didn't
+choose:
 
 ```
 PASS  luts4         ripple #(.N(4))  -> 9 SB_LUT4
 ```
 
-Eight `SB_LUT4`. Not eight XOR gates, not eight ANDs — eight of one thing, whose name is an
-abbreviation for **lookup table**.
+Nine `SB_LUT4`: not nine Xor gates or nine Ands, but nine of one thing, whose name is short for
+**lookup table**. An `SB_LUT4` is three pieces of hardware together, and none of them is a logic
+gate:
 
-A `SB_LUT4` is three pieces of hardware soldered together, and none of them is a logic gate:
+1. Four input wires.
+2. Sixteen bits of memory, because four inputs have $2^4 = 16$ combinations.
+3. A multiplexer that uses the four inputs as an address and hands you the one bit stored there.
 
-1. **Four input wires.**
-2. **Sixteen bits of memory** — because four inputs have exactly $2^4 = 16$ combinations.
-3. **A multiplexer** that uses the four inputs as an *address* and hands you the one bit stored
-   at it.
+That is all. It doesn't compute anything; it looks the answer up.
 
-That is all. It does not compute anything. It **looks the answer up**.
+Write the sixteen bits out in address order, address `0000` first and `1111` last. Load
+`0000000000000001` and it behaves as a 4-input AND: the only address that gives a 1 is `1111`, the
+last one. Load `0110100110010110` and it is a 4-input XOR. Load sixteen random bits and it is a
+function with no name that is exactly as fast as the other two.
 
-Write the sixteen bits out in address order — address `0000` first, address `1111` last. Load
-`0000000000000001` and the thing behaves as a 4-input AND: the only address that gives a 1 is
-`1111`, which is the last one. Load `0110100110010110` and it is a 4-input XOR. Load sixteen bits
-somebody generated at random and it is a function with no name that is every bit as fast as the
-other two.
+Your truth table from DD101 wasn't a metaphor for the hardware. On an FPGA it is the hardware: the
+rightmost column of the table, written into memory, one bit per row.
 
-**Your truth table from DD101 was not a metaphor for the hardware. On an FPGA it *is* the
-hardware** — the rightmost column of the table, written into memory, one bit per row.
+## What a lookup table costs
 
-## The demonstration
-
-Here are three completely different four-input functions. Predict how many `SB_LUT4` each
-costs before you read the answer.
+Three different four-input functions, one line each:
 
 ```systemverilog
 assign y = a & b & c & d;                       // src/lut_simple.sv
@@ -53,24 +48,13 @@ assign y = a ^ b ^ c ^ d;                       // src/lut_parity.sv
 assign y = (a ^ b) ? (c & ~d) : (~c | d);       // src/lut_weird.sv
 ```
 
-**These three lines are excerpts** — one line each out of three complete, shipped files:
+These lines are excerpts of three complete files in
+[`labs/guide-examples/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples):
 [`src/lut_simple.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/lut_simple.sv),
 [`src/lut_parity.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/lut_parity.sv)
-and
-[`src/lut_weird.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/lut_weird.sv),
-all in
-[`labs/guide-examples/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples). Each is
-nine or ten lines: a header comment, a port list, and the line above.
-
-`make` in that package runs all four for you, or you can do one by hand with the same command you
-used in Lab 04:
-
-```bash
-cd labs/guide-examples
-yosys -p "read_verilog -sv src/lut_simple.sv; synth_ice40 -top lut_simple; stat"
-```
-
-The result, for all three:
+and [`src/lut_weird.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/lut_weird.sv).
+Each is nine or ten lines: a header comment, a port list and the line above. Synthesized for the
+iCE40, each one costs exactly one lookup table:
 
 ```
   lut_simple   1 SB_LUT4
@@ -78,11 +62,9 @@ The result, for all three:
   lut_weird    1 SB_LUT4
 ```
 
-**One lookup table each.** A four-input AND and a function nobody has a name for cost exactly the
-same, because on an FPGA cost is not measured in how hard your logic is. It is measured in **how
-many inputs it has**.
-
-Now add a fifth input and nothing else:
+A four-input AND and a function nobody has a name for cost the same, because on an FPGA cost
+isn't measured by how hard your logic is. It is measured by how many inputs it has. Add a fifth
+input and nothing else:
 
 ```systemverilog
 assign y = a & b & c & d & e;                   // src/lut_five.sv
@@ -92,130 +74,105 @@ assign y = a & b & c & d & e;                   // src/lut_five.sv
   lut_five     2 SB_LUT4
 ```
 
-and `make luts` renders the verdict:
+One more input doubled the price, on the simplest function in the set. Four inputs fit in one
+table; five need two tables and a way to combine them. On an FPGA, ask "how many inputs does this
+depend on?", not "how complicated is this?". The two questions have different answers, and only
+the first predicts the report. You run this comparison in Lab 05, Part 1.
 
-```
-PASS - three different 4-input functions cost ONE lookup table each.
-       One extra input cost a second one, on the simplest function here.
-       On an FPGA the price is the number of inputs, not the difficulty.
-```
+## Utilisation
 
-**The price doubled for one more input**, on the simplest function in the file. Four inputs is a
-shelf. Five inputs needs two shelves and a way to combine them.
-
-> **The reflex:** on an FPGA, ask *"how many inputs does this depend on?"*, never *"how
-> complicated is this?"* The two questions have different answers and only the first one predicts
-> the report.
-
-## The warehouse you are renting
-
-Now look at the whole report from Lab 05 rather than one line of it:
+Here is the placement report for your 4-bit adder from Lab 05:
 
 ```
 PASS  luts      synth_ice40 mapped ripple4 to 9 SB_LUT4
 PASS  util      nextpnr placed 11/5280 logic cells and 14/39 pins
 ```
 
-**10 of 5,280.** Your adder occupies two tenths of one percent of the logic on this part. The
-other 5,270 logic cells are sitting there, powered, doing nothing, and you are paying for them
-whether you use them or not — because they were fabricated before anyone knew what you wanted.
+11 of 5,280. Your adder uses about two tenths of one percent of the logic on this part. The other
+5,269 logic cells are there, powered and doing nothing, and you pay for them whether you use them
+or not, because they were fabricated before anyone knew what you wanted.
 
-That is the deal an FPGA offers. You do not get to decide what is on the chip. You get to decide
-**what each of the things already on the chip is currently pretending to be**, and you get to
-change your mind in seconds.
+That is the deal an FPGA offers. You don't decide what is on the chip. You decide what each of the
+things already on the chip is currently pretending to be, and you can change your mind in seconds.
+DD103 opens by setting this against the alternative: buying an empty lot and pouring exactly the
+shapes your design needs, which is an ASIC, which is a GDSII, and which takes months. For now, know
+that the report counts slots used out of a fixed supply, which is a different kind of number from
+an area.
 
-DD103 opens by setting this against the alternative — buying an empty lot and pouring exactly the
-shapes your design needs, which is an ASIC, which is a **GDSII**, and which takes months. You do
-not need that argument yet. You need to know that the report in front of you counts **slots used
-out of a fixed supply**, and that this is a different kind of number from an area.
-
-### Two more numbers, so 11/5280 has a scale
-
-Lab 05 places two other designs on the same part:
+Lab 05 places two other designs on the same part, to give 11/5280 a scale:
 
 ```
 PASS  one_gate  one_gate placed 3/5280 logic cells and 3/39 pins
 PASS  big       big placed 4001/5280 logic cells and closes timing at 202.92 MHz
 ```
 
-A single gate takes 3 logic cells. A design that genuinely fills the part takes 4,001 and still
-runs at over 200 MHz. Your adder is much nearer the first than the second.
+A single gate takes 3 logic cells. A design that fills most of the part takes 4,001 and still runs
+at over 200 MHz. Your adder is much nearer the first than the second.
 
-## So what is in the file you send it?
+## What is in a bitstream
 
-If the chip already exists and you are only choosing settings, then the thing you upload is a
-list of settings — one for every configurable point on the die. It is called a **bitstream**,
-and in Lab 05 you produce one:
+If the chip already exists and you are only choosing settings, the thing you upload is a list of
+settings, one for every configurable point on the die. It is called a **bitstream**, and in Lab 05
+you produce one with `icepack`:
 
 ```bash
 icepack results/r4.asc results/r4.bin
 ```
 
-Hold that thought about what is *in* it, because Lab 05 asks you to predict the size of that file
-before it shows you, and the answer is the best surprise in DD102. Do not let anyone tell you
-first.
+Lab 05 asks you to predict the size of that file before it shows you, and the answer is the best
+surprise in DD102, so don't let anyone tell you first. What you can know now: a bitstream isn't a
+description of your adder. There is no `ripple4` in it, no `slice[1].fa`, no carry chain. It is
+the contents of every LUT's sixteen bits of memory and the state of every routing switch, in
+whatever order the silicon wants them.
 
-What you can safely know now: a bitstream is **not** a description of your adder. There is no
-`ripple4` in it, no `slice[1].fa`, no carry chain. It is the contents of every LUT's sixteen bits
-of memory and the state of every routing switch, in whatever order the silicon wants them.
+That is why loading one takes three seconds. Nothing is compiled, built or manufactured. Memory
+cells all over an existing chip get written, and the chip that was pretending to be nothing in
+particular starts pretending to be your adder.
 
-**That is why loading one takes three seconds.** Nothing is compiled, nothing is built, nothing
-is manufactured. Memory cells all over an existing chip get written, and the chip that was
-pretending to be nothing in particular starts pretending to be your adder.
+A bitstream isn't readable, and it isn't something you show anybody as evidence. If you find
+yourself opening `r4.bin` in a text editor to check your work, stop. The file that shows your
+design is correct is your testbench output, and the file that shows it fits is nextpnr's
+utilisation report. Both are text, and you already have both.
 
-> **The dead end, named before you find it.** A bitstream is not readable and it is not a
-> deliverable you show anybody. If you find yourself opening `r4.bin` in a text editor to check
-> your work, stop — the file that proves your design is correct is your **testbench output**, and
-> the file that proves it fits is `nextpnr`'s **utilisation report**. Both are text, and you
-> already have both.
+## In the browser
 
-## Seeing it without leaving the browser
+[DigitalJS Online](https://digitaljs.tilk.eu/) has a checkbox labelled **Map into LUTs**: with
+your `full_adder.sv` pasted in and that box ticked, the schematic redraws with lookup tables where
+your gates were. It is the fastest way to see the substitution `synth_ice40` makes. Two cautions,
+both from [The browser tools](reference/the-three-browser-tabs.md):
 
-[DigitalJS Online](https://digitaljs.tilk.eu/) has a checkbox labelled **Map into LUTs**, and it
-does this whole page in one click: paste your `full_adder.sv`, tick it, and the schematic redraws
-itself with lookup tables where your gates were.
+- Use it for the picture, never for the count. Its Yosys comes unpinned from a CDN (on 2026-08-25
+  that was 0.65.176-dev.1145, against your workbench's 0.68), so if its numbers disagree with
+  yours, neither is broken.
+- Its LUTs are a generic drawing, not iCE40 `SB_LUT4`s specifically.
 
-It is the fastest way to *see* the substitution that `synth_ice40` performs in the terminal, and
-it costs nothing and needs no account. Two cautions, both from
-[The three services](reference/the-three-browser-tabs.md):
+## Common misreadings
 
-- **Use it for the picture, never for the count.** Its Yosys comes unpinned from a CDN — on
-  2026-08-25 that was **0.65.176-dev.1145** against your workbench's **0.64** — so if its numbers
-  disagree with yours, neither one is broken.
-- Its LUTs are a generic drawing, not iCE40 `SB_LUT4` specifically.
+"Then an FPGA is just a slow simulator." No. Nothing is being interpreted and there is no program.
+Those sixteen bits are wired into a multiplexer built from transistors, and the answer comes out
+at the speed of the silicon, which is why [Carry delay](guide/the-carry-has-to-travel.md) is
+measured in nanoseconds rather than instructions.
 
-## The part that trips people up
+"9 LUTs from Yosys and 11 logic cells from nextpnr, so one of them is wrong." Neither. Yosys counts
+the lookup tables it mapped; nextpnr counts the logic cells it placed. For this adder the
+difference is two cells the packer adds, `$PACKER_GND` and `$PACKER_VCC`, because the chip has no
+wire that is permanently 0 or permanently 1 and the design needs constants; Lab 05 lists all
+eleven cells by name. Quote whichever count answers the question you were asked, and say which
+tool it came from.
 
-**"Then an FPGA is just a slow simulator."** No. Nothing is being interpreted and there is no
-program. Those sixteen bits are wired into a multiplexer built out of transistors, and the answer
-comes out at the speed of the silicon — which is why
-[The carry has to travel](guide/the-carry-has-to-travel.md) is measured in nanoseconds rather than
-instructions. Your logic really is running as hardware. It is running as hardware that was
-*already there*.
+"5,269 wasted logic cells sounds terrible." It is the product. You are buying the ability to
+change your mind in three seconds instead of three months, and unused silicon is what that costs.
+When the volume is high enough that the trade stops making sense, you stop buying FPGAs, and that
+decision is where DD103 starts.
 
-**"9 LUTs from Yosys, 11 logic cells from nextpnr — one of them is wrong."** Neither. Yosys counts
-what it mapped; `nextpnr` counts what it *placed*, after packing LUTs together with the carry
-logic and the flip-flops that share a cell. The counts stop matching at that step and they are
-supposed to. Quote whichever one answers the question you were asked, and say which tool it came
-from.
+## Check yourself
 
-**"5,270 wasted logic cells sounds terrible."** It is the entire product. You are buying the
-ability to change your mind in three seconds instead of in three months, and unused silicon is
-what that costs. When the volume is high enough that the trade stops making sense, you stop
-buying FPGAs — and that decision is where DD103 starts.
+1. An `SB_LUT4` holds `0000000000000001`. Which function of its four inputs is it?
+2. Why do `a & b & c & d` and `(a ^ b) ? (c & ~d) : (~c | d)` cost the same on an iCE40, while
+   `a & b & c & d & e` costs twice as much?
+3. Yosys reports 9 `SB_LUT4` for `ripple4` and nextpnr reports 11 logic cells. Where do the other
+   two come from?
+4. Why is a bitstream not a description of your design?
 
-## What to remember
-
-- The chip is **manufactured before your design exists**. You choose settings, not shapes.
-- A `SB_LUT4` is four inputs, **sixteen bits of memory**, and a multiplexer. It looks answers up;
-  it does not compute them.
-- **Cost on an FPGA is input count, not complexity.** Three unrelated 4-input functions were
-  **1 `SB_LUT4`** each; one 5-input AND was **2**.
-- The report counts **slots out of a fixed supply** — `11/5280` logic cells, `14/39` pins. That is
-  an FPGA answer, and it is not an area.
-- A **bitstream** is the settings for the whole warehouse, not a description of your design. That
-  is why it loads in seconds.
-
-Next: [Lab 05 — Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md), where your own `ripple4.sv` becomes
-a real bitstream in three commands and 0.8 seconds — and where you find out how big that file is,
-which is not what you are about to guess.
+Next on the [Course path](README.md#course-path): do
+[Lab 05: Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md).

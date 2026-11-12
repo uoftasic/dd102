@@ -1,24 +1,19 @@
 # From your drawing to a module
 
-**Question this page answers:** *I have a circuit on a piece of paper. How do I turn it
-into something a computer can build?*
+This page turns your DD101 full-adder drawing into a SystemVerilog file, one piece at a time:
+the labels on its edge, then the wires inside. You type your own version in
+[Lab 01](labs/lab-01-transcribe-your-adder-overview.md); keep the drawing from
+[DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) (three blocks, seven wires,
+eight rows of a truth table) next to you while you read.
 
-Get the sheet out. The one from
-[DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) — three blocks, seven
-wires, eight rows of a truth table, in your handwriting. Put it next to the keyboard.
+The whole course rests on one idea: you type the drawing out. You don't upload it, convert it or
+export it.
 
-You are about to type that drawing out. Not upload it, not convert it, not export it.
-**Type it.** That is the whole course in one sentence, and this page is where it happens.
+## The port list
 
-By the end of this page you will have a file that a simulator agrees with on all eight of
-your rows. Every command below has been run; every number and every error message on this
-page is copied from a real terminal.
+Look at what crosses the edge of your drawing: three arrows going in, two coming out.
 
-## The five labels on your paper are the port list
-
-Look at what crosses the edge of your drawing. Three arrows going in, two coming out:
-
-| on your paper | what it is |
+| On your paper | What it is |
 |---|---|
 | `a` | input |
 | `b` | input |
@@ -26,7 +21,7 @@ Look at what crosses the edge of your drawing. Three arrows going in, two coming
 | `sum` | output |
 | `cout` | output |
 
-That list, and nothing else, is the first thing you write:
+That list is the first thing you write:
 
 ```systemverilog
 module full_adder (
@@ -40,25 +35,22 @@ module full_adder (
 endmodule
 ```
 
-**That is a complete, legal file.** Save it as `full_adder.sv` and Icarus Verilog compiles
-it without complaint — exit status 0, not one word of output. It just does not do anything
-yet. Your module has an edge and five holes in the edge, and the middle is empty.
+This is a complete, legal file. Saved as `full_adder.sv`, Icarus Verilog compiles it with exit
+status 0 and no output at all. It just doesn't do anything yet: the module has an edge with five
+holes in it, and the middle is empty.
 
-> `logic` is the type of a wire that carries one of four values: `0`, `1`, `x`
-> ("nobody has said"), and `z` ("disconnected"). For now, everything you write is
-> `logic`. There is a second type, `wire`, that you will meet in other people's code; you
-> do not need it and this course never uses it.
+> `logic` is the type of a wire that carries one of four values: `0`, `1`, `x` ("nobody has
+> said") and `z` ("disconnected"). Everything you write in this course is `logic`. You'll see a
+> second type, `wire`, in other people's code; you don't need it and this course never uses it.
 
-**Why an engineer cares.** The port list is a contract. Once it is written, someone else
-can wire your box into a bigger design without knowing or caring what is inside it — which
-is precisely what happens to this file in Lab 04, the four-adder lab,
-where four copies of it become a 4-bit adder. Getting the names and directions right is the part other people depend on.
+The port list is a contract. Once it is written, someone else can wire your box into a bigger
+design without knowing what is inside it. That is what happens to this file in Lab 04, where four
+copies of it become a 4-bit adder, so the names and directions are the part other people depend
+on.
 
-## What an empty module does when you simulate it
+## What an empty module does
 
-Run the shipped stub in [Lab 01](labs/lab-01-transcribe-your-adder-overview.md) — the package is
-[`labs/lab-01-transcribe-your-adder/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-01-transcribe-your-adder)
-— and here is your reward:
+Simulate the empty module against the eight rows and every output is `x`:
 
 ```
 a b cin | cout sum
@@ -72,30 +64,25 @@ a b cin | cout sum
 1 1  1  |  x    x
 ```
 
-Eight rows of `x`. This is the single most common thing a first SystemVerilog file does,
-and it is worth reading correctly:
+This is the most common thing a first SystemVerilog file does, so read it correctly. `x` doesn't
+mean "wrong answer". It means nobody drove this wire: the output exists, no `assign` anywhere in
+the file says what it should be, and the simulator won't guess. A column of `x` on an output is a
+missing line, not a logic bug. Look for the `assign` that should be there and isn't. You'll see
+this table when you first run Lab 01.
 
-> **`x` does not mean "wrong answer". It means *nobody drove this wire*.** The output
-> exists, and no `assign` anywhere in the file says what it should be, so the simulator
-> refuses to guess.
+## One `assign` per wire
 
-**The reflex:** a column of `x` on an output is not a logic bug. It is a *missing line*.
-Go and look for the `assign` that should be there and is not.
-
-## One `assign` per wire, following the drawing
-
-Now fill in the middle. Walk your drawing from left to right and write down each wire as
+Now fill in the middle by walking your drawing from left to right and writing down each wire as
 you meet it.
 
-Your drawing has two wires nobody has named yet — the ones running between the two half
-adders — plus the carry coming out of the second one. Name them, because you cannot write
-down a wire you cannot say:
+Your drawing has two wires nobody has named yet, the ones between the two half adders, plus the
+carry out of the second one. Name them, because you can't write down a wire you can't say:
 
 ```systemverilog
     logic ha1_sum, ha1_carry, ha2_carry;
 ```
 
-Then, one line per wire:
+Then write one line per wire:
 
 ```systemverilog
     assign ha1_sum   = a ^ b;              // first half adder, sum
@@ -105,129 +92,73 @@ Then, one line per wire:
     assign cout      = ha1_carry | ha2_carry;   // the Or gate
 ```
 
-Five wires on the drawing that were not there before; five `assign` lines. Read them
-against your paper one at a time. `^` is Xor, `&` is And, `|` is Or — the same three gates
-you built out of NANDs in DD101 Lab 02.
+Five wires on the drawing that weren't named before, five `assign` lines. Read them against your
+paper one at a time. `^` is Xor, `&` is And and `|` is Or, the same three gates you built out of
+NANDs in DD101 Lab 02.
 
 The complete file is
 [`labs/guide-examples/src/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder.sv).
-It is 21 lines including the comments, and it is exactly the two blocks above, joined.
+It is 21 lines including comments, and it is the two blocks above joined together.
 
-## Run it against your own eight rows
+## Checking it against your eight rows
 
-The lab package ships a testbench so that you do not have to write one yet. It knows the
-eight rows of the full-adder truth table — the same eight you filled in by hand — and it
-drives them at your module one at a time.
+The lab packages ship a testbench, so you don't have to write one yet. It knows the eight rows of
+the full-adder truth table (the same eight you filled in by hand), drives them at your module one
+at a time, and prints `PASS - all 8 rows match your DD101 table.` when they all agree. Two things
+in its output are worth knowing about in advance.
 
-```bash
-cd labs/guide-examples
-make sim
-```
-
-```
-==============================================================
- 1. YOUR ADDER AGAINST YOUR OWN TRUTH TABLE
-==============================================================
-iverilog -g2012 -o results/sim.vvp src/tb_full_adder.sv src/full_adder.sv
-
-  a b cin | cout sum
-  --------+---------
-  0 0  0  |   0   0   ok
-  0 0  1  |   0   1   ok
-  0 1  0  |   0   1   ok
-  0 1  1  |   1   0   ok
-  1 0  0  |   0   1   ok
-  1 0  1  |   1   0   ok
-  1 1  0  |   1   0   ok
-  1 1  1  |   1   1   ok
-
-PASS - all 8 rows match your DD101 table.
-
-src/tb_full_adder.sv:46: $finish called at 8000 (1ps)
-```
-
-**Two things to name before they worry you.**
-
-`iverilog -g2012` — the `-g2012` selects the SystemVerilog dialect. Leave it off and you
-get five errors that look nothing like the real problem:
+The compile command is `iverilog -g2012`. The `-g2012` selects the SystemVerilog dialect. Leave it
+off and you get five errors that look nothing like the real problem, starting with:
 
 ```
 src/full_adder.sv:16: error: Variable 'ha1_sum' cannot be driven by a continuous assignment/module.
 src/full_adder.sv:16:      : This is allowed when SystemVerilog is enabled.
 ```
 
-Read the **second** line. Icarus is telling you the fix. (This is the friendliest error
-message in the whole toolchain; enjoy it, because the next tool will not be this kind.)
+Read the second line: Icarus is telling you the fix. This is the friendliest error message in the
+toolchain, and the next tool won't be this kind.
 
-`$finish called at 8000 (1ps)` — that is the simulator saying it reached the end of the
-testbench after 8 nanoseconds of pretend time, one nanosecond per row. It is the normal
-last line of every successful run in this course. It is not a warning.
+The last line of a successful run is `$finish called at 8000 (1ps)`. That is the simulator
+reaching the end of the testbench after 8 ns of simulated time, one nanosecond per row. It appears
+at the end of every successful run in this course and isn't a warning.
 
-## Now break it on purpose
+## Reading a failure
 
-Nobody learns to read a `FAIL` from a page that only ever passes. `broken/full_adder.sv`
-is `src/full_adder.sv` with exactly one character changed — the `|` on the last line is an
-`&`, the mistake you make when your eye slips between two similar symbols:
+[`broken/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/broken/full_adder.sv)
+is `src/full_adder.sv` with one character changed: the `|` on the last line is an `&`, the
+mistake your eye makes between two similar symbols. Run against the eight rows, the first three
+rows pass and four of the eight fail. Somebody testing by hand in a hurry tries `000`, `001` and
+`010`, sees three passes, and ships a design that is half wrong. That is why the testbench walks
+all eight and prints a verdict, and why this course never asks you to eyeball a waveform for
+correctness when a machine can count for you.
 
-```bash
-make broken
-```
+The simulator finds those four wrong rows and still exits 0. "The simulation ran" and "the design
+is correct" are different questions, and `vvp` only answers the first. Never trust a simulator's
+exit status; trust a line of output you told it to print. The `guide-examples` Makefile decides
+pass or fail with `grep -q "^PASS"`, and that one line is what makes `make` a test rather than a
+light show.
+You produce this failure yourself in Lab 01, Part 6.
 
-```
-  a b cin | cout sum
-  --------+---------
-  0 0  0  |   0   0   ok
-  0 0  1  |   0   1   ok
-  0 1  0  |   0   1   ok
-  0 1  1  |   0   0   WRONG - expected cout=1 sum=0
-  1 0  0  |   0   1   ok
-  1 0  1  |   0   0   WRONG - expected cout=1 sum=0
-  1 1  0  |   0   0   WRONG - expected cout=1 sum=0
-  1 1  1  |   0   1   WRONG - expected cout=1 sum=1
-
-FAIL - 4 of 8 rows disagree.
-```
-
-Look at the first three rows. They pass. A person testing this by hand, in a hurry, tries
-`000`, `001`, `010`, sees three greens, and ships it. **Half of this design is wrong and
-the first three rows say nothing about it.** That is why the testbench walks all eight and
-prints a verdict, and it is why the rest of this course never asks you to eyeball a
-waveform for correctness when a machine can count for you.
-
-And now the part that matters more:
-
-```
-    vvp exited 0. Yes. Zero.
-```
-
-The simulator found four wrong rows and still exited successfully, because "the simulation
-ran" and "the design is correct" are different questions and `vvp` only answers the first.
-
-> **The reflex:** never trust a simulator's exit status. Trust a line of output you told
-> it to print. The lab's `Makefile` does exactly that — `grep -q "^PASS"` — and that one
-> line is the difference between a test suite and a light show.
-
-## Two mistakes that are worth making once
+## Two mistakes worth making once
 
 Both files are in
 [`labs/guide-examples/errors/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples/errors),
-complete and runnable. `make errors` runs all of them.
+complete and runnable. You run them in Lab 01, Part 6.
 
-**Two `assign`s aimed at the same output.** In Python the second line wins. Here:
+Two `assign`s aimed at the same output. In Python the second line would win. Here:
 
 ```
 errors/two_drivers.sv:10: error: Variable 'sum' cannot have multiple drivers.
 1 error(s) during elaboration.
 ```
 
-Both lines are solder joints, and they are both attached. The tool is not being fussy —
-it genuinely cannot build that. **One output, one `assign`** — and that rule holds no
-matter which style you write in, as [Everything happens at
-once](guide/assign-and-always-comb.md) will show you from the other direction.
+Both lines are solder joints, and both are attached. The tool isn't being fussy; it can't build
+that. One output gets one `assign`, whichever style you write in, as
+[`assign` and `always_comb`](guide/assign-and-always-comb.md) shows from the other direction.
 
-**Forgetting to declare an internal wire.** `errors/undeclared_wire.sv` is your file with
-the `logic ha1_sum, ha1_carry, ha2_carry;` line deleted. Icarus compiles it, exit 0, in
-silence. Yosys, later, says:
+Forgetting to declare an internal wire. `errors/undeclared_wire.sv` is your file with the
+`logic ha1_sum, ha1_carry, ha2_carry;` line deleted. Icarus compiles it with exit 0 and says
+nothing. Yosys says:
 
 ```
 errors/undeclared_wire.sv:13: Warning: Identifier `\ha1_sum' is implicitly declared.
@@ -235,42 +166,26 @@ errors/undeclared_wire.sv:14: Warning: Identifier `\ha1_carry' is implicitly dec
 errors/undeclared_wire.sv:16: Warning: Identifier `\ha2_carry' is implicitly declared.
 ```
 
-Your design still works — a name used on the left of an `assign` gets invented as a 1-bit
-wire. It works *until* the wire you meant was 4 bits wide, at which point 3 of your bits
-quietly vanish and nothing errors.
+The design still works, because a name used on the left of an `assign` gets invented as a 1-bit
+wire. It keeps working until the wire you meant was 4 bits wide, and then 3 of your bits quietly
+vanish and nothing errors. If a synthesis log says `implicitly declared`, you have a typo or a
+missing declaration; find it while the design is small.
 
-> **The reflex:** if a synthesis log says `implicitly declared`, you have a typo or a
-> missing declaration. Go and find it now, while the design is small enough to find it in.
+## What it costs
 
-## What it costs, since you asked
+Sent to a synthesizer with the sky130 standard-cell library, your five `assign`s become two
+standard cells with an area of 33.7824 µm². As a square, that is about 5.8 µm on a side, roughly
+a tenth the width of a human hair.
 
-You now have a file. Here is what it becomes if you send it to a chip factory:
+You drew five gates, and the tool chose two. The tool that made that decision is called a
+**synthesizer**, and DD103 is the course about what it did and why. For now, remember the number
+33.7824 µm²; you'll meet it again on the next two pages, and you measure it in Lab 01, Part 7.
 
-```bash
-make area
-```
+## Check yourself
 
-```
----- 1. drawing - five assigns, one per wire on your paper
-   Chip area for module '\full_adder': 33.782400
-```
+1. Your simulation prints `x` for `cout` on every row. What kind of mistake do you look for?
+2. Why does a testbench print a `PASS` or `FAIL` line rather than relying on `vvp`'s exit status?
+3. You delete the `logic ha1_sum, ...;` line and the design still passes. Why is that not a
+   reason to leave it out?
 
-**Two standard cells. 33.7824 square micrometres.** If it were a square it would be about
-5.8 µm on a side — call it a tenth the width of a human hair.
-
-You did not draw two gates; you drew five. The tool that made that decision is called a
-**synthesizer**, and DD103 is the entire course about what it did and why. For now, one
-number is enough to hold on to: your adder is **33.7824 µm²**, and you will meet that
-number again.
-
-## What you have
-
-- `full_adder.sv`: a port list copied off your paper, three internal wires, five `assign`s
-- A `PASS` on all eight rows of the table *you* filled in
-- A `FAIL` you produced deliberately, and the habit of reading the verdict line instead of
-  the exit status
-- One number: **33.7824 µm²**
-
-Next: [What a module actually is](guide/what-a-module-is.md) —
-because you have been calling it a "box" this whole page, and it is worth being precise
-about how much that word is doing.
+Next: [Modules and instances](guide/what-a-module-is.md).
