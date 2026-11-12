@@ -315,8 +315,10 @@ You're done when `make` in `labs/lab-02-prove-it/` ends with
 and prints `make: *** [Makefile:75: grade] Error 1` until every box is ticked. `make reference`
 reproduces the table below using `reference/tb_full_adder.sv`.
 
-`$finish called at 8000 (1ps)` appears after every one of these runs, passing or failing. It
-means the testbench reached its last line after 8 ns of simulated time.
+A line like `tb/tb_full_adder.sv:56: $finish called at 1000 (1ps)` appears after every one of
+these runs, passing or failing. It means the testbench reached its last line, and the time is
+1 ns per `check(...)`: `1000 (1ps)` for the shipped one-row testbench, `8000 (1ps)` once all eight
+rows are in. (The line number moves as you add rows.)
 
 Reference numbers, from `hpretl/iic-osic-tools:2026.08` (Icarus Verilog 14.0, Python 3.12.3):
 

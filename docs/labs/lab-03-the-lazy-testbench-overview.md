@@ -127,7 +127,7 @@ try_one(4'd15, 4'd15, 1'b0, "biggest inputs");
    make clue
    ```
 
-   You should see:
+   `make clue` runs the sweep again first, so its output repeats. After it you should see:
 
    ```
      input   wrong when it is 0   wrong when it is 1
@@ -140,6 +140,7 @@ try_one(4'd15, 4'd15, 1'b0, "biggest inputs");
      a[1]               128                  128
      a[2]               128                  128
      a[3]               128                  128
+   src/tb_sweep.sv:91: $finish called at 10240000 (1ps)
    ```
 
    Every bit of `a` and `b` is 128/128, so the failures are spread evenly across them and none of
@@ -406,7 +407,7 @@ reference` runs them), are the three you started with plus `0 + 0`, `6 + 9` and 
 them add up to 15, the largest number `add4` can represent, which feels like testing the edge. The
 edge is one past the largest number, and hand-picked cases cluster inside the range you were
 thinking about. N bits plus N bits doesn't fit in N bits: every adder needs somewhere for the top
-carry to go, and when you can't check
+carry to go, and every testbench needs a case that puts something there. When you can't check
 every input, check the boundaries rather than the middle. Of any passing test, ask how many of the
 possible inputs it tried.
 
@@ -450,7 +451,7 @@ adder is right.
  The testbench was the variable, not the adder.
 ```
 
-## Part 7: A fix that doesn't work
+## Part 7: A five-bit sum inside the module
 
 Here is what almost everybody tries first, and it is a reasonable thing to try: the answer needs
 five bits, so make it five bits.
