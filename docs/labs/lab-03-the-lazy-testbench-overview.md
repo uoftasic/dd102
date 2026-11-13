@@ -4,7 +4,8 @@ Four full adders in a row make a 4-bit adder with nine input bits, so it has $2^
 possible inputs: still few enough to check every one, and far too many to write out by hand. In
 this lab you meet two broken 4-bit adders that pass a handful of sensible cases, find out exactly
 how wrong each one is, find the first failure in a waveform, see which tool could have told you
-before you wrote a test, and write the one case that would have caught the second bug.
+before you wrote a test, and write the one case that would have caught the second bug. Then you
+try a plausible fix that fixes nothing, and time a sweep of every input of an 8-bit adder.
 
 Packages: [`labs/guide-examples-proving-it/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples-proving-it)
 for Parts 1 to 3 and Part 9, [`labs/lab-03-the-lazy-testbench/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-03-the-lazy-testbench)
@@ -17,9 +18,10 @@ for Parts 4 to 8.
 - Read [Testbenches](guide/eight-rows-and-no-opinions.md) and
   [Waveforms](guide/two-lines-make-the-waveform-appear.md). This lab also wires four instances of
   one module together, which is what [Modules and instances](guide/what-a-module-is.md) covers.
-- Work in a terminal on the noVNC desktop, with `.designinit` loaded and `mod dd102` run as in
-  [Lab 01, Part 1](labs/lab-01-transcribe-your-adder-overview.md). The waveform viewers in Part 2
-  need the desktop; everything else needs no setup.
+- Work in a terminal on the noVNC desktop. Load `.designinit` and run `mod dd102` as in
+  [Lab 01, Part 1](labs/lab-01-transcribe-your-adder-overview.md); that is how you get to the
+  repo. The packages themselves need no environment setup, but the waveform viewers in Part 2
+  need the desktop.
 
 Time: about 2 hours. The Going further steps at the end are optional and not counted.
 
@@ -177,11 +179,12 @@ draw into a text terminal, not that the install is broken.
    gtkwave results/eight.vcd views/eight.gtkw
    ```
 
-   You should see `a`, `b` and `cin` stepping through all eight combinations over 0 to 160 ns,
-   20 ns per row, with `sum` and `cout` following. Check against
+   `make eight` reruns the eight-row testbench from Lab 02, Part 1 and writes
+   `results/eight.vcd`. In GTKWave you should see `a`, `b` and `cin` stepping through all eight
+   combinations over 0 to 160 ns, 20 ns per row, with `sum` and `cout` following. Check against
    [Waveforms](guide/two-lines-make-the-waveform-appear.md): `cin` changes twice as often as `b`
-   and `b` twice as often as `a`; `sum` is 1 on rows 1, 2, 4 and 7; `cout` is high from 60 to
-   80 ns and from 100 to 160 ns.
+   and `b` twice as often as `a`; `sum` is 1 on rows 1, 2, 4 and 7 (counting from row 0); `cout`
+   is high from 60 to 80 ns and from 100 to 160 ns.
 
 2. Open the broken ripple adder's sweep with the signals already added:
 
@@ -194,7 +197,9 @@ draw into a text terminal, not that the install is broken.
    [`views/sweep.gtkw`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/views/sweep.gtkw)
    is, apart from a few layout settings, a list of seven signal names.
 
-   You should see the marker parked at 30 ns, where the log said `FIRST MISMATCH at 30 ns`, and
+   The sweep gives each input 20 ns and checks it 10 ns in, so the second input, 0 + 0 + 1, is
+   checked at 30 ns. The save file parks GTKWave's marker there, where the log said
+   `FIRST MISMATCH at 30 ns`. You should see the marker at 30 ns and
    the value column reading `a[3:0] =0`, `b[3:0] =0`, `cin =1`, `sum[3:0] =0`, `cout =0`,
    `expected[4:0] =01`, `mismatch =1` (the save file shows buses in hex). That is the failing
    case in one glance: 0 + 0 + 1, and the adder said 0, the same case as the first `MISMATCH`
@@ -274,8 +279,8 @@ no arithmetic in the file, only four boxes and some wires.
    cd ../lab-03-the-lazy-testbench
    ```
 
-2. Open [`tb/tb_lazy.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/tb/tb_lazy.sv).
-   Three cases are in:
+2. Open [`tb/tb_lazy.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/tb/tb_lazy.sv)
+   in a text editor. Three cases are in:
 
    ```
            //      a      b     cin
@@ -284,8 +289,8 @@ no arithmetic in the file, only four boxes and some wires.
            try_one(4'd5,  4'd2, 1'b1);      // 5 + 2 + 1 = 8
    ```
 
-3. Add three of your own: the numbers you would put in a lab report to convince yourself a 4-bit
-   adder works. Then run:
+3. Add three of your own, as `try_one` lines under the `// TODO` comment: the numbers you would
+   put in a lab report to convince yourself a 4-bit adder works. Then run:
 
    ```bash
    make lazy
@@ -316,7 +321,8 @@ anyway.
     Write it down. ______
 ```
 
-4. Write yours down before you go on.
+4. That is printed text; `make` doesn't wait for an answer. Write your number on paper before you
+   start Part 5.
 
 ## Part 5: Run all 512
 
@@ -370,8 +376,9 @@ read the RTL.
    <summary>Answer</summary>
 
    The file ends with a wire named `c4`, the carry out of the top adder. It is computed
-   correctly, and it isn't in the port list, so it stops inside the module. $15 + 15 + 1 = 31$
-   doesn't fit in four bits, which hold 0 to 15. The answer to a 4-bit addition is a 5-bit
+   correctly, and it isn't in the port list, so it stops inside the module. $0 + 15 + 1 = 16$
+   doesn't fit in four bits, which hold 0 to 15, and neither does anything up to
+   $15 + 15 + 1 = 31$. The answer to a 4-bit addition is a 5-bit
    number, and with only four bits of room the top one is dropped without a sound.
 
    </details>
@@ -396,10 +403,17 @@ read the RTL.
 
 Does letting `c4` out of the module fix every input?
 
-1. Diff [`reference/add5.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/reference/add5.sv)
-   against `src/add4.sv`. It has the same four instances, wired the same way. The difference is
-   one line in the port list and one word in the last instance: `c4` is now called `cout` and it
-   leaves the module.
+1. Compare [`reference/add5.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/reference/add5.sv)
+   with `src/add4.sv`:
+
+   ```bash
+   diff src/add4.sv reference/add5.sv
+   ```
+
+   It has the same four instances, wired the same way. Apart from the header comments and the
+   module name, you should see one added port, `output logic       cout`, and the last
+   instance's `.cout(c4)` changed to `.cout(cout)`, with `c4` dropped from the internal wires:
+   the top carry now leaves the module.
 2. Run the same 512 inputs against it (this package's `make fixed`, not the one from Part 1):
 
    ```bash
@@ -442,13 +456,13 @@ catch it?
    VERDICT FAIL
    ```
 
-   Your numbers will be your own. The grader then prints
-   `FAIL    -- one of your 7 cases disagreed with add4, and you found it`. Its message goes on to
-   say you found it "before this lab showed it to you"; it was written for a student who gets
-   there in Part 4, and your case counts the same.
+   Your numbers will be your own. The grader's message starts
+   `FAIL    -- one of your 7 cases disagreed with add4, and you found it`. That `FAIL` is your
+   testbench's verdict on `add4`: it caught the bug, which is what you want.
 
-3. Run `make` with no target. It runs Parts 4 to 6 in order (your cases, all 512, and `add5`) and
-   ends with the verdict table. You should see `FOUND` in the first row:
+3. Run `make` with no target. It runs Parts 4 to 6 in order (your cases, all 512, and `add5`)
+   and ends with the verdict table. You should
+   see `FOUND` in the first row, followed by the number of cases your testbench ran:
 
    ```
    ==============================================================
@@ -463,10 +477,11 @@ catch it?
    ```
 
    `MATCH` in this table means the run agreed with the reference numbers, including the expected
-   failures; it isn't a claim that the adder is right.
+   failures; it isn't a claim that the adder is right. The number after `MATCH` is wrong inputs
+   out of 512.
 
 4. Your Part 4 cases missed the bug, and so do the package's own six in `reference/tb_lazy.sv`
-   (`make reference` runs them): the three you started with plus `0 + 0`, `6 + 9` and
+   (`make reference` runs them): the three you started with plus `0 + 0 + 0`, `6 + 9 + 0` and
    `7 + 7 + 1`. Why do sensible hand-picked cases miss it, and what should a testbench check
    when it can't check every input?
 
@@ -518,12 +533,11 @@ VERDICT FAIL
 The port is still four bits wide, so the fifth bit is discarded at the assignment instead of
 inside the adder.
 
-`make trap` compiles it with `iverilog -g2012 -Wall`, which exits 0. Its only output is two
-pairs of lines starting `broken/add4_wider_inside.sv:10: warning: timescale for add4 inherited
-from another file.` and `src/full_adder.sv:11: warning: timescale for full_adder inherited from
-another file.`, each followed by `tb/tb_exhaustive.sv:11: ...: The inherited timescale is here.`
-That only means one file declared `` `timescale `` and the others didn't. It appears on healthy
-runs too and has nothing to do with your bug.
+`make trap` compiles it with `iverilog -g2012 -Wall`, which exits 0. Its only warnings say that
+`add4` and `full_adder` inherit their timescale from another file
+(`warning: timescale for add4 inherited from another file.`). That only means one file declared
+`` `timescale `` and the others didn't. It appears on healthy runs too and has nothing to do with
+your bug.
 
 `make trap` then runs Verilator with `-Wall`, the linter from Part 3:
 
@@ -605,7 +619,8 @@ src/tb_sweep8.sv:40: $finish called at 2621440000 (1ps)
 
 Your `wall` line will differ: repeated runs on the workbench landed between 0.59 and 0.63 s. The
 `TESTED 131072` and `ERRORS 0` above it won't. [Testbenches](guide/eight-rows-and-no-opinions.md)
-turns that rate into the cost of testing a 16-bit and a 32-bit adder this way.
+turns that rate into the cost of testing a 16-bit and a 32-bit adder this way, and in Lab 04,
+Part 6 you work those costs out yourself.
 
 ## Finishing
 
@@ -615,9 +630,11 @@ turns that rate into the cost of testing a 16-bit and a 32-bit adder this way.
 row reads `FOUND`: a case you wrote caught the dropped carry.
 
 `make` always exits 0; the verdict is the text. `make grade` runs the same three stages (lazy,
-exhaustive and fixed; `make trap` is separate) with an exit status, and it exits 0 with either
-`PASS` or `FOUND` in the first row, so read the table. The lab's reference numbers, and the five
-`PASS` lines `make` prints in `labs/guide-examples-proving-it/`, are on
+exhaustive and fixed; `make trap` is separate) and gives a script an exit status. It exits 0
+whether the first row says `PASS` or `FOUND`, so read the table, not the exit status, to know
+you're done. In `labs/guide-examples-proving-it/`, `make` with no target reruns the Part 1
+testbenches (and Lab 02's) and prints one `PASS` per run that matches the reference numbers,
+including the sweep that is supposed to fail. Those lines and the lab's reference numbers are on
 [Expected results](reference/expected-results.md#lab-03-the-lazy-testbench).
 
 ### Questions

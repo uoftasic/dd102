@@ -175,7 +175,8 @@ followed by nine lines of `Q.E.D.` drawn in dollar signs. That banner is Yosys c
    </details>
 
 When you refactor RTL and want to know you didn't change its behaviour, this is the question
-you're asking: `miter -equiv -flatten A B m; sat -verify -prove trigger 0 m`. You'll ask it of
+you're asking. The core of `scripts/proof.ys` is `miter -equiv -flatten A B m; sat -verify -prove trigger 0 m`,
+with `A` and `B` the two modules. You'll ask it of
 your own rewrite in Part 7.
 
 ## Part 4: Break the loop bound
@@ -183,8 +184,8 @@ your own rewrite in Part 7.
 What does one wrong digit in the loop bound do, and which tools tell you?
 
 `broken/ripple4.sv` is `src/ripple4.sv` with one digit changed: the loop reads
-`for (i = 0; i < 3; i = i + 1)`. (`diff` also shows a different header comment; the loop bound is
-the only line that does anything.)
+`for (i = 0; i < 3; i = i + 1)`. (If you `diff` the two files you'll also see a different header
+comment; the loop bound is the only line that does anything.)
 
 1. Write down how many of the 512 inputs you expect to fail. The missing slice is bit 3, the top
    bit.
@@ -252,11 +253,13 @@ yosys exit status 1   (one. this tool DOES tell you.)
   \trigger                  1         1             1
 ```
 
-The solver hands you an input: `a = 14`, `b = 8`, `cin = 1`. $14 + 8 + 1 = 23$, which is
-`1_0111`, five bits wide, and the fifth bit is `cout`, one of the two wires nothing drives.
+(`c[4]` is `cout`: the last line of the module is `assign cout = c[4];`.) The solver hands you an
+input: `a = 14`, `b = 8`, `cin = 1`. $14 + 8 + 1 = 23$, which is `1_0111`, five bits wide, and
+the fifth bit is `cout`, one of the two wires nothing drives.
 
 Three tools just described the same one-character bug three ways: a simulator said `Z`, a
-structural check named the wires, and a solver produced the input. None of them said "line 15".
+structural check named the wires, and a solver produced the input. None of them said "line 15",
+where the loop bound is in `broken/ripple4.sv`.
 
 ## Part 5: `i++` and a block named `bit`
 
@@ -381,8 +384,8 @@ it, designs are tested by choosing cases well (Lab 03) or by proving (Part 3).
 
 Does your own rewrite of the loop still build the same adder?
 
-You'll edit `src/ripple4.sv` in this package. Lab 05 ships its own copy, so editing this one is
-safe.
+You'll edit `src/ripple4.sv` in this package. Lab 05 ships its own copy, so editing this one
+breaks nothing there; in Lab 05, Part 8 you copy your edited file across on purpose.
 
 1. In `src/ripple4.sv`, change the loop header so it uses `i++` and a block label of your own
    instead of `slice`. Any name that isn't a keyword works (Part 5); for example:
