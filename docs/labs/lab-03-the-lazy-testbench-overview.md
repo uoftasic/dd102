@@ -270,6 +270,7 @@ Lint before you believe a `PASS`, and never instead of one.
 
 Do the cases you would pick yourself pass on the lab's own adder?
 
+
 [`src/add4.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/src/add4.sv)
 is four `full_adder` instances, the carry out of each feeding the carry in of the next. There is
 no arithmetic in the file, only four boxes and some wires.
@@ -427,6 +428,8 @@ You should see:
 tb_exhaustive_fixed: all 512 inputs of add5
 TESTED 512
 ERRORS 0
+  with cin=0 : 0
+  with cin=1 : 0
 VERDICT PASS
 
 MATCH   -- 512 of 512 inputs correct, 0 mismatches.
@@ -684,8 +687,14 @@ Nothing to submit.
    leaving you a successful run and no picture. Then run
    [`src/tb_eight_rows_compact.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/tb_eight_rows_compact.sv)
    the same way. You should see the `sorry:` message that
-   [Waveforms](guide/two-lines-make-the-waveform-appear.md) explains; the same file prints
-   `VERDICT PASS` on your workbench's Icarus 14.0.
+   [Waveforms](guide/two-lines-make-the-waveform-appear.md) explains:
+
+   ```
+   testbench.sv:20: sorry: Assignment to an entire array or to an array slice is not yet supported.
+   Elaboration failed
+   ```
+
+   The same file prints `VERDICT PASS` on your workbench's Icarus 14.0.
 3. [HDLBits Exams/m2014 q4j](https://hdlbits.01xz.net/wiki/Exams/m2014_q4j) is a 4-bit ripple
    adder built from full adders and graded by somebody else's testbench.
 

@@ -627,9 +627,16 @@ out of the box on this device in this image, and the way it fails is worth a min
    and `icetime` has a `-C` flag for pointing at one. Pointed at that file, it prints
    `Segmentation fault (core dumped)` and `icetime exit status 139 -- 139 means it segfaulted.`
    Exit 139, no message.
-3. Uncompressed first (`gunzip -c` into `results/chipdb-5k.txt`, 27 MB), the same invocation
-   works, so `icetime` is handing a gzip stream to something that expected text. Its report ends
-   `Total path delay: 27.42 ns (36.46 MHz)`. The full tail is on
+3. Uncompressed first (27 MB), the same invocation works, so `icetime` is handing a gzip stream
+   to something that expected text. These are the two commands `make icetime` runs for this
+   step:
+
+   ```bash
+   gunzip -c /foss/tools/fpga/share/icebox/chipdb-5k.txt.gz > results/chipdb-5k.txt
+   icetime -d up5k -P sg48 -C results/chipdb-5k.txt -t results/r4.asc | tail -12
+   ```
+
+   Its report ends `Total path delay: 27.42 ns (36.46 MHz)`. The full tail is on
    [Expected results](reference/expected-results.md#lab-05-onto-the-fpga).
 
 Three things to take from it:

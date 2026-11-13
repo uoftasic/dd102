@@ -64,8 +64,9 @@ DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing
    messages](reference/when-icarus-says-syntax-error.md) has more on pipes.
 
    Three more versions appear in later output: `Verilator 5.050 2026-07-01 rev v5.050`
-   (`verilator --version`), `nextpnr-0.11.1-9-gb17408e2` (`nextpnr-ice40 --version`) and
-   `surfer 0.7.0 (git: v0.7.0)` (`surfer --version`).
+   (`verilator --version`),
+   `"nextpnr-ice40" -- Next Generation Place and Route (Version nextpnr-0.11.1-9-gb17408e2)`
+   (`nextpnr-ice40 --version`) and `surfer 0.7.0 (git: v0.7.0)` (`surfer --version`).
 4. Run `ls labs/`. You should see nine folders: `guide-examples`, `guide-examples-carry`,
    `guide-examples-proving-it`, the five `lab-0N-...` packages and `reference-card`.
 
