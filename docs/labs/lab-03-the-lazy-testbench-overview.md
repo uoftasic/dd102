@@ -626,8 +626,9 @@ Part 6 you work those costs out yourself.
 
 ### You're done when
 
-`make` in `labs/lab-03-the-lazy-testbench/` ends with the verdict table from Part 7 and its first
-row reads `FOUND`: a case you wrote caught the dropped carry.
+you have worked through Parts 1 to 9 and `make` in `labs/lab-03-the-lazy-testbench/` ends with
+the verdict table from Part 7 with `FOUND` in its first row: a case you wrote caught the dropped
+carry.
 
 `make` always exits 0; the verdict is the text. `make grade` runs the same three stages (lazy,
 exhaustive and fixed; `make trap` is separate) and gives a script an exit status. It exits 0

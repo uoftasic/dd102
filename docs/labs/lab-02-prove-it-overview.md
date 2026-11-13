@@ -349,8 +349,9 @@ none of them.
 
 ### You're done when
 
-`make` in `labs/lab-02-prove-it/`, with your eight `check(...)` rows in `tb/tb_full_adder.sv`,
-ends with `All 8 rows checked, all 3 mutants caught. Lab 02 is done.`
+you have worked through Parts 1 to 5 and `make` in `labs/lab-02-prove-it/`, with your eight
+`check(...)` rows in `tb/tb_full_adder.sv` and your Lab 01 adder in `src/full_adder.sv`, ends
+with `All 8 rows checked, all 3 mutants caught. Lab 02 is done.`
 
 `make` always exits 0; the verdict is the text. `make grade` is the same run with an exit status
 and prints `make: *** [Makefile:75: grade] Error 1` until every box is ticked. `make reference`

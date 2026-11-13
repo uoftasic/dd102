@@ -43,9 +43,10 @@ DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing
    rest of this lab starts. In every new terminal, load `.designinit` again and run `mod dd102`.
 
    You can ignore the `PDK=sky130A` in the `ASIC-EDU:` banner that `.designinit` prints. A PDK
-   describes how to build a chip, and DD102 configures a chip somebody else already built. The two
-   steps that price your adder in sky130 cells read the cell library from its fixed path in the
-   image, so you never set a PDK variable.
+   describes how to build a chip, and DD102 configures a chip somebody else already built, an
+   FPGA. The two steps that price your adder in sky130 cells (`make area` in Part 7 and
+   `make contrast` in Lab 05) read the cell library from its fixed path in the image, so you
+   never set a PDK variable.
 3. Check the two versions every printed result in this course depends on, unpiped:
 
    ```bash
@@ -134,8 +135,8 @@ the grader's note on each row, and at the end:
  src/full_adder.sv       : FAIL        <-- this one is yours to write.
 ```
 
-`tb/print_table.sv:30: $finish called at 8000 (1ps)` appears after every run in this lab, passing
-or failing. It is Icarus saying the testbench reached its last line after 8 ns of simulated time,
+`tb/print_table.sv:30: $finish called at 8000 (1ps)` appears after every run in this package,
+passing or failing (other testbenches print their own file and line). It is Icarus saying the testbench reached its last line after 8 ns of simulated time,
 1 ns per row. It is not a warning.
 
 4. Your outputs print `x`, not `0`. What does `x` mean, and what kind of mistake does a column of
@@ -201,7 +202,8 @@ exit status 1
 ```
 
 (Verilator prints the source line and a documentation link under each warning; this block keeps
-only the first line of each.)
+only the first line of each.) The `exit status` lines are Verilator's; `make lint` itself
+finishes normally.
 
 3. The default lint exits 0 and never mentions the undriven outputs; `-Wall` gives five warnings
    on the identical file. Why does the default pass it?
@@ -251,8 +253,8 @@ If a row disagrees, the grader does the arithmetic for you:
                      0 + 1 + 1 = 2, which is 10 in binary.
 ```
 
-If the file won't compile at all, the first error line is the real one and the rest are fallout.
-Two you are likely to meet, both made by editing this package's `src/full_adder.sv`. Your line
+If the file won't compile at all, the first error line is the real one and the rest are fallout,
+though its line number can be one late, as the second example shows. Two you are likely to meet, both made by editing this package's `src/full_adder.sv`. Your line
 numbers will differ; recognise the shape.
 
 - The word `assign` left off the first `assign` line:
@@ -504,7 +506,7 @@ Do different ways of writing the adder build the same hardware?
 
 ### You're done when
 
-`make` in `labs/lab-01-transcribe-your-adder/` prints
+you have worked through Parts 1 to 7 and `make` in `labs/lab-01-transcribe-your-adder/` prints
 `src/full_adder.sv : PASS  8/8   <-- Lab 01 is done.` for the adder you wrote in Part 4.
 
 `make` always exits 0; the verdict is the text. `make grade` is the same check with an exit
