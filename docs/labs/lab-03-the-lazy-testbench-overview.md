@@ -30,7 +30,8 @@ Time: about 2 hours. The Going further steps at the end are optional and not cou
 Do six careful cases show that a 4-bit adder works?
 
 [`broken/ripple4.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/broken/ripple4.sv)
-is a 4-bit ripple adder somebody else wrote. Here it is, complete:
+is a 4-bit ripple adder somebody else wrote. Here it is, complete apart from its one-line header
+comment, so line numbers in tool messages are one higher than in this listing:
 
 ```systemverilog
 module ripple4 (
@@ -172,12 +173,15 @@ a terminal on the noVNC desktop. From anywhere else GTKWave prints
 `Could not initialize GTK!  Is DISPLAY env var/xhost set?`, which means it correctly refuses to
 draw into a text terminal, not that the install is broken.
 
-1. Open the small one first, the eight rows of one full adder:
+1. Open a smaller waveform first, the eight rows of one full adder:
 
    ```bash
    make eight
    gtkwave results/eight.vcd views/eight.gtkw
    ```
+
+   Each viewer in this part runs in the foreground and keeps the terminal until you close its
+   window, so close it before you go on to the next step.
 
    `make eight` reruns the eight-row testbench from Lab 02, Part 1 and writes
    `results/eight.vcd`. In GTKWave you should see `a`, `b` and `cin` stepping through all eight
@@ -379,7 +383,7 @@ read the RTL.
    <details>
    <summary>Answer</summary>
 
-   The file ends with a wire named `c4`, the carry out of the top adder. It is computed
+   The last instance, `fa3`, sends its carry out into a wire named `c4`. It is computed
    correctly, and it isn't in the port list, so it stops inside the module. $0 + 15 + 1 = 16$
    doesn't fit in four bits, which hold 0 to 15, and neither does anything up to
    $15 + 15 + 1 = 31$. The answer to a 4-bit addition is a 5-bit
@@ -484,7 +488,8 @@ catch it?
 
    `MATCH` in this table means the run agreed with the reference numbers, including the expected
    failures; it isn't a claim that the adder is right. The number after `MATCH` is wrong inputs
-   out of 512.
+   out of 512. If the first row says `PASS` instead of `FOUND`, none of your cases has a sum of 16
+   or more, so you aren't done: go back to step 1.
 
 4. Your Part 4 cases missed the bug, and so do the package's own six in `reference/tb_lazy.sv`
    (`make reference` runs them): the three you started with plus `0 + 0 + 0`, `6 + 9 + 0` and
