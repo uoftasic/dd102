@@ -221,6 +221,8 @@ never the verdict; `make` is.
 
 ## Part 4: Write your adder
 
+Does the circuit you drew give the right answer on all eight rows of your truth table?
+
 1. Open `src/full_adder.sv` ([on GitHub](https://github.com/uoftasic/dd102/blob/main/labs/lab-01-transcribe-your-adder/src/full_adder.sv))
    in a text editor. Edit it inside the noVNC desktop, or on your own machine: the file is in
    your `workspace` folder, under `modules/dd102/labs/lab-01-transcribe-your-adder/`. The ports

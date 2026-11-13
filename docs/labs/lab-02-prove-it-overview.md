@@ -315,6 +315,9 @@ none of them.
 
 ## Part 5: Two more checks
 
+Does the grader notice when your testbench itself is wrong, and does your own Lab 01 adder pass
+your testbench?
+
 1. Break your own testbench. In your finished `tb/tb_full_adder.sv`, change one expected value
    to the wrong number and run:
 

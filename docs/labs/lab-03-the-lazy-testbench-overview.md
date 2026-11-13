@@ -268,7 +268,8 @@ Lint before you believe a `PASS`, and never instead of one.
 
 ## Part 4: Write a few cases of your own
 
-Now the lab's own adder.
+Do the cases you would pick yourself pass on the lab's own adder?
+
 [`src/add4.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/src/add4.sv)
 is four `full_adder` instances, the carry out of each feeding the carry in of the next. There is
 no arithmetic in the file, only four boxes and some wires.
