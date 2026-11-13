@@ -442,11 +442,11 @@ bytes; 319 of those bytes moved.
    You told the tool where the signals enter and leave the chip, the placer put the logic near
    those pins, and the wires got 12.1 ns shorter.
 
-   </details>
+   On an FPGA most of your delay is wire: 23.24 against 2.98 is nearly eight to one. That ratio
+   is why "how many gates deep is it?" predicts FPGA speed poorly, and why DD103 cares so much
+   about where things physically sit.
 
-On an FPGA most of your delay is wire: 23.24 against 2.98 is nearly eight to one. That ratio is
-why "how many gates deep is it?" predicts FPGA speed poorly, and why DD103 cares so much about
-where things physically sit.
+   </details>
 
 ## Part 7: The same file on SKY130
 
