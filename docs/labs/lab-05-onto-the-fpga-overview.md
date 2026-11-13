@@ -86,7 +86,7 @@ Does a function's cost on an FPGA follow how complicated it is, or how many inpu
    yosys -p "read_verilog -sv src/lut_simple.sv; synth_ice40 -top lut_simple; stat"
    ```
 
-   The `stat` block near the end of the log shows `1   SB_LUT4`.
+   The `stat` block near the end of what it prints shows `1   SB_LUT4`.
 
 ## Part 2: Three commands to a bitstream
 
@@ -238,8 +238,8 @@ You should see:
 ```
 
 2. Check the guide's arithmetic against your numbers. How much does the logic column grow per
-   extra bit from 8 to 12 bits, and what is that one step of? How does the routing column
-   behave?
+   extra bit from 8 to 12 bits, and what does one bit's worth of that delay correspond to? How
+   does the routing column behave?
 
    <details>
    <summary>Answer</summary>
@@ -428,7 +428,8 @@ Info: 2.95 ns logic, 11.16 ns routing
   bitstream: 104090 bytes   (319 bytes differ from the unpinned one)
 ```
 
-`make pins` writes its log to `results/pnr_pinned.log`. In `results/pnr.log` from Part 2 the same
+`make pins` writes `results/r4_pinned.bin` and its log, `results/pnr_pinned.log`, and leaves the
+unpinned `results/r4.bin` from Part 2 alone. In `results/pnr.log` from Part 2 the same
 line reads `Placed 0 cells based on constraints.` Same logic, same eleven cells, same 104,090
 bytes; 319 of those bytes moved.
 
@@ -495,12 +496,15 @@ because nothing exists yet. DD103 takes the same `ripple4.sv` and builds the sec
 
 Does the loop you rewrote in Lab 04 change anything on the FPGA?
 
-1. Keep the bitstream of this package's copy, then copy your Lab 04 file over it:
+1. Keep the bitstream of this package's copy (`results/r4.bin`, the unpinned build from
+   Part 2), then copy your Lab 04 file over the package's `src/ripple4.sv`:
 
    ```bash
    cp results/r4.bin results/r4_shipped.bin
    cp ../lab-04-four-adders-in-a-row/src/ripple4.sv src/ripple4.sv
    ```
+
+   `git checkout -- src/ripple4.sv` puts the shipped copy back if you ever want it.
 
 2. Write down which of these you expect to change: the LUT count, the logic cells, the timing,
    the bitstream, the cell names.
@@ -641,7 +645,7 @@ Three things to take from it:
 
 ### If you own an iCEBreaker
 
-This is unchecked. Run `make flash`. With no board attached you should see:
+This is unchecked. With no board attached, `make flash` should print:
 
 ```
 init..
@@ -659,7 +663,7 @@ wiring, your `sum` bits come out on pins nextpnr chose, which are probably not t
 are on. Making it visibly add would mean writing a real board `.pcf`, which is outside DD102. If
 you do it, say so in [Discord](https://discord.gg/hrJnP5UsGz); we'd like to put it in the course.
 
-Next on the [Course path](README.md#course-path): that was the last row. You drew a full adder on
+Next on the [Course path](README.md#course-path): this lab was its last row. You drew a full adder on
 paper in DD101, transcribed it in Lab 01, proved it in Lab 02, tested four of them in Lab 03,
 generated four of them in Lab 04, and here turned that file into a bitstream for a chip that
 already exists. [DD103](https://uoftasic.com/dd103/) takes the same file and builds the chip.

@@ -19,7 +19,7 @@ Students who have finished [IC101](https://uoftasic.com/ic101/) and then
 | You bring | your DD101 hand-drawn full-adder diagram and your filled-in 8-row truth table, on paper |
 | Tools | Icarus Verilog, Verilator, Yosys, nextpnr, icepack, GTKWave and Surfer in the workbench, plus three websites: DigitalJS Online, EDA Playground and HDLBits ([Getting started](guide/getting-started.md#the-three-browser-tabs)) |
 | Time | about 12 h 20 min, self-paced: the sum of the Course path rows below |
-| You leave with | a `ripple4.sv` you rewrote and proved equal to a hand-typed version, tested on all 512 of its inputs, and the 104,090-byte bitstream it becomes on a Lattice iCE40 UP5K |
+| You leave with | a 4-bit adder, `ripple4.sv`, tested on all 512 of its inputs, whose `generate for` loop you rewrite and prove equal to four hand-typed instances, and the 104,090-byte bitstream it becomes on a Lattice iCE40 UP5K |
 
 The course is pinned to the workbench image `hpretl/iic-osic-tools:2026.08`. Lab 01, Part 1
 checks that you are on it (`yosys -V` prints `Yosys 0.68`, and the first line of `iverilog -V` is
@@ -53,8 +53,8 @@ The times are estimates. Reference pages are for looking things up whenever you 
 
 Lab files live in package folders under `labs/` in the course repo, which you download in
 Lab 01, Part 1. Every package runs with `make` alone, with no environment setup, and prints a
-`PASS`/`FAIL` verdict. So if a setup step in Lab 01, Part 1 fails, the table at the end of that
-part shows how to get the files and run `make` anyway.
+`PASS`/`FAIL` verdict, so a failed setup step in Lab 01, Part 1 doesn't block you: the table at
+the end of that part shows how to get the files and run `make` anyway.
 
 Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). See
 [Getting help](guide/getting-started.md#getting-help) for what to post.
@@ -63,8 +63,9 @@ Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). See
 
 `ripple4.sv`, a 4-bit ripple-carry adder made of four copies of the full adder you transcribed
 from your drawing. You test it on all 512 of its inputs, rewrite its loop and prove the rewrite
-changed nothing, and turn it into a 104,090-byte bitstream for a Lattice iCE40 UP5K. Along the way you measure how long its carry takes to cross the adder on that FPGA,
-26.22 ns, and why most of that time is wire.
+changed nothing, and turn it into a 104,090-byte bitstream for a Lattice iCE40 UP5K. Along the
+way you measure how long its carry takes to cross the adder on that FPGA, 26.22 ns, and find
+that most of that time is wire.
 
 DD102 stops at the bitstream. You don't get a GDSII, the file a chip is manufactured from,
 in this course. A bitstream configures a chip that already exists, which takes seconds; building
