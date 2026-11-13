@@ -201,7 +201,9 @@ draw into a text terminal, not that the install is broken.
    checked at 30 ns. The save file parks GTKWave's marker there, where the log said
    `FIRST MISMATCH at 30 ns`. You should see the marker at 30 ns and
    the value column reading `a[3:0] =0`, `b[3:0] =0`, `cin =1`, `sum[3:0] =0`, `cout =0`,
-   `expected[4:0] =01`, `mismatch =1` (the save file shows buses in hex). That is the failing
+   `expected[4:0] =01`, `mismatch =1` (the save file shows buses in hex). `expected` and
+   `mismatch` belong to the testbench: `expected` is the true five-bit sum `a + b + cin`, and
+   `mismatch` is 1 whenever `{cout, sum}` differs from it. The value column shows the failing
    case in one glance: 0 + 0 + 1, and the adder said 0, the same case as the first `MISMATCH`
    line in the log. `expected[4:0]` is red and reads `xx` for the first few nanoseconds: red
    means unknown, and that is normal at t = 0.
@@ -269,7 +271,6 @@ Lint before you believe a `PASS`, and never instead of one.
 ## Part 4: Write a few cases of your own
 
 Do the cases you would pick yourself pass on the lab's own adder?
-
 
 [`src/add4.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-03-the-lazy-testbench/src/add4.sv)
 is four `full_adder` instances, the carry out of each feeding the carry in of the next. There is
@@ -357,7 +358,8 @@ VERDICT FAIL
 ```
 
 and the grader's verdict, which won't say `MATCH` unless all four numbers (512 tested, 256
-wrong, 120 and 136) are exactly right:
+wrong, 120 and 136) agree exactly with the reference run. `MATCH` means "the same as the
+reference", not "the adder is right":
 
 ```
 MATCH   -- 256 of 512 inputs are wrong. That is the reference number,
@@ -572,7 +574,8 @@ first line of each. The command is
 
    </details>
 
-3. Run the linter on all three designs:
+3. Run the linter on all three designs, `src/add4.sv`, `broken/add4_wider_inside.sv` and
+   `reference/add5.sv`:
 
    ```bash
    make lint
@@ -635,9 +638,10 @@ the verdict table from Part 7 with `FOUND` in its first row: a case you wrote ca
 carry.
 
 `make` always exits 0; the verdict is the text. `make grade` runs the same three stages (lazy,
-exhaustive and fixed; `make trap` is separate) and gives a script an exit status. It exits 0
-whether the first row says `PASS` or `FOUND`, so read the table, not the exit status, to know
-you're done. In `labs/guide-examples-proving-it/`, `make` with no target reruns the Part 1
+exhaustive and fixed; `make trap` is separate) and gives a script an exit status. It exits
+non-zero when a testbench doesn't compile or a row says `DRIFT` (the numbers don't match the
+reference run), and 0 whether the first row says `PASS` or `FOUND`, so read the table, not the
+exit status, to know you're done. In `labs/guide-examples-proving-it/`, `make` with no target reruns the Part 1
 testbenches (and Lab 02's) and prints one `PASS` per run that matches the reference numbers,
 including the sweep that is supposed to fail. Those lines and the lab's reference numbers are on
 [Expected results](reference/expected-results.md#lab-03-the-lazy-testbench).
