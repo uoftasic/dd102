@@ -136,7 +136,7 @@ A module boundary is a drawing convention. It organizes your thinking and decide
 optimize across what; it doesn't decide what gets built. If a tool tells you two designs have
 different areas and identical behaviour, the boundaries are usually why. Whether to keep them is
 a real engineering decision, and DD103's
-[Reading `stat` like a receipt](https://uoftasic.com/dd103/#/guide/reading-stat) argues it
+[Reading `stat` like a receipt](https://uoftasic.com/dd103/guide/reading-stat.html) argues it
 properly. For now, know that the choice exists.
 
 ## Modules and functions compared

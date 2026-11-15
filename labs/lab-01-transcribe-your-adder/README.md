@@ -1,7 +1,7 @@
 # Lab 01: Transcribe your adder
 
 Writeup: [`docs/labs/lab-01-transcribe-your-adder-overview.md`](../../docs/labs/lab-01-transcribe-your-adder-overview.md)
-([on the course site](https://uoftasic.com/dd102/#/labs/lab-01-transcribe-your-adder-overview)).
+([on the course site](https://uoftasic.com/dd102/labs/lab-01-transcribe-your-adder-overview.html)).
 
 Your DD101 drawing, typed out and graded on the eight rows of the truth table. The package runs a
 known-good adder through the same machinery as yours, so a failure tells you which of the two is

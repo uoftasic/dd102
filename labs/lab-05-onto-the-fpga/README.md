@@ -1,7 +1,7 @@
 # Lab 05: Onto the FPGA
 
 Writeup: [`docs/labs/lab-05-onto-the-fpga-overview.md`](../../docs/labs/lab-05-onto-the-fpga-overview.md)
-([on the course site](https://uoftasic.com/dd102/#/labs/lab-05-onto-the-fpga-overview)).
+([on the course site](https://uoftasic.com/dd102/labs/lab-05-onto-the-fpga-overview.html)).
 The writeup also uses [`../guide-examples/`](../guide-examples/) and
 [`../guide-examples-carry/`](../guide-examples-carry/).
 

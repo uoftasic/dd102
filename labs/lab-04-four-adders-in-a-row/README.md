@@ -1,7 +1,7 @@
 # Lab 04: Four adders in a row
 
 Writeup: [`docs/labs/lab-04-four-adders-in-a-row-overview.md`](../../docs/labs/lab-04-four-adders-in-a-row-overview.md)
-([on the course site](https://uoftasic.com/dd102/#/labs/lab-04-four-adders-in-a-row-overview)).
+([on the course site](https://uoftasic.com/dd102/labs/lab-04-four-adders-in-a-row-overview.html)).
 Part 1 of the writeup uses [`../reference-card/`](../reference-card/).
 
 Five experiments on one `generate for` loop. Run them in the order the writeup gives; several

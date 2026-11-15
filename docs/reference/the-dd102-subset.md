@@ -169,7 +169,7 @@ because Yosys will refuse this; `always @*` isn't checked at all.
 > `else`; if you wrote a `case`, write the `default`.
 
 The whole story, with three ways to lose a latch, is DD103's
-[The latch you didn't ask for](https://uoftasic.com/dd103/#/guide/the-latch-you-didnt-ask-for).
+[The latch you didn't ask for](https://uoftasic.com/dd103/guide/the-latch-you-didnt-ask-for.html).
 
 ### 8 · `generate for`
 
@@ -302,7 +302,7 @@ None of these become hardware. They exist so the testbench can drive inputs and 
 |---|---|
 | `` `timescale 1ns/1ps `` | what `#10` means, and the precision times are recorded at |
 | `initial begin … end` | runs once, at the start. Meaningless in a design, essential in a testbench |
-| `#10` | wait 10 time units. In a design file, delay is [silently discarded](https://uoftasic.com/dd103/#/reference/synthesizable-subset) |
+| `#10` | wait 10 time units. In a design file, delay is [silently discarded](https://uoftasic.com/dd103/reference/synthesizable-subset.html) |
 | `$display`, `$write` | print a line / print without a newline |
 | `$timeformat(-9, 0, " ns", 6)` | print `%0t` times as `20 ns` instead of `20000` |
 | `$dumpfile("x.vcd")` / `$dumpvars(0, tb)` | the two lines that make a waveform file |
@@ -327,7 +327,7 @@ each one is a place to get lost.
 | | Where it belongs |
 |---|---|
 | `always_ff`, `posedge clk`, `<=` | anything with memory. DD102's adder has none; DD103's elevator does |
-| `wire` / `reg` | the older spellings. `logic` replaces both. [DD103](https://uoftasic.com/dd103/#/reference/synthesizable-subset) explains the history |
+| `wire` / `reg` | the older spellings. `logic` replaces both. [DD103](https://uoftasic.com/dd103/reference/synthesizable-subset.html) explains the history |
 | `always @*` | `always_comb` with the safety check switched off |
 | `typedef enum`, `struct`, `interface`, `package` | ways to organize a design bigger than one adder |
 | `function`, `task` | DD103, along with the fact that `return` doesn't work in Yosys |
