@@ -20,9 +20,7 @@ Look at what adder 3 needs before its output can be right. `sum[3]` is `a[3] ^ b
 it can't settle until `c[3]` has settled. `c[3]` comes out of adder 2, which can't settle until `c[2]` has,
 and so on down to `c[0]`, which is `cin` and is the only carry available immediately.
 
-```
-cin ──► fa0 ──c[1]──► fa1 ──c[2]──► fa2 ──c[3]──► fa3 ──► cout
-```
+![Each adder's carry out is the next adder's carry in.](../assets/img/dd102-carry-chain.svg){width=600 fig-alt="Four boxes in a row, labelled fa0, fa1, fa2 and fa3 from left to right. An arrow labelled cin enters fa0. Arrows labelled c[1], c[2] and c[3] run from fa0 to fa1, from fa1 to fa2 and from fa2 to fa3. An arrow labelled cout leaves fa3 on the right."}
 
 The carry has to pass through all four boxes, in order. That doesn't mean anything is waiting for
 a clock or taking turns, because all four adders compute continuously. Three of them are simply

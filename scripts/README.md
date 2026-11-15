@@ -8,6 +8,7 @@ Utilities for DD102: Digital Logic & FPGAs, under the UofT ASIC org (`uoftasic`)
 |--------|---------|
 | `hello.py` | Smoke-check that Python runs in this clone |
 | `init-template.py` | Fill `dd102` / title / description after using the template |
+| `figures/` | The scripts that draw the circuit figures in `docs/assets/img/` with schemdraw. `pip install -r scripts/figures/requirements.txt`, then `python3 scripts/figures/<name>.py` rewrites that figure's SVG |
 
 ## Usage
 
