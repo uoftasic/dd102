@@ -1,6 +1,6 @@
 // DOES NOT COMPILE, ON PURPOSE.
 // `assign` takes an expression, not a statement. An `if` is a statement.
-// One mistake on line 8; five error messages. Read the first one.
+// One mistake on line 9; five error messages. Read the first one.
 //   iverilog -g2012 -o /dev/null errors/if_inside_assign.sv
 module if_inside_assign (
     input  logic a, b, cin,

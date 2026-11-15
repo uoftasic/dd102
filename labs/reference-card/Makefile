@@ -1,4 +1,4 @@
-# Reference card — every example on docs/reference/systemverilog-survival-card.md
+# Reference card — every example on docs/reference/the-dd102-subset.md
 # Runs inside hpretl/iic-osic-tools:2026.08 (Icarus Verilog 14.0, Yosys 0.68).
 # No environment setup: no .designinit, no mod, no PDK, no liberty file.
 #
