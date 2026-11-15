@@ -356,7 +356,7 @@ FPGA design can run out of chip, though, and what runs out is rarely what you ex
 
    ```
           37   SB_LUT4
-   nextpnr exit status 125   (255. this one does tell you.)
+   nextpnr exit status 125   (125. this one does tell you.)
    Info: 	         ICESTORM_LC:      39/   5280     0%
    Info: 	               SB_IO:      50/     39   128%
    ERROR: Unable to find a placement location for cell 'cout$sb_io'
@@ -364,9 +364,8 @@ FPGA design can run out of chip, though, and what runs out is rarely what you ex
    ```
 
    This is a pin failure, not a timing failure. You're using 39 of 5,280 logic cells, under one
-   percent of the chip, and the design still doesn't fit. (The exit status is 125. The
-   "(255 ...)" in the same line is fixed text in the Makefile and is out of date, but the point
-   it makes still holds: this time, the tool's exit status does tell you something went wrong.)
+   percent of the chip, and the design still doesn't fit. This time the tool's exit status,
+   125, does tell you that something went wrong.
 
 3. Try a 16 × 16 multiplier,
    [`src/toobig.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-05-onto-the-fpga/src/toobig.sv),

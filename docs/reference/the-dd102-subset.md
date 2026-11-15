@@ -216,9 +216,7 @@ make synth
 
 That's nine `SB_LUT4`, exactly what four hand-written instances cost, because the loop produced
 four ordinary instances. The four `$scopeinfo` cells are bookkeeping, not hardware. A
-`generate for` saves you typing, but it never makes the circuit cheaper. (The note `make synth`
-prints under the table still says "Eight SB_LUT4", which is out of date; the count above it is
-the current one.)
+`generate for` saves you typing, but it never makes the circuit cheaper.
 
 Two things are worth knowing about the label after `begin :`:
 

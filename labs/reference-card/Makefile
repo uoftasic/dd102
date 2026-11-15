@@ -68,7 +68,7 @@ synth: | $(RES)
 	@yosys -p "read_verilog -sv $(SRC)/08_generate_for.sv; synth_ice40 -top ripple4; stat" \
 	   > $(RES)/synth.log 2>&1; echo "    yosys exit $$?"
 	@awk '/^=== ripple4 ===$$/{n++} n==2' $(RES)/synth.log | head -14
-	@echo "    The four \$$scopeinfo are bookkeeping, not hardware. Eight SB_LUT4"
+	@echo "    The four \$$scopeinfo are bookkeeping, not hardware. Nine SB_LUT4"
 	@echo "    is the answer: the generate loop cost exactly what four full adders"
 	@echo "    written out by hand cost. It is a typing shortcut, not a discount."
 
