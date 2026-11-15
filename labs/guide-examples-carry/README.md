@@ -14,9 +14,7 @@ make
 
 The package doesn't need a `.designinit`, a PDK, a liberty file or `mod`, so `make` works in a
 bare `hpretl/iic-osic-tools:2026.08` container. It takes a few seconds and ends in five
-`PASS`/`FAIL` verdicts. On that image the `n12` verdict currently prints `FAIL` (`got 38.99,
-reference says 39.0`) even though the run matches the reference;
-[Expected results](../../docs/reference/expected-results.md) explains why.
+`PASS`/`FAIL` verdicts, all five `PASS` on that image.
 
 ## Targets
 

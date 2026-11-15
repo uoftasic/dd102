@@ -125,7 +125,6 @@ These numbers come from Yosys 0.68, nextpnr-0.11.1-9-gb17408e2, IceStorm and Pyt
 | `No Fmax available` | This is expected, because your adder has no clock. `src/big.sv` in Part 4 does have one, and it reports 202.92 MHz. |
 | `ERROR: Unable to find a placement location` | This is expected in Part 5 only. Read the utilisation table printed above it. |
 | `Segmentation fault (core dumped)` | This is expected from step 2 of `make icetime` and nowhere else. |
-| `FAIL  n12  12 bits -- total: got 38.99, reference says 39.0` from `make` in `guide-examples-carry` | The checker stores the 12-bit total as 39.00 (8.20 + 30.80), but nextpnr prints its own end-to-end total as 38.99, so the comparison fails even though your 12-bit run matches the reference run. This FAIL doesn't mean you have anything left to do. |
 | `FAIL` on any line of `make check` | Paste the whole line into [Discord](https://discord.gg/hrJnP5UsGz), since it has your number and the reference side by side. |
 
 Step 3 of `make icetime`, which uses the uncompressed chip database, prints the last twelve lines

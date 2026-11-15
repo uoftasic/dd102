@@ -16,10 +16,12 @@ import sys
 
 # Reference run: hpretl/iic-osic-tools:2026.08, Yosys 0.68,
 # nextpnr-0.11.1-9-gb17408e2. Every one of these is on the guide page.
+# `total` is nextpnr's own end-to-end figure, not logic + routing: at 12 bits
+# it prints 38.99 where the two rounded columns add up to 39.00.
 REFERENCE = {
     4: dict(luts=9, lcs=11, io=14, logic=2.98, routing=23.24, total=26.22),
     8: dict(luts=18, lcs=20, io=26, logic=5.24, routing=30.26, total=35.50),
-    12: dict(luts=28, lcs=30, io=38, logic=8.20, routing=30.80, total=39.00),
+    12: dict(luts=28, lcs=30, io=38, logic=8.20, routing=30.80, total=38.99),
 }
 REF16 = dict(luts=37, lcs=39, io=50, cell="cout$sb_io")
 CELLS = 5280
@@ -91,7 +93,7 @@ def width(res: pathlib.Path, n: int) -> None:
         f"n{n}",
         f"{n} bits: {ref['luts']} SB_LUT4, {ref['lcs']}/{CELLS} cells, "
         f"{ref['io']}/{PINS} pins, {ref['logic']:.2f} ns logic + "
-        f"{ref['routing']:.2f} ns routing = {ref['total']:.2f} ns",
+        f"{ref['routing']:.2f} ns routing, {ref['total']:.2f} ns end to end",
     )
 
 
