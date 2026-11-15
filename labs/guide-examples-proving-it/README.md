@@ -12,8 +12,8 @@ cd labs/guide-examples-proving-it
 make
 ```
 
-No `.designinit`, `mod`, PDK, liberty file or environment variables. It takes about 0.4 seconds
-and ends with five `PASS` lines.
+You don't need a `.designinit`, `mod`, PDK, liberty file or any environment variables. The run takes
+about 0.4 seconds and ends with five `PASS` lines.
 
 ## Targets
 
@@ -55,6 +55,6 @@ and ends with five `PASS` lines.
 
 The five verdicts are counts of integers from a deterministic simulation with no clock and no
 randomness, so there is no tolerance: either you get 256 or something is different. They are the
-same on Icarus Verilog 12.0, which EDA Playground runs, except for `src/tb_eight_rows_compact.sv`,
-which is there because it doesn't survive the trip. The wall time from `make eight-bit` is a
-ballpark; the counts above it aren't.
+same on Icarus Verilog 12.0, which EDA Playground runs. The exception is
+`src/tb_eight_rows_compact.sv`, which is in the package to show a file that fails on 12.0. The wall
+time from `make eight-bit` is only a ballpark, but the counts printed above it are exact.
