@@ -1,0 +1,49 @@
+# The whole course as one PDF:
+#   quarto render docs --profile pdf --to typst      # writes docs/_book/*.pdf
+# Chapter order follows the sidebar in _quarto.yml.
+
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "DD102 — Digital Logic & FPGAs"
+  subtitle: "Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA."
+  author: "UofT ASIC Team"
+  output-file: dd102-course
+  chapters:
+    - index.md
+    - part: "1. Drawing to text"
+      chapters:
+        - guide/getting-started.md
+        - guide/from-your-drawing-to-a-module.md
+        - guide/what-a-module-is.md
+        - guide/assign-and-always-comb.md
+        - guide/seeing-it-come-back.md
+        - labs/lab-01-transcribe-your-adder-overview.md
+    - part: "2. Testing it"
+      chapters:
+        - guide/eight-rows-and-no-opinions.md
+        - labs/lab-02-prove-it-overview.md
+        - guide/two-lines-make-the-waveform-appear.md
+        - labs/lab-03-the-lazy-testbench-overview.md
+    - part: "3. More than one bit"
+      chapters:
+        - guide/four-adders-in-a-row.md
+        - labs/lab-04-four-adders-in-a-row-overview.md
+    - part: "4. Onto the FPGA"
+      chapters:
+        - guide/the-carry-has-to-travel.md
+        - guide/the-chip-is-already-there.md
+        - labs/lab-05-onto-the-fpga-overview.md
+  appendices:
+    - reference/the-dd102-subset.md
+    - reference/reading-a-waveform.md
+    - reference/when-icarus-says-syntax-error.md
+    - reference/the-three-browser-tabs.md
+    - reference/expected-results.md
+
+format:
+  typst:
+    toc: true
+    toc-depth: 1
