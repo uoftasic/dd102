@@ -6,8 +6,8 @@ Course site: <https://uoftasic.com/dd102/> · Part of the
 [UofT ASIC Team](https://github.com/uoftasic) education materials ·
 [Education hub](https://edu.uoftasic.com/)
 
-You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). In this course the student
-types that drawing into SystemVerilog, tests it against every input it can ever see, and turns
+You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). In this course you
+type that drawing into SystemVerilog, tests it against every input it can ever see, and turns
 it into a 104,090-byte bitstream for a real Lattice iCE40 UP5K (no board needed). Students follow the Course path on the
 [course home page](docs/index.md#course-path): guide pages to read, alternating with five labs.
 
