@@ -289,11 +289,9 @@ yosys exit status 0
 ```
 
 `errors/ripple4_incr.sv` is your adder with `i++` instead of `i = i + 1`. With Yosys 0.68 and
-`-sv` it reads, elaborates and synthesizes to the same 9 lookup tables as `src/ripple4.sv`. (The
-line `make gotcha` prints under the count says "same 8 SB_LUT4"; that text is out of date, and
-the 9 above it is the real count.) Icarus 14.0 accepts it too. We still use `i = i + 1` in
-`src/ripple4.sv`, because that form is Verilog-2001 and works in every tool that has ever
-existed, at a cost of six extra characters. Either way, you settled the question by running the
+`-sv` it reads, elaborates and synthesizes to the same 9 lookup tables as `src/ripple4.sv`.
+Icarus 14.0 accepts it too. We still use `i = i + 1` in `src/ripple4.sv`, because that form is
+Verilog-2001 and works in every tool that has ever existed, at a cost of six extra characters. Either way, you settled the question by running the
 code rather than by taking a page's word for it.
 
 The second claim is "you can't label a generate block `bit`", and this one is true:
@@ -509,8 +507,7 @@ Nothing to submit.
 
    The four `$scopeinfo` cells are bookkeeping, one per `full_adder` instance, and aren't
    hardware. Four hand-written instances cost nine `SB_LUT4` too, because what the loop builds *is*
-   four instances. (The note `make synth` prints under the table still says "Eight SB_LUT4"; that text
-   is out of date, and the count above it is the real one.)
+   four instances.
 
 2. If you want to watch the 12-bit exhaustive test from the Part 6 table take its four and a half
    minutes, `make wide12` runs it, all 33,554,432 cases.

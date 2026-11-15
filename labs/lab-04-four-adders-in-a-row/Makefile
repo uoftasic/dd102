@@ -77,7 +77,7 @@ gotcha: | $(RES)
 	@yosys -p "read_verilog -sv errors/ripple4_incr.sv src/full_adder.sv; synth_ice40 -top ripple4" \
 	   > $(RES)/incr.log 2>&1; echo "yosys exit status $$?"
 	@$(LAST) $(RES)/incr.log | grep -E "SB_LUT4" | head -1
-	@echo "    ^ same 8 SB_LUT4 as src/ripple4.sv. On THIS workbench, folklore."
+	@echo "    ^ same 9 SB_LUT4 as src/ripple4.sv. On THIS workbench, folklore."
 	@echo ""
 	@echo "=============================================================="
 	@echo " 4b. TRUE: 'you cannot label a generate block bit'"

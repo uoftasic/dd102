@@ -55,12 +55,12 @@ wall: | $(RES)
 	  > $(RES)/ys16.log 2>&1
 	@$(LAST) $(RES)/ys16.log | grep -E "SB_LUT4" | head -1
 	@nextpnr-ice40 $(DEV) --json $(RES)/r16.json --asc $(RES)/r16.asc > $(RES)/pnr16.log 2>&1; \
-	  echo "nextpnr exit status $$?   (255. this one does tell you.)"
+	  echo "nextpnr exit status $$?   (125. this one does tell you.)"
 	@grep -E "ICESTORM_LC:|SB_IO:" $(RES)/pnr16.log | tail -2
 	@grep -E "^ERROR:|warning, .* error" $(RES)/pnr16.log
 	@echo "    The ERROR names ONE pin. The line above it names the real problem:"
 	@echo "    16 + 16 + 1 in and 16 + 1 out is 50 signals, and sg48 has 39."
-	@echo "    You are using 34 of 5280 logic cells and you still cannot fit it."
+	@echo "    You are using 39 of 5280 logic cells and you still cannot fit it."
 
 ## check — every number on the guide page, against the reference run
 check:
