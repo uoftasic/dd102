@@ -61,7 +61,7 @@ at full strength, and redrawing takes time.
 ## Three widths on a real part
 
 An 8-bit ripple adder on an iCE40 UP5K has a longest path of 35.50 ns. A 12-bit one has half again
-as many adders, so most people expect half again as much delay, about 65 ns.
+as many adders, so most people expect half again as much delay, about 53 ns.
 
 Here are three widths of the same file, synthesized and placed with no constraints. `src/ripple.sv`
 is the parameterised adder from Lab 04, and a four-line wrapper such as `src/top8.sv` fixes its
@@ -77,7 +77,7 @@ end-to-end figure rather than the sum of the other two, so at 12 bits it reads 3
 | 8 bits | 18 | 20 / 5280 | 26 / 39 | 5.24 ns | 30.26 ns | 35.50 ns |
 | 12 bits | 28 | 30 / 5280 | 38 / 39 | 8.20 ns | 30.80 ns | 38.99 ns |
 
-The 12-bit adder takes 38.99 ns, not 65, so the prediction made it much slower than it really is.
+The 12-bit adder takes 38.99 ns, not 53, so the prediction made it much slower than it really is.
 Why the prediction was wrong matters more than the number itself, and the next section explains it.
 
 ## Logic delay and routing delay

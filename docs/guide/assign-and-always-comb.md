@@ -1,10 +1,12 @@
 # `assign` and `always_comb`
 
-The five `assign` lines on the last two pages sit one under another, so it is natural to ask what
-order they run in. The answer catches out everyone who has written Python: the five lines aren't
-executed at all, in order or otherwise. Each one is a permanent connection, like a soldered
-joint, and all five are live at the same moment for as long as the circuit exists. So `assign`
-doesn't mean "put this value here"; it means "from now on, this wire is that expression".
+The five `assign` lines from
+[From your drawing to a module](../guide/from-your-drawing-to-a-module.md) sit one under another,
+so it is natural to ask what order they run in. The answer catches out everyone who has written
+Python: the five lines aren't executed at all, in order or otherwise. Each one is a permanent
+connection, like a soldered joint, and all five are live at the same moment for as long as the
+circuit exists. So `assign` doesn't mean "put this value here"; it means "from now on, this wire
+is that expression".
 
 ## Line order
 
@@ -191,9 +193,9 @@ ERROR: Latch inferred for signal `\forgot_a_branch.\sum' from always_comb proces
 
 Yosys has found a **latch**. You didn't ask for one, but the description has a hole in it, and
 only one kind of hardware fits the hole: something that remembers what `sum` was last time, for
-the case you didn't describe. That is memory, in a block named `always_comb`. Yosys refuses it
-outright, with exit 1 and `ERROR` at the start of the line, and that refusal is doing you a
-favour, because most tools in this business would have built the latch.
+the case you didn't describe, which puts memory inside a block named `always_comb`. Yosys
+refuses it outright, with exit 1 and `ERROR` at the start of the line, and that refusal is doing
+you a favour, because most tools in this business would have built the latch.
 
 Every `always_comb` block must assign every signal it writes on every path through it. The
 cheapest way to guarantee that is to assign every output once at the top of the block, before any
@@ -204,8 +206,8 @@ is already familiar.
 
 ## `if` inside an `assign`
 
-The mirror-image mistake is reaching for `if` inside an `assign`. `errors/if_inside_assign.sv` is
-one line long and produces this:
+The mirror-image mistake is reaching for `if` inside an `assign`. `errors/if_inside_assign.sv` has
+that mistake on one line, line 9, and produces this:
 
 ```
 errors/if_inside_assign.sv:9: syntax error
@@ -217,7 +219,8 @@ errors/if_inside_assign.sv:9: error: generate else is missing matching if.
 
 That is five errors for one mistake, and the last three describe things you never wrote, because
 once the parser trips it keeps guessing at what you meant. Read the first error, fix only that,
-and re-run. In Verilog, the number of errors doesn't measure how wrong you are.
+and re-run. In Verilog the number of errors tells you how confused the parser got, not how wrong
+your file is.
 
 `assign` takes an expression, and if you want a choice inside an expression, the operator for it
 is `? :`. This line is an excerpt showing the operator, not a file:

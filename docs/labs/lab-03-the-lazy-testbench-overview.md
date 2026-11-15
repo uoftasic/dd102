@@ -58,8 +58,8 @@ endmodule
 Don't go hunting for the bug yet. Its testbench,
 [`src/tb_six_cases.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/tb_six_cases.sv),
 has six cases picked by hand in about five minutes. Each `try_one` call drives one case into the
-adder, waits, compares the answer with the true sum and prints a line. This testbench isn't a
-straw man: it's what nearly everybody writes first, and every one of its cases obviously matters.
+adder, waits, compares the answer with the true sum and prints a line. You might suspect a straw
+man, but this is what nearly everybody writes first, and every one of its cases obviously matters.
 
 1. Run the six cases:
 
@@ -615,7 +615,9 @@ The linter knew about `c4` from the file alone, before you wrote a single test c
 hardware, a wire that is computed and then goes nowhere is almost always dead logic or a dropped
 answer. A width mismatch and an unused wire are both invisible to a simulator, because each one
 is exactly what the language says should happen, and a width mismatch is the most common way a
-correct-looking design produces wrong numbers. `verilator --lint-only -Wall` finds both of them.
+correct-looking design produces wrong numbers. `verilator --lint-only -Wall` found both of them in
+this lab, although it doesn't catch every truncation: card 11 on
+[The DD102 subset](../reference/the-dd102-subset.md) gets past it.
 
 ## Part 9: What "every input" costs
 

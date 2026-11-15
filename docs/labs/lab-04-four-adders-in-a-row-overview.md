@@ -36,7 +36,8 @@ Time: about 1¾ hours.
 Do the constructs on the guide page print what the page says they print?
 
 [The DD102 subset](../reference/the-dd102-subset.md) is a set of twelve one-file examples, one
-for each construct this course uses, and four of them are the constructs on this lab's guide page.
+for each construct this course asks you to write, and four of them are the constructs on this
+lab's guide page.
 
 1. Run all twelve:
 

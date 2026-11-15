@@ -95,9 +95,9 @@ them shows you anything until you tell it which signals you care about.
 
 - GTKWave takes its signal list from a **save file** (`.gtkw`), a plain-text list of which signals
   to show, in what order and at what zoom. If you open GTKWave without one, it shows a blank pane,
-  because it doesn't guess which signals matter and waits for you to drag them across. Every
-  viewer in this field behaves this way, and every beginner takes the blank pane to mean
-  that the simulation produced nothing.
+  because it doesn't guess which signals matter and waits for you to drag them across. Most
+  viewers in this field behave this way, and every beginner takes the blank pane to mean that
+  the simulation produced nothing.
 - Surfer takes its signal list from a **command file**, given with `--command-file`, which has one
   `variable_add` line per signal followed by `zoom_fit`. You can't use a GTKWave save file in
   Surfer, or the other way round.
@@ -128,7 +128,8 @@ an odd number of the three inputs are 1; that is what "Xor of three things" mean
 for the first 60 ns, high from 60 to 80 ns, low again for 20 ns, and then high for the last 60 ns.
 Check that against your paper: rows 3, 5, 6 and 7 are the four rows where `cout` is 1, and at
 20 ns per row those are the intervals 60–80 ns and 100–160 ns. `cout` goes high whenever at least
-two inputs are high, and that happens much more often once `a` is stuck at 1.
+two inputs are high, and that happens much more often in the second half of the run, when `a`
+is 1.
 
 Reading a waveform comes down to this, because a waveform is a truth table with time on the
 x-axis.
@@ -161,9 +162,10 @@ then `2`, which is `b` counting up one step every two vectors.
 For the first few nanoseconds, `expected[4:0]` is drawn in red and reads `xx`, which doesn't
 mean anything is broken. At time zero the testbench hasn't assigned `expected` yet, so its value
 is unknown, which is what `x` means, and every viewer draws unknown values in red so that you
-can't mistake them for a 0. The red goes away when the first vector is applied, and red at t = 0 is normal. In a purely
-combinational design like this one, though, red after the first vector is a real bug, and
-spotting that is the most useful thing the red does for you.
+can't mistake them for a 0. The red goes away 10 ns in, when the testbench checks the first
+vector, and red at t = 0 is normal. In a purely combinational design like this one, though, red
+after the first vector is a real bug, and spotting that is the most useful thing the red does
+for you.
 
 ## The whole run in Surfer
 
@@ -176,10 +178,10 @@ different. Look at the bottom row: `mismatch` is on for about half the picture, 
 stripe, rather than as an occasional blip among correct results. You could have guessed "exactly
 half" from this image before counting anything.
 
-Surfer labels its time axis in picoseconds (`10000000 ps` at the right-hand end), where GTKWave
-writes `10240 ns` in its **To:** box. These describe the same run and the same length in
-different units. The VCD header says `$timescale 1ps`, and the two viewers make different choices
-about how to display that.
+Surfer labels its time axis in picoseconds (its last label, near the right-hand end, is
+`10000000 ps`), where GTKWave writes `10240 ns` in its **To:** box. Both describe the same run,
+which ends at 10,240,000 ps, in different units. The VCD header says `$timescale 1ps`, and the
+two viewers make different choices about how to display that.
 
 ## `sorry:` from an older Icarus
 
@@ -216,10 +218,9 @@ testbench.sv:20: sorry: Assignment to an entire array or to an array slice is no
 Elaboration failed
 ```
 
-When Icarus says `sorry:`, it is telling you that it hasn't implemented something, not that you
-got it wrong. The message means "valid language, unsupported by this version". Nothing in your
-file needs fixing; the version you are running just doesn't handle that construct
-yet, and `iverilog -V` on EDA Playground says `12.0` where yours says `14.0`. That is why the
+When Icarus says `sorry:`, it means "valid language, but this version hasn't implemented it yet",
+so nothing in your file needs fixing. Here the version is the whole difference: `iverilog -V` on
+EDA Playground says `12.0` where yours says `14.0`. That is why the
 shipped `tb_eight_rows.sv` assigns the eight values one line at a time inside the `initial` block,
 which is slightly longer but runs everywhere. When a tool says `sorry:`, check the version before
 you change the code.

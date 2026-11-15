@@ -238,8 +238,8 @@ Does the circuit you drew give the right answer on all eight rows of your truth 
    your `workspace` folder, under `modules/dd102/labs/lab-01-transcribe-your-adder/`. The ports
    are already written. The commented block in the middle has the shape from
    [From your drawing to a module](../guide/from-your-drawing-to-a-module.md): name the three wires
-   that never touch the edge of your box, then write one `assign` for each of the five wires on
-   your drawing (those three plus `sum` and `cout`).
+   that never touch the edge of your box, then write one `assign` for each wire on your drawing
+   apart from the three inputs (those three wires plus `sum` and `cout`).
 
    You can also write it as two lines straight off the truth table, one for `sum` and one for
    `cout`. Either version passes, because the grader checks the eight rows and doesn't look at the
@@ -337,9 +337,10 @@ circuit from the one you drew, and the picture shows it accurately; both circuit
 The lamps should match the truth table on your paper on all eight rows, the same rows
 `reference/full_adder.sv` printed in Part 2.
 
-> Use DigitalJS for the picture, never for the cell count. Its Yosys comes from a feed with no
-> pinned version, so it isn't the 0.68 on your workbench. No lab in this course asks you to compare a
-> browser cell count with a workbench cell count.
+> As [Getting started](../guide/getting-started.md#digitaljs-online) says, use DigitalJS for the
+> picture and never for the cell count. Its Yosys comes from a feed with no pinned version, so it
+> isn't the 0.68 on your workbench, and no lab in this course asks you to compare a browser cell
+> count with a workbench one.
 
 ## Part 6: Run files that fail on purpose
 
@@ -383,9 +384,10 @@ guide pages you read before this lab. It needs no environment setup either.
    ```
 
    followed by `vvp exited 0. Yes. Zero.` (`vvp` is the program that runs the compiled
-   simulation.) Notice that the first three rows pass. Someone testing by hand in a hurry might
-   try `000`, `001` and `010`, see three passes, and ship a design that is wrong on half its
-   rows.
+   simulation.) Notice that the first three rows pass, which is the trap that
+   [From your drawing to a module](../guide/from-your-drawing-to-a-module.md#reading-a-failure)
+   describes: a hurried hand test of `000`, `001` and `010` sees three passes, and the design is
+   wrong on half its rows.
 
 3. `vvp` exited 0 after finding four wrong rows. Why, and what should a script trust instead?
 

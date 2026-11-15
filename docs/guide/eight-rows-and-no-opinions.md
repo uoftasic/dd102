@@ -128,18 +128,19 @@ Almost nothing you build after this has that property.
 
 ## Exit code and verdict
 
-`vvp` is the program that runs a compiled simulation (`iverilog` compiles it first). If you run
-the eight-row testbench against a full adder with one wrong gate, it prints `VERDICT FAIL`, but
-`vvp` still exits 0. From the simulator's point of view nothing failed: it was asked to simulate a
-circuit and it did, and the circuit happened to be wrong. Simulating a wrong circuit isn't a
-failure of the simulator, so `vvp` exits 0 whether your design is right or wrong.
+`vvp` is the program that runs a compiled simulation (`iverilog` compiles it first). You saw in
+Lab 01, Part 6 that it exits 0 even when rows fail, and the eight-row testbench is no different:
+run it against a full adder with one wrong gate and it prints `VERDICT FAIL`, but `vvp` still
+exits 0. From the simulator's point of view nothing failed, because it was asked to simulate a
+circuit and it did, and the circuit happened to be wrong. So `vvp` exits 0 whether your design is
+right or wrong.
 
 So read the `VERDICT` line, never the exit code, and if something automated has to decide, make it
 read the text too. That is what
 [`src/check_sim.py`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/check_sim.py)
 does: it finds `TESTED`, `ERRORS` and `VERDICT` in the log, compares them with the reference
 numbers stored in the checker, and never looks at an exit code, which is why `make` in
-`labs/guide-examples-proving-it/` is able to tell you that you failed. This is the first of several
+`labs/guide-examples-proving-it/` is able to tell you that you failed. This is one of several
 places in the DD courses where a green light means nothing, and DD103 has a whole page of them.
 You check this yourself in Lab 02, Part 2.
 
@@ -197,8 +198,8 @@ them as the right order of magnitude rather than a stopwatch reading.
 Each vector takes longer as the adder gets wider, because each one drives more wires, and the
 4.5 µs figure was measured at 8 bits. [Lab 04](../labs/lab-04-four-adders-in-a-row-overview.md)
 measures it again at 12 bits and gets 7.9 µs, which puts the 16-bit row at about 19 hours rather
-than 11. Neither estimate is wrong, and neither is a stopwatch reading. Both of them say
-"overnight", and overnight is the answer that changes what you do.
+than 11. Neither estimate is wrong, and neither is a stopwatch reading, but both of them say
+"overnight", and that's the part of the answer that changes what you do.
 
 Somewhere between 8 and 16 bits, exhaustive testing stops being something you can do while the
 kettle boils. Yet a 32-bit adder is a small, ordinary combinational block, with no memory and no

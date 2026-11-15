@@ -125,9 +125,10 @@ a full adder… Expected solution length: Around 2 lines") and
 full adders. [Waveforms](../guide/two-lines-make-the-waveform-appear.md) has a short list of
 problems, in the same order the course builds up the material.
 
-The site calls its language Verilog rather than SystemVerilog, but in practice it accepts `logic`
-and `always_ff`, which covers what DD102 asks you to write. If it ever rejects a keyword, that's
-because the site is older than your workbench, and your code is fine.
+The site calls its language Verilog rather than SystemVerilog, but in practice it accepts
+SystemVerilog keywords such as `logic` and `always_ff`, and everything DD102 asks you to write
+falls within what it accepts. If it ever rejects a keyword, that's because the site is older than
+your workbench, and your code is fine.
 
 ## What you don't need
 

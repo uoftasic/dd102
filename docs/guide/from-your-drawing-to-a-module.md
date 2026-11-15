@@ -96,9 +96,9 @@ Then write one line per wire:
     assign cout      = ha1_carry | ha2_carry;   // the Or gate
 ```
 
-That's five `assign` lines for five wires: the three you just named, plus `sum` and `cout`. Read
-them against your paper one at a time. `^` is Xor, `&` is And and `|` is Or, the same three gates
-you built out of NANDs in DD101 Lab 02.
+That's five `assign` lines, one for every wire on your drawing except the three inputs: the three
+you just named, plus `sum` and `cout`. Read them against your paper one at a time. `^` is Xor,
+`&` is And and `|` is Or, the same three gates you built out of NANDs in DD101 Lab 02.
 
 The complete file is
 [`labs/guide-examples/src/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder.sv).
@@ -138,11 +138,12 @@ that's wrong on half of its rows. That's why the testbench walks through all eig
 verdict, and it's also why this course never asks you to judge correctness by eyeballing a
 waveform when a machine can count for you.
 
-The simulator finds those four wrong rows and still exits with status 0. Whether
-the simulation ran and whether the design is correct are two different questions, and `vvp` only
-answers the first. So never trust a simulator's exit status; trust a line of output that you told
-it to print. The `guide-examples` Makefile decides pass or fail with `grep -q "^PASS"`, and that
-one line is what makes `make` a test rather than a light show.
+The simulator finds those four wrong rows and still exits with status 0. Whether the simulation
+ran and whether the design is correct are two different questions, and `vvp`, the program that
+runs the compiled simulation, only answers the first. So never trust a simulator's exit status;
+trust a line of output that you told it to print. The `guide-examples` Makefile decides pass or
+fail with `grep -q "^PASS"`, and that one line is what makes `make` a test rather than a light
+show.
 
 You run this broken file yourself in Lab 01, Part 6.
 
@@ -184,13 +185,14 @@ the design is still small.
 
 ## What it costs
 
-When you send your file to a **synthesizer** with the sky130 standard-cell library, your five
-`assign`s become two standard cells with an area of 33.7824 µm². As a square, that would be about
-5.8 µm on a side, roughly a tenth the width of a human hair.
+When a **synthesizer** (the tool that turns your file into cells) builds your file from the sky130
+standard-cell library, your five `assign`s become two standard cells with an area of
+33.7824 µm². As a square, that would be about 5.8 µm on a side, roughly a tenth the width of a
+human hair.
 
-You drew five gates, and the synthesizer (the tool that turns your file into cells) chose to use
-two. What it did there and why is the subject of DD103. For now, remember the number 33.7824 µm², because you'll meet it again on
-the next two pages, and you'll measure it yourself in Lab 01, Part 7.
+You drew five gates, and the synthesizer chose to use two. What it did there and why is the
+subject of DD103. For now, remember the number 33.7824 µm², because you'll meet it again on the
+next two pages, and you'll measure it yourself in Lab 01, Part 7.
 
 ## Check yourself
 
