@@ -3,15 +3,16 @@
 Writeup: [`docs/labs/lab-02-prove-it-overview.md`](../../docs/labs/lab-02-prove-it-overview.md)
 ([on the course site](https://uoftasic.com/dd102/labs/lab-02-prove-it-overview.html)).
 
-You write the testbench. The package then checks it by handing it three full adders that are
-broken on purpose.
+You write the testbench, and the package checks it by running it against one working full adder
+and three that are broken on purpose.
 
 ```bash
 cd labs/lab-02-prove-it
 make
 ```
 
-No environment setup. `make` always exits 0; the verdict is the text. When you're done it prints:
+There's no PDK or environment to set up first. `make` always exits 0, so read the verdict in its
+output (`make grade` is the target with an exit status). When you're done it prints:
 
 ```
  mutants caught: 3 of 3
