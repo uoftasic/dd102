@@ -114,15 +114,29 @@ syntax/04_unknown_module.sv:5: error: Unknown module type: half_adder
 ```
 
 This is almost never a bug in your RTL. Icarus compiles exactly the files you name and doesn't
-go looking for others, so the usual cause is a command line like this one:
+go looking for others, so the usual cause is a file left off the command line. In Lab 04's
+package, for example, this command forgets to put `src/full_adder.sv` on the end:
 
 ```bash
-iverilog -g2012 -o sim.vvp tb.sv ripple4.sv
+iverilog -g2012 -o sim.vvp tb/tb_ripple4.sv src/ripple4.sv
 ```
 
-where you forgot to put `full_adder.sv` on the end. The `*** These modules were missing:` block
-lists exactly which modules Icarus still needs a file for. It looks alarming, but it's the most
-helpful error message in this course.
+You get the same message, naming `full_adder` this time, and you get it four times, once for
+each of the four instances the generate loop in `src/ripple4.sv` builds:
+
+```
+src/ripple4.sv:15: error: Unknown module type: full_adder
+src/ripple4.sv:15: error: Unknown module type: full_adder
+src/ripple4.sv:15: error: Unknown module type: full_adder
+src/ripple4.sv:15: error: Unknown module type: full_adder
+4 error(s) during elaboration.
+*** These modules were missing:
+        full_adder referenced 4 times.
+***
+```
+
+The `*** These modules were missing:` block lists exactly which modules Icarus still needs a file
+for. It looks alarming, but it's the most helpful error message in this course.
 
 ### `is not a port of`
 
@@ -261,10 +275,11 @@ each value has come from:
 | Exit | Seen from |
 |---|---|
 | `0` | a file that compiled; see [When Icarus says nothing](#when-icarus-says-nothing) |
-| `1` | one elaboration error, for example two `assign`s driving the same signal |
-| `2` | a `syntax error` that ended in `I give up.`, or two elaboration errors (the unknown module type and the wrong port name both report two) |
-| `3` | the missing `-g2012` case above |
-| `5` | the `if` inside an `assign`, where one mistake produces five messages |
+| `1` | one elaboration error, for example two `assign`s driving the same signal: `make errors` reports `Error 1 (ignored)` after `errors/two_drivers.sv` and after `errors/both_ways_at_once.sv` |
+| `2` | a `syntax error` that ended in `I give up.`, or two elaboration errors (the unknown module type and the wrong port name both report two); `make syntax` prints `iverilog -g2012 exit 2` under each of the five |
+| `3` | the missing `-g2012` case above, where `make syntax` prints `iverilog exit 3` |
+| `4` | the Lab 04 command above, with four `Unknown module type` errors |
+| `5` | the `if` inside an `assign`, where one mistake produces five messages: `make errors` reports `Error 5 (ignored)` after `errors/if_inside_assign.sv` |
 
 A bigger number doesn't mean a bigger problem. Five errors from one misplaced `if` is what it
 normally looks like when a parser loses its place.
