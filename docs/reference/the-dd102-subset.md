@@ -1,16 +1,18 @@
 # The DD102 subset
 
-A lookup card for the exact spelling of the thing you want to write. Find your construct, copy
-the shape, move on.
+This page is a lookup card. When you know what you want to write but not exactly how to spell it,
+find the construct here and copy its shape.
 
-DD102 uses twelve pieces of SystemVerilog, and that is the whole list. The language has hundreds
-more and you'll meet them later; none of them is needed to transcribe a drawing, prove it and put
-it on an FPGA.
+DD102 uses twelve pieces of SystemVerilog and no others. The language has hundreds more, and
+you'll meet them later, but you don't need any of them to transcribe a drawing, prove that it
+works and put it on an FPGA.
 
 ## Running the cards
 
-Each card below is a complete file, not a fragment, and every one ships in
-[`labs/reference-card/`](https://github.com/uoftasic/dd102/tree/main/labs/reference-card):
+Each card below comes from a complete file that compiles and runs on its own, and all twelve
+files ship in
+[`labs/reference-card/`](https://github.com/uoftasic/dd102/tree/main/labs/reference-card), so
+you can run all of them at once:
 
 ```bash
 cd /foss/designs/modules/dd102/labs/reference-card
@@ -21,38 +23,38 @@ make
 VERDICT PASS  — all 12 cards match the reference run.
 ```
 
-It takes about 0.3 seconds and needs no `.designinit`, `mod`, PDK or environment variables. If a
-line on this page doesn't match what your machine prints, `make` tells you which one, in the same
-words this page uses.
+The run takes about 0.3 seconds, and it doesn't need `.designinit`, `mod`, a PDK or any
+environment variables. If one of the lines on this page doesn't match what your machine prints,
+`make` tells you which line it is, in the same words this page uses.
 
-These outputs came from Icarus Verilog 14.0 in `hpretl/iic-osic-tools:2026.08`. Check yours with
-`iverilog -V`; the first line should be:
+The outputs on this page came from Icarus Verilog 14.0 in `hpretl/iic-osic-tools:2026.08`. You
+can check your version with `iverilog -V`, and the first line it prints should be:
 
 ```
 Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
 ```
 
-That is the first of 73 lines; the rest is the GPL, which is normal. [Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md)
-has the details.
+That is the first of 73 lines, and the rest is the GPL licence text, which is normal.
+[Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md) has the details.
 
 ## The twelve
 
 | # | Construct | What it is | It printed |
 |---|---|---|---|
-| 1 | `module` … `endmodule` | a box with labelled edges; the labels are your drawing's labels | `a=1 b=1 y=1` |
+| 1 | `module` … `endmodule` | a box with labelled edges, using the same labels as your drawing | `a=1 b=1 y=1` |
 | 2 | `logic`, `logic [3:0]` | the only type you need, one bit or several | `a=1001 y=0110 a[3]=1 a[2:1]=00` |
-| 3 | `assign` with `& \| ^ ~` | a soldered connection, evaluated always | `and=0 or=1 xor=1 not_a=0` |
+| 3 | `assign` with `& \| ^ ~` | a soldered connection, which holds all the time | `and=0 or=1 xor=1 not_a=0` |
 | 4 | `{cout, sum}` | glue bits into one wider bus | `{cout=1, sum=2} = 10010 = 18` |
-| 5 | `always_comb` + `if`/`else` | the same hardware, said in words instead of expressions | `sel=1 -> 9   sel=0 -> 4` |
+| 5 | `always_comb` + `if`/`else` | the same hardware, described in words instead of an expression | `sel=1 -> 9   sel=0 -> 4` |
 | 6 | `case` … `default:` | a truth table you can read | `00->0001 01->0010 10->0100 11->1000` |
 | 7 | `full_adder fa0 (.a(x), …);` | putting a module inside a module | `1+1+1 -> cout=1 sum=1 (= 3)` |
 | 8 | `genvar` + `generate for` | write one instance, get four | `9+9+0 -> cout=1 sum=2 (= 18)` |
 | 9 | `parameter int N = 4` | one file, every width | `N=4 -> 00001111   N=6 -> 00111111` |
 | 10 | `4'b1010`, `4'd10`, `4'hA` | how to write a number | `4'b1010=10  4'd10=1010  4'hA=1010` |
-| 11 | width rules | the left side decides; the trap | `9+9 -> narrow[3:0]=2  wide[4:0]=18` |
-| 12 | `` `timescale ``, `$display`, `$dumpfile`, `$finish` | testbench only, never hardware | `at 20 ns, a=1 y=0` |
+| 11 | width rules | the left-hand side sets the width, which is a trap | `9+9 -> narrow[3:0]=2  wide[4:0]=18` |
+| 12 | `` `timescale ``, `$display`, `$dumpfile`, `$finish` | used only in testbenches; none of it becomes hardware | `at 20 ns, a=1 y=0` |
 
-Run one card on its own:
+To run one card on its own, give `make` its number:
 
 ```bash
 make card N=11
@@ -67,7 +69,8 @@ make card N=11
 
 ### 1 · `module` and the port list
 
-The port list is the edge of your drawing, typed out: direction, then type, then name.
+The port list is the edge of your drawing written out as text. Each port gives its direction,
+then its type, then its name.
 
 ```systemverilog
 module gate_box (
@@ -83,9 +86,9 @@ endmodule
 [`src/01_module_ports.sv`](https://github.com/uoftasic/dd102/blob/main/labs/reference-card/src/01_module_ports.sv),
 which also contains the small testbench that printed `a=1 b=1 y=1`.)*
 
-Ports of the same direction and type can share a line: `input logic a, b, cin;`.
-[`errors/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples/errors) has the file
-that shows a module isn't a function you can call.
+Ports of the same direction and type can share a line, as in `input logic a, b, cin;`. The
+[`errors/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples/errors) folder has a
+file showing that you can't call a module the way you would call a function.
 
 ### 2 · `logic`, and wires with no port
 
@@ -96,18 +99,21 @@ before you use them:
 logic ha1_sum, ha1_carry, ha2_carry;
 ```
 
-`logic [3:0] a` is four wires in a bundle. `a[3]` is one of them; `a[2:1]` is two. Numbering runs
-`[high:low]`, and `[3:0]` is the order every file in this course uses.
+`logic [3:0] a` declares four wires in a bundle. `a[3]` is one of them, and `a[2:1]` is two of
+them. The numbering runs `[high:low]`, and every file in this course writes its buses in that
+order, as `[3:0]`.
 
-> Leave the declaration out and nothing complains. Icarus compiles it, simulates it and gets the
-> right answer; Yosys builds it and warns. The file that shows this is
+> If you leave the declaration out, neither tool stops you. Icarus compiles the file, simulates it
+> and gets the right answer, and Yosys builds it with only a warning. The file that shows this is
 > [`errors/undeclared_wire.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/errors/undeclared_wire.sv).
-> Every name inside a module is either a port or a `logic` line; if it is neither, it is a typo.
+> Every name inside a module is either a port or declared on a `logic` line, so a name that is
+> neither is a typo.
 
 ### 3 · `assign`
 
-`assign` is a wire, not a statement. It doesn't mean "do this now"; it means "these two things are
-the same, permanently".
+An `assign` line describes a wire. If you have programmed before, you might read it as a statement
+that runs once, but it doesn't mean "do this now"; it means "these two things are the same,
+permanently".
 
 | You write | It means |
 |---|---|
@@ -119,16 +125,17 @@ the same, permanently".
 Everything happens at once, so the order of your `assign` lines doesn't matter. Write them in the
 order the signal travels, because that is easiest to read.
 
-Two `assign`s aimed at the same signal are an error, not an overwrite. So are one `assign` and one
-`always_comb` writing the same signal. Both refusals are in
+If two `assign`s drive the same signal, the second one doesn't overwrite the first; the pair is an
+error. One `assign` and one `always_comb` writing the same signal are an error too. Both refusals
+are in
 [`errors/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples/errors), and
 [`assign` and `always_comb`](../guide/assign-and-always-comb.md) explains why.
 
 ### 5 · `always_comb`
 
-The same hardware as `assign`, spelled differently. Use it when the logic is easier to say in
-sentences than in one expression. Inside it you use `=`, not `<=`, and you may use `if`/`else` and
-`case`.
+`always_comb` builds the same hardware as `assign`, written a different way. Use it when the logic
+is easier to describe in sentences than in one expression. Inside it you use `=`, not `<=`, and
+you may use `if`/`else` and `case`.
 
 ```systemverilog
 always_comb begin
@@ -137,9 +144,10 @@ always_comb begin
 end
 ```
 
-The `else` isn't optional, and Icarus won't tell you so. The shipped
+You need the `else`, and Icarus won't tell you when it's missing. The shipped
 [`errors/forgot_a_branch.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/errors/forgot_a_branch.sv)
-is a full adder whose `always_comb` only assigns its outputs when `cin` is 1:
+is a full adder whose `always_comb` assigns its outputs only when `cin` is 1, and Icarus compiles
+it without complaint:
 
 ```bash
 cd /foss/designs/modules/dd102/labs/guide-examples
@@ -150,7 +158,7 @@ iverilog -g2012 -o /dev/null errors/forgot_a_branch.sv ; echo "iverilog exit=$?"
 iverilog exit=0
 ```
 
-Not a word. Yosys, on the same file:
+Icarus prints no warning and exits with 0. Yosys, given the same file, refuses to build it:
 
 ```bash
 yosys -p "read_verilog -sv errors/forgot_a_branch.sv; synth -top forgot_a_branch"
@@ -161,15 +169,17 @@ ERROR: Latch inferred for signal `\forgot_a_branch.\sum' from always_comb proces
        `\forgot_a_branch.$proc$errors/forgot_a_branch.sv:10$1'.
 ```
 
-Exit code 1. A circuit that doesn't say what `sum` is when `cin` is 0 has to remember the old
-value, and remembering is a latch: real hardware you didn't ask for. `always_comb` is worth using
-because Yosys will refuse this; `always @*` isn't checked at all.
+Yosys exits with code 1. A circuit that doesn't say what `sum` is when `cin` is 0 has to remember
+the old value, and a circuit that remembers is a latch, which is real hardware you didn't ask for.
+This check is the reason to use `always_comb`: Yosys refuses a latch in an `always_comb`, but it
+doesn't check `always @*` at all.
 
 > Every output of an `always_comb` gets a value on every path. If you wrote an `if`, write the
 > `else`; if you wrote a `case`, write the `default`.
 
-The whole story, with three ways to lose a latch, is DD103's
-[The latch you didn't ask for](https://uoftasic.com/dd103/guide/the-latch-you-didnt-ask-for.html).
+DD103's
+[The latch you didn't ask for](https://uoftasic.com/dd103/guide/the-latch-you-didnt-ask-for.html)
+covers latches in full, with three ways to get rid of one.
 
 ### 8 · `generate for`
 
@@ -189,8 +199,8 @@ endgenerate
 [`src/08_generate_for.sv`](https://github.com/uoftasic/dd102/blob/main/labs/reference-card/src/08_generate_for.sv),
 which is complete and runs.)*
 
-Nothing loops in silicon. The loop runs once, while the tool reads your file, and leaves four full
-adders behind. To see what that costs on an iCE40:
+The loop doesn't exist in the silicon. It runs once, while the tool reads your file, and leaves
+four full adders behind. To see what those four adders cost on an iCE40, run:
 
 ```bash
 make synth
@@ -203,38 +213,43 @@ make synth
     9   SB_LUT4
 ```
 
-Nine `SB_LUT4`, exactly what four hand-written instances cost, because it is four instances. The
-four `$scopeinfo` are bookkeeping, not hardware. A `generate for` is a typing shortcut, never a
-discount. (The note `make synth` prints under the table still says "Eight SB_LUT4"; the count above
-it is the current one.)
+That's nine `SB_LUT4`, exactly what four hand-written instances cost, because the loop produced
+four ordinary instances. The four `$scopeinfo` cells are bookkeeping, not hardware. A
+`generate for` saves you typing, but it never makes the circuit cheaper. (The note `make synth`
+prints under the table still says "Eight SB_LUT4", which is out of date; the count above it is
+the current one.)
 
-Two things about the label after `begin :`:
+Two things are worth knowing about the label after `begin :`:
 
 - `begin : slice` names the copies `slice[0]`, `slice[1]` and so on. Yosys, nextpnr and the
   waveform viewer all use those names.
-- Don't call it `bit`. `bit` is a type keyword. Yosys says
-  `syntax error, unexpected TOK_LOGIC, expecting TOK_ID`, and Icarus does something worse:
+- Don't call it `bit`, because `bit` is a type keyword. Yosys reports
+  `syntax error, unexpected TOK_LOGIC, expecting TOK_ID`, and Icarus does something worse: it
+  crashes:
 
   ```
   errors/ripple4_bit.sv:7: assert: pform.cc:1575: failed assertion lexical_scope == cur_module
   Aborted (core dumped)
   ```
 
-  Exit code 134. That is a crash in the compiler, not a diagnosis of your file. The shipped
+  Icarus exits with code 134. The compiler itself has crashed, so the message tells you nothing
+  about what's wrong with your file. The shipped
   [`errors/ripple4_bit.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-04-four-adders-in-a-row/errors/ripple4_bit.sv)
-  lets you cause it once on purpose so it doesn't confuse you later.
+  lets you cause the crash once on purpose, so that it doesn't confuse you when it happens by
+  accident.
 
 > A crash with `assert:` and `core dumped` in it is a bug in the tool. Look at the line number it
-> named, and suspect a name, not your logic.
+> named, and suspect a name on that line before you suspect your logic.
 
-`i = i + 1` and `i++` both work here and synthesize to the same 9 `SB_LUT4`. Somebody will tell
-you otherwise;
+`i = i + 1` and `i++` both work here, and both synthesize to the same 9 `SB_LUT4`. Somebody will
+tell you otherwise, so we ship
 [`errors/ripple4_incr.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-04-four-adders-in-a-row/errors/ripple4_incr.sv)
-is shipped so you can settle it.
+for you to settle the argument yourself.
 
 ### 10 · Literals
 
-The shape is <code><i>width</i>'<i>base</i><i>digits</i></code>.
+A literal is written as its width, an apostrophe, a base letter and then the digits:
+<code><i>width</i>'<i>base</i><i>digits</i></code>.
 
 | Base letter | Means | Card 10 printed |
 |---|---|---|
@@ -243,17 +258,18 @@ The shape is <code><i>width</i>'<i>base</i><i>digits</i></code>.
 | `h` | hexadecimal | `4'hA=1010` |
 | `o` | octal | `4'o12=1010` |
 
-All four are the same four wires. The base is how you write it down; the wires don't know.
+All four literals put the same value on the same four wires. The base only changes how you write
+the number down, and the wires carry no record of which base you used.
 
 | Shorthand | What it is | Card 10 printed |
 |---|---|---|
 | `'0` | every bit 0, as wide as it needs to be | `'0=00000000` |
 | `'1` | every bit 1, as wide as it needs to be | `'1=11111111` |
 | `10` | a bare number, 32 bits wide | `bare 10 is 32 bits wide, value 10` |
-| `8'b1010_1010` | underscores are free, and only for your eyes | `8'b1010_1010=170` |
+| `8'b1010_1010` | underscores change nothing; they only make the number easier to read | `8'b1010_1010=170` |
 
-Write the width: `1'b0` and `1'b1` for single bits, always. An unsized literal is 32 bits and
-brings its 32 bits into whatever expression you put it in.
+Always write the width, which means `1'b0` and `1'b1` for single bits. An unsized literal is 32
+bits wide, and it brings all 32 bits into whatever expression you put it in.
 
 ### 11 · Widths
 
@@ -271,10 +287,12 @@ For `a = 9`, `b = 9`:
 11_width_truncation: 9+9 -> narrow[3:0]=2  wide[4:0]=18
 ```
 
-`18` is `10010`, five bits. `narrow` has four, so the top bit never existed, and `10010` without
-its top bit is `0010`, which is 2: 18 − 16 = 2.
+In binary, `18` is `10010`, which takes five bits. `narrow` has only four, so the addition is done four
+bits wide and the top bit never exists. `10010` without its top bit is `0010`, which is 2, the
+same as 18 − 16 = 2.
 
-Nothing warns you. Card 11's mistake, alone in a file, shown to two more tools:
+No tool warns you about this. `make lint` puts card 11's mistake alone in a file and gives it to
+two more tools:
 
 ```bash
 make lint
@@ -286,8 +304,9 @@ make lint
                        not a warning. -Wall found nothing to say.
 ```
 
-Icarus is silent, Verilator with `-Wall` is silent, and Yosys builds it. This is legal
-SystemVerilog that means something other than what you meant, and only you can catch it.
+Icarus says nothing, Verilator says nothing even with `-Wall`, and Yosys builds the file. The code
+is legal SystemVerilog that happens to mean something other than what you meant, so you are the
+only one who can catch the mistake.
 
 > Adding two $N$-bit numbers needs an $N+1$-bit destination. If you want the carry, give it room.
 
@@ -296,49 +315,51 @@ against `{cout, sum}` rather than `sum` alone.
 
 ### 12 · Testbench only
 
-None of these become hardware. They exist so the testbench can drive inputs and report.
+None of these become hardware. They exist so that the testbench can drive inputs and report what
+comes out.
 
 | | |
 |---|---|
 | `` `timescale 1ns/1ps `` | what `#10` means, and the precision times are recorded at |
-| `initial begin … end` | runs once, at the start. Meaningless in a design, essential in a testbench |
+| `initial begin … end` | runs once, at the start; it means nothing in a design, but every testbench needs one |
 | `#10` | wait 10 time units. In a design file, delay is [silently discarded](https://uoftasic.com/dd103/reference/synthesizable-subset.html) |
 | `$display`, `$write` | print a line / print without a newline |
 | `$timeformat(-9, 0, " ns", 6)` | print `%0t` times as `20 ns` instead of `20000` |
 | `$dumpfile("x.vcd")` / `$dumpvars(0, tb)` | the two lines that make a waveform file |
-| `$finish` | stop. Without it, `vvp` can sit there forever |
+| `$finish` | stops the simulation; without it, `vvp` can sit there forever |
 
-Card 12 prints two lines this page's table leaves out, and both are normal:
+Card 12 also prints two lines that the table at the top of this page leaves out, and both are
+normal:
 
 ```
 VCD info: dumpfile card12.vcd opened for output.
 ../src/12_testbench_only.sv:25: $finish called at 20000 (1ps)
 ```
 
-The second is `$finish` reporting the time in picoseconds, the precision from
-`` `timescale 1ns/1ps ``. `$timeformat` only affects `%0t` inside your own `$display` calls. Same
-instant, two units.
+The second is `$finish` reporting the time in picoseconds, the precision set by
+`` `timescale 1ns/1ps ``. `$timeformat` affects only `%0t` inside your own `$display` calls, so
+your line says `20 ns` and this one says `20000`: the same instant, in two different units.
 
 ## Not used in DD102
 
-These aren't left out because they are advanced. You don't need them to finish this course, and
-each one is a place to get lost.
+We didn't leave these out because they are advanced. You don't need any of them to finish this
+course, and each one is a place to get lost.
 
 | | Where it belongs |
 |---|---|
-| `always_ff`, `posedge clk`, `<=` | anything with memory. DD102's adder has none; DD103's elevator does |
-| `wire` / `reg` | the older spellings. `logic` replaces both. [DD103](https://uoftasic.com/dd103/reference/synthesizable-subset.html) explains the history |
+| `always_ff`, `posedge clk`, `<=` | anything with memory, which DD102's adder doesn't have and DD103's elevator does |
+| `wire` / `reg` | the older spellings, which `logic` replaces; [DD103](https://uoftasic.com/dd103/reference/synthesizable-subset.html) explains the history |
 | `always @*` | `always_comb` with the safety check switched off |
 | `typedef enum`, `struct`, `interface`, `package` | ways to organize a design bigger than one adder |
 | `function`, `task` | DD103, along with the fact that `return` doesn't work in Yosys |
-| `unique`, `priority` | promises to the optimizer that nothing checks |
+| `unique`, `priority` | promises to the optimizer that no tool checks |
 | `real`, `$random`, assertions | DD104 |
 
 ## If it won't compile
 
 The refusals you'll meet, with the exact text Icarus prints and which line to believe, are in
 [Icarus error messages](../reference/when-icarus-says-syntax-error.md). In short: the first error is
-the real one, and everything under it is fallout.
+the real one, and everything printed under it follows from that first error.
 
 ## Where these came from
 
