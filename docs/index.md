@@ -3,14 +3,15 @@
 You drew a full adder on paper in DD101. In this course you type that drawing into
 SystemVerilog, test it against every input it can ever see, chain four copies into a 4-bit adder,
 and turn the result into a bitstream, the settings file that configures a real FPGA. You don't
-need an FPGA board; no lab needs one.
+need an FPGA board, because none of the labs uses one.
 
-Part of the UofT ASIC Team education materials, published at <https://uoftasic.com/dd102/>. The
-labs run inside the shared workbench you set up in [IC101](https://uoftasic.com/ic101/).
+DD102 is part of the UofT ASIC Team's education materials and is published at
+<https://uoftasic.com/dd102/>. The labs run inside the shared workbench you set up in
+[IC101](https://uoftasic.com/ic101/).
 
 ## Who this is for
 
-Students who have finished [IC101](https://uoftasic.com/ic101/) and then
+This course is for students who have finished [IC101](https://uoftasic.com/ic101/) and then
 [DD101](https://uoftasic.com/dd101/), in that order.
 
 | | |
@@ -19,17 +20,19 @@ Students who have finished [IC101](https://uoftasic.com/ic101/) and then
 | You bring | your DD101 hand-drawn full-adder diagram and your filled-in 8-row truth table, on paper |
 | Tools | Icarus Verilog, Verilator, Yosys, nextpnr, icepack, GTKWave and Surfer in the workbench, plus three websites: DigitalJS Online, EDA Playground and HDLBits ([Getting started](guide/getting-started.md#the-three-browser-tabs)) |
 | Time | about 12 h 20 min, self-paced: the sum of the Course path rows below |
-| You leave with | a 4-bit adder, `ripple4.sv`, tested on all 512 of its inputs, whose `generate for` loop you rewrite and prove equal to four hand-typed instances, and the 104,090-byte bitstream it becomes on a Lattice iCE40 UP5K |
+| You leave with | a 4-bit adder, `ripple4.sv`, tested on all 512 of its inputs, with a `generate for` loop that you rewrite and prove equal to four hand-typed instances, and the 104,090-byte bitstream it becomes on a Lattice iCE40 UP5K |
 
-The course is pinned to the workbench image `hpretl/iic-osic-tools:2026.08`. Lab 01, Part 1
-checks that you are on it (`yosys -V` prints `Yosys 0.68`, and the first line of `iverilog -V` is
-`Icarus Verilog version 14.0 (devel)`). The browser tools run different versions of the same
-programs; [Getting started](guide/getting-started.md) says where that matters.
+The course is pinned to the workbench image `hpretl/iic-osic-tools:2026.08`, and Lab 01, Part 1
+checks that you are running it: `yosys -V` should print `Yosys 0.68`, and the first line of
+`iverilog -V` should be `Icarus Verilog version 14.0 (devel)`. The browser tools run different
+versions of the same programs, and [Getting started](guide/getting-started.md) says where that
+matters.
 
 ## Course path
 
-Work down this table in order. Read rows are guide pages: concepts and worked examples, nothing
-to run. Do rows are labs, where you run every command, in numbered steps.
+Work down this table in order. The Read rows are guide pages, which explain concepts and work
+through examples but give you nothing to run. The Do rows are labs, and they're where you run
+every command, as numbered steps.
 
 | # | | What | Time |
 |---|---|---|---|
@@ -44,34 +47,36 @@ to run. Do rows are labs, where you run every command, in numbered steps.
 | 9 | Read | [Carry delay](guide/the-carry-has-to-travel.md) · [Inside an FPGA](guide/the-chip-is-already-there.md) | 45 min |
 | 10 | Do | [Lab 05: Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md). Turn the adder into an iCE40 bitstream, find out what runs out first on a small FPGA, and send your own Lab 04 file through the same flow. | 2 h |
 
-The times are estimates. Reference pages are for looking things up whenever you need them:
+The times are estimates. The reference pages are there for looking things up whenever you need
+them:
 [The DD102 subset](reference/the-dd102-subset.md) ·
 [Reading a waveform](reference/reading-a-waveform.md) ·
 [Icarus error messages](reference/when-icarus-says-syntax-error.md) ·
 [The browser tools](reference/the-three-browser-tabs.md) ·
 [Expected results](reference/expected-results.md)
 
-Lab files live in package folders under `labs/` in the course repo, which you download in
-Lab 01, Part 1. Every package runs with `make` alone, with no environment setup, and prints a
-`PASS`/`FAIL` verdict, so a failed setup step in Lab 01, Part 1 doesn't block you: the table at
-the end of that part shows how to get the files and run `make` anyway.
+The lab files live in package folders under `labs/` in the course repo, which you download in
+Lab 01, Part 1. Every package runs with plain `make`, with no environment setup, and prints a
+`PASS`/`FAIL` result. That means a setup step that fails in Lab 01, Part 1 won't hold you up:
+the table at the end of that part shows how to get the files and run `make` anyway.
 
-Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). See
-[Getting help](guide/getting-started.md#getting-help) for what to post.
+If you get stuck, ask in the [team Discord](https://discord.gg/hrJnP5UsGz).
+[Getting help](guide/getting-started.md#getting-help) explains what to include in your post.
 
 ## What you'll have at the end
 
-`ripple4.sv`, a 4-bit ripple-carry adder made of four copies of the full adder you transcribed
-from your drawing. You test it on all 512 of its inputs, rewrite its loop and prove the rewrite
-changed nothing, and turn it into a 104,090-byte bitstream for a Lattice iCE40 UP5K. Along the
-way you measure how long its carry takes to cross the adder on that FPGA, 26.22 ns, and find
-that most of that time is wire.
+You'll have `ripple4.sv`, a 4-bit ripple-carry adder made of four copies of the full adder you
+transcribed from your drawing. You test it on all 512 of its inputs, rewrite its loop and prove
+that the rewrite changed nothing, and turn it into a 104,090-byte bitstream for a Lattice iCE40
+UP5K. Along the way you measure how long its carry takes to cross the adder on that FPGA
+(26.22 ns), and you find that most of that time is spent in the wiring between cells rather than
+in the logic.
 
-DD102 stops at the bitstream. You don't get a GDSII, the file a chip is manufactured from,
-in this course. A bitstream configures a chip that already exists, which takes seconds; building
+DD102 stops at the bitstream, so you won't produce a GDSII, the file a chip is manufactured from,
+in this course. A bitstream configures a chip that already exists, which takes seconds. Building
 the chip itself is the subject of DD103.
 
 ## Next courses
 
-- DD103: RTL on FPGAs & ASICs. The `ripple4.sv` from this course, taken to silicon.
-- DD104: Pre-Silicon Verification. DD201: HLS. DD202: Computer Architecture.
+- DD103: RTL on FPGAs & ASICs, which takes the `ripple4.sv` from this course to silicon.
+- DD104: Pre-Silicon Verification, DD201: HLS and DD202: Computer Architecture.
