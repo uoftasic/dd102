@@ -52,18 +52,15 @@ more detail on all three, including what to do when a site is down.
 
 You paste SystemVerilog into a `.sv` tab, press **Run**, and get a schematic you can click, with
 input toggles that drive the logic. Underneath, it's Yosys compiled to WebAssembly and running
-inside your browser tab, so when the "Synthesis mode" setting says
-`WebAssembly (faster and local)`, it means exactly that. It's the fastest way to check a
-transcription: your paper drawing is on the desk, the machine's drawing is on the screen, and if
-they aren't the same shape, you typed something you didn't mean. You'll use it in Lab 01, and
+inside your browser tab. It's the fastest way to check a transcription: your paper drawing is on
+the desk, the machine's drawing is on the screen, and if they aren't the same shape, you typed
+something you didn't mean. You'll use it in Lab 01, and
 [Seeing your adder as a schematic](../guide/seeing-it-come-back.md) is the page about it.
 
-DigitalJS doesn't run the same Yosys as your workbench, and its version can change without
-warning, because it pulls Yosys from a public package feed with no version pinned. Your
-workbench runs 0.68; on the day this page was checked the feed's build was 0.65.176-dev.1145,
-and it won't stay at that number. So use DigitalJS for the picture, and never for the cell
-count. No lab asks you to compare a DigitalJS cell count with a workbench one, and if you do
-compare them, a difference isn't a bug.
+DigitalJS doesn't run the same Yosys as your workbench, and because it fetches Yosys with no
+version pinned, its version can change without warning. So use DigitalJS for the picture, and
+never for the cell count. [Its Yosys version](../reference/the-three-browser-tabs.md#its-yosys-version)
+on the browser tools page gives the two versions and what to make of a difference.
 
 Two of its checkboxes map onto things you already know. **Convert to logic gates → Map into
 subset of gates** lets you tick `NAND` and nothing else, and then watch your adder rebuild itself
@@ -93,17 +90,12 @@ matter, the lab says so.
 
 #### EDA Playground account
 
-This is the only account the DD digital track asks you for. The site's front page says:
-
-> *"You can start typing straight away. But to run your code, you'll need to sign or log in.
-> Logging in with a Google account gives you access to all non-commercial simulators and some
-> commercial simulators."*
-
-You can read and edit code without logging in; only the Run button needs an account. If you'd
-rather not make one, nothing in DD102 breaks, because your workbench can simulate everything EDA
-Playground can, and the lab packages are written for the workbench first. What you give up is the
-shareable link, which matters most when you need help. Whether that's worth an account is your
-call.
+This is the only account the DD digital track asks you for, and only the **Run** button needs it.
+If you'd rather not make one, nothing in DD102 breaks, because your workbench can simulate
+everything EDA Playground can, and the lab packages are written for the workbench first. What you
+give up is the shareable link, which matters most when you need help. Whether that's worth an
+account is your call. [The browser tools](../reference/the-three-browser-tabs.md#eda-playground)
+quotes what the site's front page says about logging in.
 
 ### HDLBits
 
@@ -115,9 +107,8 @@ In its own words:
 > *"Your circuit is checked for correctness by simulating with a set of test vectors and
 > comparing it to our reference solution."*
 
-An account does nothing more than let you pick up where you left off: *"If you want to track
-your progress or move to another browser, create a username and password so you can log in from
-elsewhere."*
+An account does nothing more than keep track of your progress, so that you can pick up where you
+left off from another browser.
 
 Two of its problems are DD102 in miniature: [Fadd](https://hdlbits.01xz.net/wiki/Fadd) ("Create
 a full adder… Expected solution length: Around 2 lines") and
