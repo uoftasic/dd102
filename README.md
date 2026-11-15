@@ -6,10 +6,10 @@ Course site: <https://uoftasic.com/dd102/> · Part of the
 [UofT ASIC Team](https://github.com/uoftasic) education materials ·
 [Education hub](https://edu.uoftasic.com/)
 
-You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). This course turns that
-drawing into text a machine reads, proves it against every input it can ever see, and puts it on
-a real Lattice iCE40 UP5K as a 104,090-byte bitstream. Students follow the Course path on the
-[course home page](docs/README.md#course-path): guide pages to read, alternating with five labs.
+You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). In this course the student
+types that drawing into SystemVerilog, tests it against every input it can ever see, and turns
+it into a 104,090-byte bitstream for a real Lattice iCE40 UP5K (no board needed). Students follow the Course path on the
+[course home page](docs/index.md#course-path): guide pages to read, alternating with five labs.
 
 | | |
 |---|---|
@@ -52,17 +52,18 @@ cd labs/lab-01-transcribe-your-adder && make
 | `labs/guide-examples-carry/` | the width sweep behind Carry delay; used in Lab 05 |
 | `labs/reference-card/` | twelve one-file cards, the whole DD102 SystemVerilog subset; used in Lab 04 |
 
-Docs preview (requires Node.js):
+Docs preview (requires [Quarto](https://quarto.org/docs/get-started/) 1.11):
 
 ```bash
-npx docsify-cli serve docs      # → http://localhost:3000
+quarto preview docs                            # → http://localhost:4200
+quarto render docs --profile pdf --to typst    # whole course as one PDF in docs/_book/
 ```
 
 ## Layout
 
 | Path | On Pages? | Purpose |
 |------|-----------|---------|
-| `docs/` | Yes | The Docsify site published at uoftasic.com/dd102/ |
+| `docs/` | Yes | The Quarto site (`docs/_quarto.yml`) published at uoftasic.com/dd102/ |
 | `docs/guide/` | Yes | Guide pages: reading only, no required commands |
 | `docs/labs/` | Yes | Lab writeups: the one place students run things, in numbered steps |
 | `docs/reference/` | Yes | Lookup pages |
@@ -75,12 +76,13 @@ No solutions or grade keys are published under `docs/`.
 
 | Setting | Value |
 |---------|--------|
-| Source | Deploy from a branch |
-| Branch | `main` |
-| Folder | `/docs` |
+| Source | GitHub Actions |
 
-No Actions deploy step is needed. `.github/workflows/docs-link-check.yml` link-checks `docs/**`
-on push and pull request.
+`.github/workflows/site.yml` renders `docs/` with Quarto on every push to `main` that touches it,
+checks every local link and anchor in the result with `scripts/check_site.py`, and deploys
+`docs/_site`, which includes a PDF of every page and the whole course as `dd102-course.pdf`. On a
+pull request it builds and checks without deploying. `.github/workflows/docs-link-check.yml` also
+runs lychee on the Markdown in `docs/**` on push and pull request.
 
 ## Contributing
 
