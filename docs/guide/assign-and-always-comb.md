@@ -244,4 +244,4 @@ You see all three of these errors yourself in Lab 01, Part 6.
 3. An `always_comb` block sets `y` inside `if (en)` and nowhere else. What hardware do you get,
    and what one line prevents it?
 
-Next: [Seeing your adder as a schematic](guide/seeing-it-come-back.md).
+Next: [Seeing your adder as a schematic](../guide/seeing-it-come-back.md).

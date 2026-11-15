@@ -5,7 +5,7 @@ Icarus printed five red lines and you made one mistake. Believe the first one.
 Everything under the first error is usually the parser guessing, and its guesses can describe
 constructs you never wrote. Read from the top, fix one thing, and run again. Error counts in
 Verilog don't measure how wrong you are:
-[`assign` and `always_comb`](guide/assign-and-always-comb.md) shows a one-line mistake producing
+[`assign` and `always_comb`](../guide/assign-and-always-comb.md) shows a one-line mistake producing
 five errors, three of which describe things that aren't there.
 
 This page is a decoder. Find the text you are looking at and read across.
@@ -231,7 +231,7 @@ exit 2
 The output is identical, and the exit statuses are 0 and 2. The status you got back from the pipe
 belonged to `head`, which succeeded, not to `iverilog`, which failed. Anything reading that exit
 code (a `Makefile`, a script, a `&&`) has just been told your build was fine.
-[Lab 01, Part 1](labs/lab-01-transcribe-your-adder-overview.md) makes a related point about
+[Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md) makes a related point about
 `iverilog -V`.
 
 Run the compiler unpiped. If you need to capture its output, capture both streams:
@@ -263,7 +263,7 @@ Post in the [team Discord](https://discord.gg/hrJnP5UsGz) with three things:
 2. the exact command you ran, including the file names
 3. the line the error names, and the one above it
 
-Related: [The DD102 subset](reference/the-dd102-subset.md) lists every construct this course uses,
+Related: [The DD102 subset](../reference/the-dd102-subset.md) lists every construct this course uses,
 with a runnable card for each; if a construct isn't on that list, DD102 never asks you to write
-it. [`assign` and `always_comb`](guide/assign-and-always-comb.md) explains the one-driver rule and
+it. [`assign` and `always_comb`](../guide/assign-and-always-comb.md) explains the one-driver rule and
 the latch trap rather than only listing them.

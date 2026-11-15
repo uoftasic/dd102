@@ -2,7 +2,7 @@
 
 This page covers what you need for DD102, how the course is laid out, the three websites it uses
 alongside the workbench, and how to get help. You load the course into your workbench in
-[Lab 01, Part 1](labs/lab-01-transcribe-your-adder-overview.md).
+[Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md).
 
 ## What to have next to you
 
@@ -17,7 +17,7 @@ over, because typing the drawing out yourself is the lesson.
 
 ## How the course works
 
-The [Course path](README.md#course-path) on the home page is the order to work in. Each row is
+The [Course path](../index.md#course-path) on the home page is the order to work in. Each row is
 either reading or a lab:
 
 - Guide pages, like this one, are for reading. They explain the ideas and show worked examples.
@@ -44,7 +44,7 @@ DD102 is the only course in the track with a useful browser half. It uses three 
 alongside the workbench, and each does one job better than the terminal. Your workbench can do
 everything the first two do; HDLBits has no workbench equivalent, and nothing in DD102 requires
 it. More detail, including what to do when a site is down, is in
-[The browser tools](reference/the-three-browser-tabs.md).
+[The browser tools](../reference/the-three-browser-tabs.md).
 
 ### DigitalJS Online
 
@@ -55,7 +55,7 @@ input toggles that drive the logic. It is Yosys compiled to WebAssembly, running
 the "Synthesis mode" setting says `WebAssembly (faster and local)` and means it. It is the fastest
 way to check a transcription: your paper drawing is on the desk, the machine's drawing is on the
 screen, and if they aren't the same shape you typed something you didn't mean. You use it in Lab
-01. [Seeing your adder as a schematic](guide/seeing-it-come-back.md) is the page about it.
+01. [Seeing your adder as a schematic](../guide/seeing-it-come-back.md) is the page about it.
 
 Its Yosys isn't your Yosys, and it can change under you. DigitalJS pulls Yosys from a public
 package feed with no version pinned. Your workbench runs 0.68; the feed's build was
@@ -66,7 +66,7 @@ workbench one, and if you do, a difference isn't a bug.
 Two of its checkboxes map onto things you already know. **Convert to logic gates → Map into
 subset of gates** lets you tick `NAND` and nothing else, and watch your adder rebuild itself out
 of the one gate you built everything from in DD101. **Map into LUTs** does what an FPGA does, the
-subject of [Inside an FPGA](guide/the-chip-is-already-there.md).
+subject of [Inside an FPGA](../guide/the-chip-is-already-there.md).
 
 ### EDA Playground
 
@@ -82,7 +82,7 @@ Two things to know before your first run:
   still be called `full_adder`; the file it lives in is just named `design.sv` there.
 - EPWave shows nothing unless your testbench calls `$dumpfile` and `$dumpvars` and you tick
   **Open EPWave after run**. An empty waveform window looks like a broken design and almost never
-  is one. [Waveforms](guide/two-lines-make-the-waveform-appear.md) covers this.
+  is one. [Waveforms](../guide/two-lines-make-the-waveform-appear.md) covers this.
 
 Its Icarus is 12.0 against your workbench's 14.0, and its Yosys is 0.37 against your 0.68. For
 everything DD102 asks you to write this makes no difference; where it could, the lab says so.
@@ -115,7 +115,7 @@ to another browser, create a username and password so you can log in from elsewh
 Two of its problems are DD102 in miniature: [Fadd](https://hdlbits.01xz.net/wiki/Fadd) ("Create
 a full adder… Expected solution length: Around 2 lines") and
 [Exams/m2014 q4j](https://hdlbits.01xz.net/wiki/Exams/m2014_q4j), a 4-bit ripple adder built from
-full adders. [Waveforms](guide/two-lines-make-the-waveform-appear.md) has a short list of
+full adders. [Waveforms](../guide/two-lines-make-the-waveform-appear.md) has a short list of
 problems in the order the course builds.
 
 The site calls its language Verilog, not SystemVerilog. In practice it accepts `logic` and

@@ -5,7 +5,7 @@ browser tab, and checking that it still behaves. In DD101 you drew a circuit and
 inputs to watch it work. Here you hand your text to a real synthesizer, get a clickable schematic
 back, click its inputs, and find your eight rows. If the picture that comes back is your picture,
 nothing was lost in the transcription. You do this in
-[Lab 01, Part 5](labs/lab-01-transcribe-your-adder-overview.md).
+[Lab 01, Part 5](../labs/lab-01-transcribe-your-adder-overview.md).
 
 ## DigitalJS Online
 
@@ -75,7 +75,7 @@ by the same Yosys and printed as numbers instead of a picture. The SVG it writes
 ![The full adder as Yosys draws it: five gates, with the wire names you typed](../assets/img/full-adder-rtl.svg)
 
 Look at the labels on the wires in the middle: `ha1_sum`, `ha1_carry`, `ha2_carry`, the names you
-made up in [From your drawing to a module](guide/from-your-drawing-to-a-module.md), still there
+made up in [From your drawing to a module](../guide/from-your-drawing-to-a-module.md), still there
 after a synthesizer. Naming your wires well is what
 makes the output of these tools readable. You can run this script in Lab 01, under Going further.
 
@@ -119,7 +119,7 @@ instantiates `half_adder` and DigitalJS has never heard of it. With `half_adder.
 second file, both compile together and you get the hierarchical view: `half_adder` drawn as one
 box, twice. A magnifier on each box descends into it to show the Xor and the And inside, the same
 gesture as opening a subcircuit in CircuitVerse, and a picture of the module boundaries from
-[Modules and instances](guide/what-a-module-is.md).
+[Modules and instances](../guide/what-a-module-is.md).
 
 ## Sharing a circuit
 
@@ -135,5 +135,5 @@ screenshot of a schematic, so whoever answers can click your inputs themselves.
    wrong?
 3. You name an input `clock`. What will DigitalJS do with it?
 
-Next on the [Course path](README.md#course-path): do
-[Lab 01: Transcribe your adder](labs/lab-01-transcribe-your-adder-overview.md).
+Next on the [Course path](../index.md#course-path): do
+[Lab 01: Transcribe your adder](../labs/lab-01-transcribe-your-adder-overview.md).

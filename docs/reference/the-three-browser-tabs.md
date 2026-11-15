@@ -45,7 +45,7 @@ Three of its checkboxes map onto things you already know:
 | Checkbox | What it does |
 |---|---|
 | Convert to logic gates → Map into subset of gates | tick `NAND` and nothing else, and watch your adder rebuild itself out of the one gate DD101 built everything from |
-| Map into LUTs | what an FPGA does; see [Inside an FPGA](guide/the-chip-is-already-there.md) |
+| Map into LUTs | what an FPGA does; see [Inside an FPGA](../guide/the-chip-is-already-there.md) |
 | Lint source code using Verilator | a second opinion on your file, in the browser |
 
 ### Its Yosys version
@@ -108,7 +108,7 @@ The simulator dropdown on 2026-08-25:
 | GHDL | 5.1.1 |
 
 Your workbench runs Icarus 14.0, Verilator 5.050 and Yosys 0.68. For everything DD102 asks you to
-write this makes no difference; [Waveforms](guide/two-lines-make-the-waveform-appear.md) covers
+write this makes no difference; [Waveforms](../guide/two-lines-make-the-waveform-appear.md) covers
 the one place where 12.0 says `sorry:` and 14.0 doesn't.
 
 Checkboxes on the left that matter:
@@ -125,7 +125,7 @@ and useless for the work DD103 is about, so don't plan on doing chip work there.
 ### Workbench equivalent
 
 Everything EPWave shows you, GTKWave and Surfer show you too; see
-[Reading a waveform](reference/reading-a-waveform.md):
+[Reading a waveform](../reference/reading-a-waveform.md):
 
 ```bash
 cd /foss/designs/modules/dd102/labs/guide-examples-proving-it
@@ -173,7 +173,7 @@ else's testbench and problems you didn't write. Nothing in DD102 requires it; it
 every page that mentions it.
 
 What you can do instead is write the testbench yourself, which is what
-[Lab 02](labs/lab-02-prove-it-overview.md) and [Lab 03](labs/lab-03-the-lazy-testbench-overview.md)
+[Lab 02](../labs/lab-02-prove-it-overview.md) and [Lab 03](../labs/lab-03-the-lazy-testbench-overview.md)
 teach. After them you can grade your own work on any problem statement you have. These two
 self-checking packages give a verdict with no network at all (run each from the repo root):
 
@@ -223,5 +223,5 @@ DD102's actual deliverable, a transcribed `ripple4.sv` proven on all 512 of its 
 104,090-byte bitstream, is produced entirely inside a container already on your disk. The browser
 is a convenience.
 
-Next, if you haven't read it: [Reading a waveform](reference/reading-a-waveform.md), for what to do
+Next, if you haven't read it: [Reading a waveform](../reference/reading-a-waveform.md), for what to do
 with the window once EPWave or GTKWave shows you one.

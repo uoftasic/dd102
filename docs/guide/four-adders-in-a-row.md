@@ -6,7 +6,7 @@ the next: the picture you drew on paper in
 [Where the carry goes](https://uoftasic.com/dd101/#/guide/where-the-carry-goes) before you had seen
 any SystemVerilog. This page covers the three pieces of syntax that make that tidy: vectors,
 `generate for` and `parameter`. You use all three in
-[Lab 04](labs/lab-04-four-adders-in-a-row-overview.md).
+[Lab 04](../labs/lab-04-four-adders-in-a-row-overview.md).
 
 ## Adding by hand
 
@@ -36,7 +36,7 @@ together under one name:
 
 `[3:0]` reads "three down to zero". Write it that way round every time. The other order is legal,
 means something different, and no design in this course wants it. This is card 2 of
-[The DD102 subset](reference/the-dd102-subset.md); for `a = 1001` its file,
+[The DD102 subset](../reference/the-dd102-subset.md); for `a = 1001` its file,
 [`src/02_logic_and_vectors.sv`](https://github.com/uoftasic/dd102/blob/main/labs/reference-card/src/02_logic_and_vectors.sv),
 prints `a=1001 y=0110 a[3]=1 a[2:1]=00`.
 
@@ -55,7 +55,7 @@ Adder `i` reads `c[i]` and drives `c[i+1]`, for every `i`, with no special case 
 bottom carry is `c[0]`, tied to `cin`; the top carry is `c[4]`, which becomes `cout`.
 
 A version with four separately named wires (`c1`, `c2`, `c3`, `c4`) works just as well, and it is
-what `add4.sv` in [Lab 03](labs/lab-03-the-lazy-testbench-overview.md) does. But it can't be
+what `add4.sv` in [Lab 03](../labs/lab-03-the-lazy-testbench-overview.md) does. But it can't be
 written as a loop, and it gives you four chances to type `c2` where you meant `c3`. Indexing a
 vector makes the four lines identical, and identical lines are the ones a machine can write for
 you.
@@ -128,7 +128,7 @@ build the same circuit for every input, and shows you a counterexample when they
 `begin : slice` names the block, and the tools use that name to tell the four copies apart: the
 second adder is called `slice[1].fa`. That string appears in error messages, in waveform
 hierarchies and in place-and-route reports. In
-[Lab 05](labs/lab-05-onto-the-fpga-overview.md), nextpnr's list of placed logic cells for your
+[Lab 05](../labs/lab-05-onto-the-fpga-overview.md), nextpnr's list of placed logic cells for your
 adder includes `slice[0].fa.sum_SB_LUT4_O_LC` through `slice[3].fa.sum_SB_LUT4_O_LC`. Drop the
 `: slice` and those names become anonymous, and the day something is slow or broken you can't
 say which of the four it was.
@@ -212,7 +212,7 @@ what you do instead. Lab 04 runs the 512 and the 131,072 and prints the counts.
 "`generate` is a loop, so it must be slow." There is no loop. Four adders exist at the same
 instant and compute at the same instant. What does cost time is the carry travelling through them
 one after another, which is a different mechanism with a different fix; that is the subject of
-[Carry delay](guide/the-carry-has-to-travel.md).
+[Carry delay](../guide/the-carry-has-to-travel.md).
 
 "The hand-written and generated versions might not be identical." They are, and you don't have to
 take it on trust: Lab 04 hands both files to Yosys's equivalence checker and gets a proof.
@@ -230,5 +230,5 @@ arrows crossing the gaps.
    you get?
 4. What does `begin : slice` give you that an unlabelled block doesn't?
 
-Next on the [Course path](README.md#course-path): do
-[Lab 04: Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md).
+Next on the [Course path](../index.md#course-path): do
+[Lab 04: Four adders in a row](../labs/lab-04-four-adders-in-a-row-overview.md).

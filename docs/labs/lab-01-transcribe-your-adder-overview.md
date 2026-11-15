@@ -12,11 +12,11 @@ and Parts 6 and 7 use [`labs/guide-examples/`](https://github.com/uoftasic/dd102
 ## Before you start
 
 - Finish [IC101](https://uoftasic.com/ic101/) and [DD101](https://uoftasic.com/dd101/).
-- Read [Getting started](guide/getting-started.md),
-  [From your drawing to a module](guide/from-your-drawing-to-a-module.md),
-  [Modules and instances](guide/what-a-module-is.md),
-  [`assign` and `always_comb`](guide/assign-and-always-comb.md) and
-  [Seeing your adder as a schematic](guide/seeing-it-come-back.md).
+- Read [Getting started](../guide/getting-started.md),
+  [From your drawing to a module](../guide/from-your-drawing-to-a-module.md),
+  [Modules and instances](../guide/what-a-module-is.md),
+  [`assign` and `always_comb`](../guide/assign-and-always-comb.md) and
+  [Seeing your adder as a schematic](../guide/seeing-it-come-back.md).
 - Put your DD101 hand-drawn full adder and your filled-in eight-row truth table on the desk.
   They are the input to this lab. Nothing digital comes across from DD101.
 
@@ -61,7 +61,7 @@ DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing
    closes the pipe while Icarus is still asking its sub-programs for their versions, so it adds
    lines like `Unable to get version from "/foss/tools/iverilog/lib/ivl/ivlpp -V"`, a different
    number each run. They don't mean your install is broken; [Icarus error
-   messages](reference/when-icarus-says-syntax-error.md) has more on pipes.
+   messages](../reference/when-icarus-says-syntax-error.md) has more on pipes.
 
    Three more versions appear in later output: `Verilator 5.050 2026-07-01 rev v5.050`
    (`verilator --version`),
@@ -228,7 +228,7 @@ Does the circuit you drew give the right answer on all eight rows of your truth 
    in a text editor. Edit it inside the noVNC desktop, or on your own machine: the file is in
    your `workspace` folder, under `modules/dd102/labs/lab-01-transcribe-your-adder/`. The ports
    are done. The commented block in the middle has the shape from
-   [From your drawing to a module](guide/from-your-drawing-to-a-module.md): name the three wires
+   [From your drawing to a module](../guide/from-your-drawing-to-a-module.md): name the three wires
    that never touch the edge of your box, then write one `assign` for each of the five wires on
    your drawing (those three plus `sum` and `cout`).
 
@@ -395,12 +395,12 @@ guide pages you read before this lab. It needs no environment setup either.
 
    | File | What you should see | Guide page |
    |---|---|---|
-   | `errors/two_drivers.sv` | `error: Variable 'sum' cannot have multiple drivers.` | [From your drawing to a module](guide/from-your-drawing-to-a-module.md) |
-   | `errors/undeclared_wire.sv` | Icarus: `iverilog exit 0 - silent`. Yosys: three `Warning: Identifier ... is implicitly declared.` lines | [From your drawing to a module](guide/from-your-drawing-to-a-module.md) |
-   | `errors/call_it_like_a_function.sv` | ``error: No function named `full_adder' found in this context`` | [Modules and instances](guide/what-a-module-is.md) |
-   | `errors/both_ways_at_once.sv` | Icarus: `Cannot perform procedural assignment to variable 'sum' because it is also continuously assigned.` Yosys: `yosys exit 0` and one `Warning: multiple conflicting drivers` line | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
-   | `errors/forgot_a_branch.sv` | Icarus: `iverilog exit 0 - not one word about it`. Yosys: `yosys exit 1` and ``ERROR: Latch inferred for signal `\forgot_a_branch.\sum' ...`` | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
-   | `errors/if_inside_assign.sv` | five errors, all on line 9, for one mistake | [`assign` and `always_comb`](guide/assign-and-always-comb.md) |
+   | `errors/two_drivers.sv` | `error: Variable 'sum' cannot have multiple drivers.` | [From your drawing to a module](../guide/from-your-drawing-to-a-module.md) |
+   | `errors/undeclared_wire.sv` | Icarus: `iverilog exit 0 - silent`. Yosys: three `Warning: Identifier ... is implicitly declared.` lines | [From your drawing to a module](../guide/from-your-drawing-to-a-module.md) |
+   | `errors/call_it_like_a_function.sv` | ``error: No function named `full_adder' found in this context`` | [Modules and instances](../guide/what-a-module-is.md) |
+   | `errors/both_ways_at_once.sv` | Icarus: `Cannot perform procedural assignment to variable 'sum' because it is also continuously assigned.` Yosys: `yosys exit 0` and one `Warning: multiple conflicting drivers` line | [`assign` and `always_comb`](../guide/assign-and-always-comb.md) |
+   | `errors/forgot_a_branch.sv` | Icarus: `iverilog exit 0 - not one word about it`. Yosys: `yosys exit 1` and ``ERROR: Latch inferred for signal `\forgot_a_branch.\sum' ...`` | [`assign` and `always_comb`](../guide/assign-and-always-comb.md) |
+   | `errors/if_inside_assign.sv` | five errors, all on line 9, for one mistake | [`assign` and `always_comb`](../guide/assign-and-always-comb.md) |
 
    You'll also see four lines like `make: [Makefile:92: errors] Error 2 (ignored)`, one for each
    file Icarus refuses to compile. That is `make` reporting that a command failed and that it was
@@ -473,7 +473,7 @@ Do different ways of writing the adder build the same hardware?
 
    Sections 1 to 3 are identical to four decimal places: one `sky130_fd_sc_hd__xor3_1` and one
    `sky130_fd_sc_hd__maj3_1` each. Areas are in square micrometres. Check sections 4 to 6 against
-   the arithmetic in [Modules and instances](guide/what-a-module-is.md):
+   the arithmetic in [Modules and instances](../guide/what-a-module-is.md):
    $15.0144 \times 2 + 6.2560 = 36.2848$ with the walls up, and 33.7824 with them knocked down.
 
 4. Run `make` with no target. It runs most of the steps in Parts 6 and 7, including this
@@ -515,7 +515,7 @@ you have worked through Parts 1 to 7 and `make` in `labs/lab-01-transcribe-your-
 `make` always exits 0; the verdict is the text. `make grade` is the same check with an exit
 status a script can read. It prints `make: *** [Makefile:92: grade] Error 1` until you pass. The
 lab's reference numbers are on
-[Expected results](reference/expected-results.md#lab-01-transcribe-your-adder).
+[Expected results](../reference/expected-results.md#lab-01-transcribe-your-adder).
 
 ### Questions
 
@@ -548,7 +548,7 @@ Nothing to submit.
    [`src/full_adder_table.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder_table.sv)
    (the `always_comb` + `case` version) into it and press **Run**. You should see a single box
    labelled **Memory** with an address input, and no gates. The circuit isn't different;
-   [Seeing your adder as a schematic](guide/seeing-it-come-back.md) explains why.
+   [Seeing your adder as a schematic](../guide/seeing-it-come-back.md) explains why.
 3. Reload the page, create `full_adder_hier` and paste
    [`src/full_adder_hier.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples/src/full_adder_hier.sv)
    into it, then create a second file, `half_adder`, paste
@@ -572,7 +572,7 @@ Nothing to submit.
 
 Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz). Save a DigitalJS link (Going
 further, step 5) or an [EDA Playground](https://www.edaplayground.com/) link (see
-[Getting started](guide/getting-started.md)) and paste that instead of describing the problem.
+[Getting started](../guide/getting-started.md)) and paste that instead of describing the problem.
 
-Next on the [Course path](README.md#course-path): read [Testbenches](guide/eight-rows-and-no-opinions.md),
-then do [Lab 02: Prove it](labs/lab-02-prove-it-overview.md).
+Next on the [Course path](../index.md#course-path): read [Testbenches](../guide/eight-rows-and-no-opinions.md),
+then do [Lab 02: Prove it](../labs/lab-02-prove-it-overview.md).

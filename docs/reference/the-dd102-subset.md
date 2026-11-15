@@ -32,7 +32,7 @@ These outputs came from Icarus Verilog 14.0 in `hpretl/iic-osic-tools:2026.08`. 
 Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
 ```
 
-That is the first of 73 lines; the rest is the GPL, which is normal. [Lab 01, Part 1](labs/lab-01-transcribe-your-adder-overview.md)
+That is the first of 73 lines; the rest is the GPL, which is normal. [Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md)
 has the details.
 
 ## The twelve
@@ -122,7 +122,7 @@ order the signal travels, because that is easiest to read.
 Two `assign`s aimed at the same signal are an error, not an overwrite. So are one `assign` and one
 `always_comb` writing the same signal. Both refusals are in
 [`errors/`](https://github.com/uoftasic/dd102/tree/main/labs/guide-examples/errors), and
-[`assign` and `always_comb`](guide/assign-and-always-comb.md) explains why.
+[`assign` and `always_comb`](../guide/assign-and-always-comb.md) explains why.
 
 ### 5 · `always_comb`
 
@@ -337,13 +337,13 @@ each one is a place to get lost.
 ## If it won't compile
 
 The refusals you'll meet, with the exact text Icarus prints and which line to believe, are in
-[Icarus error messages](reference/when-icarus-says-syntax-error.md). In short: the first error is
+[Icarus error messages](../reference/when-icarus-says-syntax-error.md). In short: the first error is
 the real one, and everything under it is fallout.
 
 ## Where these came from
 
-- [From your drawing to a module](guide/from-your-drawing-to-a-module.md): cards 1–4
-- [`assign` and `always_comb`](guide/assign-and-always-comb.md): cards 3 and 5
-- [Vectors, generate loops and parameters](guide/four-adders-in-a-row.md): cards 7–9 and 11
-- [Waveforms](guide/two-lines-make-the-waveform-appear.md): card 12, and
-  [Reading a waveform](reference/reading-a-waveform.md) for what to do with the file
+- [From your drawing to a module](../guide/from-your-drawing-to-a-module.md): cards 1–4
+- [`assign` and `always_comb`](../guide/assign-and-always-comb.md): cards 3 and 5
+- [Vectors, generate loops and parameters](../guide/four-adders-in-a-row.md): cards 7–9 and 11
+- [Waveforms](../guide/two-lines-make-the-waveform-appear.md): card 12, and
+  [Reading a waveform](../reference/reading-a-waveform.md) for what to do with the file

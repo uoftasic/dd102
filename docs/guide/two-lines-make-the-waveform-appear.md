@@ -9,7 +9,7 @@ VCD info: dumpfile eight.vcd opened for output.
 
 and it left a waveform file, `eight.vcd`, next to it. This page covers how that file gets written,
 what is in it, and how to read one in a viewer. You open these files in
-[Lab 03, Part 2](labs/lab-03-the-lazy-testbench-overview.md).
+[Lab 03, Part 2](../labs/lab-03-the-lazy-testbench-overview.md).
 
 ## Two lines in the testbench
 
@@ -101,7 +101,7 @@ anything until you say which signals you care about.
   it opens in a new browser window, so a pop-up blocker hides it silently.
 
 Nothing in DD102 depends on which one you prefer.
-[Reading a waveform](reference/reading-a-waveform.md) is the lookup page for the menus and
+[Reading a waveform](../reference/reading-a-waveform.md) is the lookup page for the menus and
 commands.
 
 ## Your first waveform
@@ -257,5 +257,5 @@ site calls its language Verilog; everything DD102 teaches sits inside what it ac
 4. EDA Playground prints `sorry:` on a file that passes on your workbench. What do you check
    first?
 
-Next on the [Course path](README.md#course-path): do
-[Lab 03: The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md).
+Next on the [Course path](../index.md#course-path): do
+[Lab 03: The lazy testbench](../labs/lab-03-the-lazy-testbench-overview.md).

@@ -8,7 +8,7 @@ settings file. That explains most of the surprising
 numbers in FPGA reports, and it is what this page is about.
 
 Every number below came from `yosys synth_ice40` and `nextpnr-ice40` on the workbench image,
-`hpretl/iic-osic-tools:2026.08`. You run them in [Lab 05](labs/lab-05-onto-the-fpga-overview.md).
+`hpretl/iic-osic-tools:2026.08`. You run them in [Lab 05](../labs/lab-05-onto-the-fpga-overview.md).
 
 ## What an `SB_LUT4` is
 
@@ -138,7 +138,7 @@ utilisation report. Both are text, and you already have both.
 [DigitalJS Online](https://digitaljs.tilk.eu/) has a checkbox labelled **Map into LUTs**: with
 your `full_adder.sv` pasted in and that box ticked, the schematic redraws with lookup tables where
 your gates were. It is the fastest way to see the substitution `synth_ice40` makes. Two cautions,
-both from [The browser tools](reference/the-three-browser-tabs.md):
+both from [The browser tools](../reference/the-three-browser-tabs.md):
 
 - Use it for the picture, never for the count. Its Yosys comes unpinned from a CDN (on 2026-08-25
   that was 0.65.176-dev.1145, against your workbench's 0.68), so if its numbers disagree with
@@ -149,7 +149,7 @@ both from [The browser tools](reference/the-three-browser-tabs.md):
 
 "Then an FPGA is just a slow simulator." No. Nothing is being interpreted and there is no program.
 Those sixteen bits are wired into a multiplexer built from transistors, and the answer comes out
-at the speed of the silicon, which is why [Carry delay](guide/the-carry-has-to-travel.md) is
+at the speed of the silicon, which is why [Carry delay](../guide/the-carry-has-to-travel.md) is
 measured in nanoseconds rather than instructions.
 
 "9 LUTs from Yosys and 11 logic cells from nextpnr, so one of them is wrong." Neither. Yosys counts
@@ -173,5 +173,5 @@ decision is where DD103 starts.
    two come from?
 4. Why is a bitstream not a description of your design?
 
-Next on the [Course path](README.md#course-path): do
-[Lab 05: Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md).
+Next on the [Course path](../index.md#course-path): do
+[Lab 05: Onto the FPGA](../labs/lab-05-onto-the-fpga-overview.md).

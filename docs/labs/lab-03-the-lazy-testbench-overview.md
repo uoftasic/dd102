@@ -13,13 +13,13 @@ for Parts 4 to 8.
 
 ## Before you start
 
-- Finish [Lab 02](labs/lab-02-prove-it-overview.md): you have written a self-checking testbench
+- Finish [Lab 02](../labs/lab-02-prove-it-overview.md): you have written a self-checking testbench
   and watched it catch three planted bugs.
-- Read [Testbenches](guide/eight-rows-and-no-opinions.md) and
-  [Waveforms](guide/two-lines-make-the-waveform-appear.md). This lab also wires four instances of
-  one module together, which is what [Modules and instances](guide/what-a-module-is.md) covers.
+- Read [Testbenches](../guide/eight-rows-and-no-opinions.md) and
+  [Waveforms](../guide/two-lines-make-the-waveform-appear.md). This lab also wires four instances of
+  one module together, which is what [Modules and instances](../guide/what-a-module-is.md) covers.
 - Work in a terminal on the noVNC desktop. Load `.designinit` and run `mod dd102` as in
-  [Lab 01, Part 1](labs/lab-01-transcribe-your-adder-overview.md); that is how you get to the
+  [Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md); that is how you get to the
   repo. The packages themselves need no environment setup, but the waveform viewers in Part 2
   need the desktop.
 
@@ -115,7 +115,7 @@ is what nearly everybody writes first, and every case is one that obviously matt
    `MISMATCH` lines print; 256 of them would scroll the `TESTED`/`ERRORS`/`VERDICT` block off
    your screen.
 
-3. Exactly half is a clue to the shape of the bug, as [Testbenches](guide/eight-rows-and-no-opinions.md)
+3. Exactly half is a clue to the shape of the bug, as [Testbenches](../guide/eight-rows-and-no-opinions.md)
    explains. Ask the sweep which input the failures follow:
 
    ```bash
@@ -186,7 +186,7 @@ draw into a text terminal, not that the install is broken.
    `make eight` reruns the eight-row testbench from Lab 02, Part 1 and writes
    `results/eight.vcd`. In GTKWave you should see `a`, `b` and `cin` stepping through all eight
    combinations over 0 to 160 ns, 20 ns per row, with `sum` and `cout` following. Check against
-   [Waveforms](guide/two-lines-make-the-waveform-appear.md): `cin` changes twice as often as `b`
+   [Waveforms](../guide/two-lines-make-the-waveform-appear.md): `cin` changes twice as often as `b`
    and `b` twice as often as `a`; `sum` is 1 on rows 1, 2, 4 and 7 (counting from row 0); `cout`
    is high from 60 to 80 ns and from 100 to 160 ns.
 
@@ -630,7 +630,7 @@ src/tb_sweep8.sv:40: $finish called at 2621440000 (1ps)
 ```
 
 Your `wall` line will differ: repeated runs on the workbench landed between 0.59 and 0.63 s. The
-`TESTED 131072` and `ERRORS 0` above it won't. [Testbenches](guide/eight-rows-and-no-opinions.md)
+`TESTED 131072` and `ERRORS 0` above it won't. [Testbenches](../guide/eight-rows-and-no-opinions.md)
 turns that rate into the cost of testing a 16-bit and a 32-bit adder this way, and in Lab 04,
 Part 6 you work those costs out yourself.
 
@@ -649,7 +649,7 @@ reference run), and 0 whether the first row says `PASS` or `FOUND`, so read the 
 exit status, to know you're done. In `labs/guide-examples-proving-it/`, `make` with no target reruns the Part 1
 testbenches (and Lab 02's) and prints one `PASS` per run that matches the reference numbers,
 including the sweep that is supposed to fail. Those lines and the lab's reference numbers are on
-[Expected results](reference/expected-results.md#lab-03-the-lazy-testbench).
+[Expected results](../reference/expected-results.md#lab-03-the-lazy-testbench).
 
 ### Questions
 
@@ -681,12 +681,12 @@ Nothing to submit.
 
    You should see an empty, black wave pane. Nothing is broken: GTKWave doesn't guess which
    signals matter, and it opens zoomed in at time zero.
-   [Reading a waveform](reference/reading-a-waveform.md) has the menus for adding signals and
+   [Reading a waveform](../reference/reading-a-waveform.md) has the menus for adding signals and
    zooming out.
 
 2. Run the eight-row testbench on [EDA Playground](https://www.edaplayground.com/), with the one
    Google login the DD courses ask for (see
-   [Getting started](guide/getting-started.md#eda-playground-account)). Paste
+   [Getting started](../guide/getting-started.md#eda-playground-account)). Paste
    [`src/full_adder.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/full_adder.sv)
    into the **`design.sv`** tab and
    [`src/tb_eight_rows.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/tb_eight_rows.sv)
@@ -696,7 +696,7 @@ Nothing to submit.
    leaving you a successful run and no picture. Then run
    [`src/tb_eight_rows_compact.sv`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/tb_eight_rows_compact.sv)
    the same way. You should see the `sorry:` message that
-   [Waveforms](guide/two-lines-make-the-waveform-appear.md) explains:
+   [Waveforms](../guide/two-lines-make-the-waveform-appear.md) explains:
 
    ```
    testbench.sv:20: sorry: Assignment to an entire array or to an array slice is not yet supported.
@@ -709,6 +709,6 @@ Nothing to submit.
 
 Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz).
 
-Next on the [Course path](README.md#course-path): read
-[Vectors, generate loops and parameters](guide/four-adders-in-a-row.md), then do
-[Lab 04: Four adders in a row](labs/lab-04-four-adders-in-a-row-overview.md).
+Next on the [Course path](../index.md#course-path): read
+[Vectors, generate loops and parameters](../guide/four-adders-in-a-row.md), then do
+[Lab 04: Four adders in a row](../labs/lab-04-four-adders-in-a-row-overview.md).
