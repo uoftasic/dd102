@@ -1,19 +1,23 @@
 # Guide examples
 
-Every file printed in the guide pages From your drawing to a module, Modules and instances,
-`assign` and `always_comb`, Seeing your adder as a schematic and Inside an FPGA, complete. If one
-of those pages shows you SystemVerilog, the whole file is here. This isn't a lab; you write your
-own adder in [`../lab-01-transcribe-your-adder/`](../lab-01-transcribe-your-adder/).
+This folder holds, complete, every file printed in five guide pages:
+[From your drawing to a module](../../docs/guide/from-your-drawing-to-a-module.md),
+[Modules and instances](../../docs/guide/what-a-module-is.md),
+[`assign` and `always_comb`](../../docs/guide/assign-and-always-comb.md),
+[Seeing your adder as a schematic](../../docs/guide/seeing-it-come-back.md) and
+[Inside an FPGA](../../docs/guide/the-chip-is-already-there.md). Whenever one of those pages shows
+you SystemVerilog, the whole file it came from is here. It isn't a lab, since you write your own
+adder in [`../lab-01-transcribe-your-adder/`](../lab-01-transcribe-your-adder/), but
 [Lab 01](../../docs/labs/lab-01-transcribe-your-adder-overview.md) (Parts 6 and 7) and
-[Lab 05](../../docs/labs/lab-05-onto-the-fpga-overview.md) (Part 1) walk through the targets.
+[Lab 05](../../docs/labs/lab-05-onto-the-fpga-overview.md) (Part 1) have you run its targets.
 
 ```bash
 cd labs/guide-examples
 make
 ```
 
-No `.designinit`, `mod` or environment variables. The sky130 liberty file is read from its fixed
-path in the image. It takes about 2.6 seconds and ends with
+You don't need `.designinit`, `mod` or any environment variables first, and the sky130 liberty
+file is read from its fixed path in the image. The whole run takes about 2.6 seconds and ends with
 `PASS - every number matches the reference run, to four decimals.`
 
 ## Targets
@@ -34,8 +38,8 @@ path in the image. It takes about 2.6 seconds and ends with
 | `make clean` | empty `results/` |
 
 `make errors` and `make syntax` print lines like `make: [Makefile:92: errors] Error 2 (ignored)`.
-That is `make` saying a command failed and that it was told in advance not to care; those files
-are supposed to fail.
+That is `make` telling you that a command failed and that it was told in advance not to care,
+which is what you want here, because those files are supposed to fail.
 
 ## Files
 
