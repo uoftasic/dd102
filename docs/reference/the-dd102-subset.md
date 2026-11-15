@@ -180,7 +180,7 @@ doesn't check `always @*` at all.
 
 DD103's
 [The latch you didn't ask for](https://uoftasic.com/dd103/guide/the-latch-you-didnt-ask-for.html)
-covers latches in full, with three ways to get rid of one.
+covers latches in full, with three ways to lose a latch.
 
 ### 8 · `generate for`
 
