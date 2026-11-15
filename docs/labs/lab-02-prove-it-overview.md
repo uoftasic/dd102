@@ -14,8 +14,9 @@ for the rest.
 - Finish [Lab 01](../labs/lab-01-transcribe-your-adder-overview.md): your `full_adder.sv` passes
   8 of 8.
 - Read [Testbenches](../guide/eight-rows-and-no-opinions.md).
-- Open a terminal on the workbench desktop and run `mod dd102`. Neither package needs any other
-  setup.
+- Open a terminal on the workbench desktop, load `.designinit` and run `mod dd102`, as in
+  [Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md). Neither package needs any
+  other setup.
 
 Time: about 1½ hours.
 
@@ -66,8 +67,8 @@ Two of those lines look like problems, but both are normal:
   waveform file, which you'll open in Lab 03. The message is only telling you that, and it isn't a warning.
 - `src/tb_eight_rows.sv:66: $finish called at 160000 (1ps)` is Icarus reporting that the
   simulation ended where the testbench told it to, at line 66, after 160,000 ps of simulated
-  time. That's eight rows × 20 ns = 160 ns. You'll see this line on every successful run in
-  this course.
+  time. That's eight rows × 20 ns = 160 ns. You'll see a line like it at the end of every
+  simulation in this course, whether the design passes or fails.
 
 Compare the eight rows by eye with the sheet you brought from DD101; doing it once is enough. If
 the page and your paper disagree, trust your paper, because it's the specification, and
@@ -138,13 +139,14 @@ It's the same mistake that was in the broken adder you ran in Lab 01, Part 6.
    vvp bad.vvp > /dev/null; echo "exit $?"
    ```
 
-   You should see `exit 0`. As far as the simulator is concerned the run went fine, because it
-   did what it was asked to do: it simulated a circuit, and the circuit happened to be wrong.
-   `vvp` exits 0 whether your design is right or wrong, so always read the `VERDICT` line and
-   never trust the exit code. That's how
+   You should see `exit 0`, for the reason
+   [Testbenches](../guide/eight-rows-and-no-opinions.md#exit-code-and-verdict) gives: the
+   simulator did what it was asked, which was to simulate a circuit, and the circuit happened to
+   be wrong. `vvp` exits 0 whether your design is right or wrong, so always read the `VERDICT`
+   line and never trust the exit code. That's also how
    [`src/check_sim.py`](https://github.com/uoftasic/dd102/blob/main/labs/guide-examples-proving-it/src/check_sim.py)
-   works: it finds `TESTED`, `ERRORS` and `VERDICT` in the log and compares them with the
-   reference numbers, without ever looking at an exit code.
+   decides: it compares `TESTED`, `ERRORS` and `VERDICT` from the log with the reference numbers,
+   without ever looking at an exit code.
 
 The `.vvp` and `.vcd` files these commands leave in the package folder are ignored by git, and
 `make` writes its own copies under `results/`.
@@ -155,15 +157,15 @@ How much does a testbench that checks one row catch?
 
 From here on you write the testbench yourself. In this lab a testbench is a module with no
 ports: it declares wires, connects them to the adder, drives values into the inputs and looks at
-what comes back on the outputs. These are the pieces you haven't seen yet:
+what comes back on the outputs. These are the pieces it's built from. You met the first two in
+[Testbenches](../guide/eight-rows-and-no-opinions.md), and the last two are new:
 
 - `#1` waits one time unit, so that the `assign` statements get their turn to run before you
-  read the outputs. As [Testbenches](../guide/eight-rows-and-no-opinions.md) shows, the wait
-  has to be there, but its length doesn't matter, because the gates take no simulated time to
-  settle.
-- `!==` compares two values including `x` and `z`. `!=` returns `x` when either side is `x`, and
-  an `if` whose condition is `x` doesn't take its branch at all, whereas `!==` returns a plain 0
-  or 1, which is what you want in a check. That difference is why a whole class of broken
+  read the outputs. As Testbenches shows, the wait has to be there, but its length doesn't
+  matter, because the gates take no simulated time to settle.
+- `!==` is the comparison from the same page, the one that includes `x` and `z` and always
+  returns a plain 0 or 1. Plain `!=` returns `x` when either side is `x`, and an `if` whose
+  condition is `x` doesn't take its branch at all, which is why a whole class of broken
   testbenches passes without reporting anything.
 - `$display` prints a line, and `$finish` stops the simulation.
 - A `task` is a named block that you call with arguments, so eight checks take eight lines

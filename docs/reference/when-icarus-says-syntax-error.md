@@ -278,7 +278,7 @@ Post in the [team Discord](https://discord.gg/hrJnP5UsGz) with three things:
 3. the line the error names, and the one above it
 
 Two related pages: [The DD102 subset](../reference/the-dd102-subset.md) lists every construct this
-course uses, with a runnable card for each, and if a construct isn't on that list, DD102 never
-asks you to write it. [`assign` and `always_comb`](../guide/assign-and-always-comb.md) explains
-why the one-driver rule and the latch trap exist, where this page only lists the errors they
-cause.
+course asks you to write, with a runnable card for each, so if a construct isn't on that list,
+you won't need to write it in DD102. [`assign` and `always_comb`](../guide/assign-and-always-comb.md)
+explains why the one-driver rule and the latch trap exist, where this page only lists the errors
+they cause.

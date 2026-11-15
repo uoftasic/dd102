@@ -123,8 +123,9 @@ in Lab 05 you produce one with `icepack`:
 icepack results/r4.asc results/r4.bin
 ```
 
-Lab 05 asks you to predict the size of that file before it shows you, and the answer is the best
-surprise in DD102, so don't let anyone tell you first. What we can tell you now is that a
+Lab 05 shows you the size of that file and then asks you to predict the size of two other
+designs' bitstreams, and the answer is the best surprise in DD102, so don't let anyone tell you
+first. What we can tell you now is that a
 bitstream doesn't describe your adder. There is no `ripple4` in it, no `slice[1].fa` and no carry
 chain; it holds the contents of every LUT's sixteen bits of memory and the state of every routing
 switch, in whatever order the silicon wants them.

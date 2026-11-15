@@ -3,9 +3,9 @@
 This page is a lookup card. When you know what you want to write but not exactly how to spell it,
 find the construct here and copy its shape.
 
-DD102 uses twelve pieces of SystemVerilog and no others. The language has hundreds more, and
-you'll meet them later, but you don't need any of them to transcribe a drawing, prove that it
-works and put it on an FPGA.
+DD102 asks you to write twelve pieces of SystemVerilog and no others. The language has hundreds
+more, and you'll meet them later, but you don't need any of them to transcribe a drawing, prove
+that it works and put it on an FPGA.
 
 ## Running the cards
 
@@ -34,7 +34,8 @@ can check your version with `iverilog -V`, and the first line it prints should b
 Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540-dirty)
 ```
 
-That is the first of 73 lines, and the rest is the GPL licence text, which is normal.
+That is the first of 73 lines, and the rest are the GPL licence text and a list of code
+generators, which is normal.
 [Lab 01, Part 1](../labs/lab-01-transcribe-your-adder-overview.md) has the details.
 
 ## The twelve
@@ -310,8 +311,8 @@ only one who can catch the mistake.
 
 > Adding two $N$-bit numbers needs an $N+1$-bit destination. If you want the carry, give it room.
 
-That is why `ripple4` declares `logic [4:0] c;` for four carries, and why the testbenches compare
-against `{cout, sum}` rather than `sum` alone.
+That is why `ripple4` declares `logic [4:0] c;` for the five carries of its four adders, and why
+the testbenches compare against `{cout, sum}` rather than `sum` alone.
 
 ### 12 · Testbench only
 
@@ -351,7 +352,7 @@ course, and each one is a place to get lost.
 | `wire` / `reg` | the older spellings, which `logic` replaces; [DD103](https://uoftasic.com/dd103/reference/synthesizable-subset.html) explains the history |
 | `always @*` | `always_comb` with the safety check switched off |
 | `typedef enum`, `struct`, `interface`, `package` | ways to organize a design bigger than one adder |
-| `function`, `task` | DD103, along with the fact that `return` doesn't work in Yosys |
+| `function`, `task` | DD103, along with the fact that `return` doesn't work in Yosys. (The Lab 02 testbench calls a `task` named `check`, but you never have to write one.) |
 | `unique`, `priority` | promises to the optimizer that no tool checks |
 | `real`, `$random`, assertions | DD104 |
 
@@ -363,8 +364,9 @@ the real one, and everything printed under it follows from that first error.
 
 ## Where these came from
 
-- [From your drawing to a module](../guide/from-your-drawing-to-a-module.md): cards 1–4
-- [`assign` and `always_comb`](../guide/assign-and-always-comb.md): cards 3 and 5
-- [Vectors, generate loops and parameters](../guide/four-adders-in-a-row.md): cards 7–9 and 11
+- [From your drawing to a module](../guide/from-your-drawing-to-a-module.md): cards 1–3
+- [Modules and instances](../guide/what-a-module-is.md): card 7
+- [`assign` and `always_comb`](../guide/assign-and-always-comb.md): cards 3–6
+- [Vectors, generate loops and parameters](../guide/four-adders-in-a-row.md): cards 2, 7–9 and 11
 - [Waveforms](../guide/two-lines-make-the-waveform-appear.md): card 12, and
   [Reading a waveform](../reference/reading-a-waveform.md) for what to do with the file

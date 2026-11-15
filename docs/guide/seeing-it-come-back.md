@@ -23,7 +23,8 @@ To use it, you create a `.sv` file on its **Setup** tab, paste your module into 
 For your five-`assign` full adder, DigitalJS draws five gates (two Xor, two And and one Or)
 arranged from left to right, with the two Xors on the path to `sum` and the And, And and Or on the
 path to `cout`. That's your drawing: the same five gates in the same two chains, because those
-five gates are the five `assign` lines you typed, and those lines are the five wires you drew.
+five gates are the five `assign` lines you typed, and each of those lines is one of the wires you
+drew.
 
 Around the gates are your ports and the wires between them:
 
@@ -95,11 +96,12 @@ all the way to a real cell library, the same file is still two cells and 33.7824
 previous page showed. A schematic viewer shows you how you wrote a design, and only a synthesizer
 with a cell library tells you what it costs, so don't quote one when you were asked for the other.
 
-Second, don't carry a cell count out of the browser. DigitalJS builds its Yosys from a package
-that isn't version-pinned, so the copy in your tab today may differ from the workbench's, and it
-can change from one week to the next. It also has no cell library at all (a browser can't reach
-`sky130_fd_sc_hd__tt_025C_1v80.lib`), so it stops at generic gates with names like `$and` and can
-never print an area. Your adder is five generic gates in the browser and two sky130 cells,
+Second, don't carry a cell count out of the browser. As
+[Getting started](../guide/getting-started.md#digitaljs-online) explained, DigitalJS loads its
+Yosys from a package that isn't version-pinned, so the copy in your tab today may differ from the
+workbench's, and it can change from one week to the next. It also has no cell library at all (a
+browser can't reach `sky130_fd_sc_hd__tt_025C_1v80.lib`), so it stops at generic gates with names
+like `$and` and can never print an area. Your adder is five generic gates in the browser and two sky130 cells,
 33.7824 µm², in the workbench. Both numbers are correct, because they answer different
 questions, and DD103 is the course about the second one.
 

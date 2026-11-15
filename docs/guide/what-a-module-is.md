@@ -163,8 +163,8 @@ from the other end.
 
 In Lab 04 you place four `full_adder`s in a row and wire each one's `cout` to the next one's
 `cin` to get a 4-bit adder. You don't rewrite the adder to do it; you place four boxes the way
-you placed two `half_adder`s here, and they cost four times as much, because there are four of
-them.
+you placed two `half_adder`s here, and with their walls up they cost four times as much, because
+there are four of them.
 
 ## Check yourself
 

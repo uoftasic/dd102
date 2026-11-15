@@ -174,8 +174,9 @@ PASS  lcs       11 logic cells placed: 9 from your RTL + 2 the packer added
 
    </details>
 
-Look at four of the other names too. `slice[0]` to `slice[3]` come from the label you wrote after
-`begin :` in Lab 04, and that label is still attached to the logic three tools later.
+Look at four of the other names too. `slice[0]` to `slice[3]` come from the label after
+`begin :` in the loop you ran in Lab 04, and that label is still attached to the logic three
+tools later.
 
 `make fpga` also prints where the time goes on the longest path:
 
@@ -389,9 +390,10 @@ FPGA design can run out of chip, though, and what runs out is rarely what you ex
 
 The logic fits easily, in 685 of 5,280 cells, or 12 %. The pins don't: two 16-bit inputs and a
 32-bit output are 64 signals, and the package has 39 usable I/O, so the design asks for `164%` of
-them. On a small FPGA you run out of pins long before you run out of logic, which is why real
-designs send numbers in over a few wires and reassemble them inside rather than giving every bit
-its own pin.
+them. It's the lesson the 16-bit adder taught in step 2, and the one
+[Carry delay](../guide/the-carry-has-to-travel.md#sixteen-bits-the-pin-limit) draws from it: on a
+small FPGA the pins run out long before the logic does, so real designs send numbers in over a few
+wires and reassemble them inside instead of giving every bit its own pin.
 
 It's worth looking at how the tool tells you this. The `ERROR` line names one pin, `p[29]`, but
 there's nothing special about that pin and it isn't where your problem is; the real message is
@@ -620,9 +622,10 @@ Nothing to submit.
 ### Your adder as LUTs in DigitalJS
 
 On [DigitalJS Online](https://digitaljs.tilk.eu/), paste your `full_adder.sv`, tick **Map into
-LUTs** and press **Run**. The schematic redraws with lookup tables where your gates were. Use it
-for the picture but never for the count, because its Yosys version isn't pinned, and its LUTs are
-a generic drawing rather than iCE40 `SB_LUT4`s.
+LUTs** and press **Run**. The schematic redraws with lookup tables where your gates were. The two
+cautions from [Inside an FPGA](../guide/the-chip-is-already-there.md#in-the-browser) apply: use it
+for the picture but never for the count, because its Yosys version isn't pinned, and read its
+LUTs as a generic drawing rather than as iCE40 `SB_LUT4`s.
 
 ### `icetime`
 
@@ -653,9 +656,10 @@ Three things to take from it:
 
 - You never needed it, because nextpnr printed a critical path report in Part 2 as part of a run
   you were doing anyway.
-- The two tools disagree on the same path from `cin` to `cout`, with 26.22 ns and 27.42 ns.
-  Neither is lying; they use different delay models over the same silicon. So don't average them,
-  and don't quote either to three decimal places as if it had been measured on a bench.
+- The two tools disagree on the same path from `cin` to `cout`, with 26.22 ns and 27.42 ns. As
+  [Carry delay](../guide/the-carry-has-to-travel.md#common-misreadings) warned, neither is lying,
+  because they use different delay models of the same silicon. So don't average them, and don't
+  quote either to three decimal places as if it had been measured on a bench.
 - Read the exit codes. Step 1 failed with a message, but step 2 failed with a segfault, and a
   tool that segfaults hasn't told you your input is wrong; it hasn't told you anything. The
   temptation is to conclude that your file is corrupt, but your file was fine both times.

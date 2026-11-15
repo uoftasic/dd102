@@ -13,7 +13,7 @@ vectors, `generate for` and `parameter`. You use all three in
 Line up two four-bit numbers and add them the way you learned in school, in binary:
 
 ```
-      carries:   1 1 1 0
+      carries:   0 0 1 0
                  1 0 0 1     (9)
                + 1 0 0 1     (9)
                -----------
@@ -90,8 +90,8 @@ endmodule
 ```
 
 Read the four `full_adder` lines from top to bottom: every index goes up by one from each line to
-the next, and nothing else changes. When you find yourself typing lines that differ only by a
-counter, you're doing a job a machine could do for you.
+the next, and nothing else changes, so these are exactly the lines the next section has the tool
+write for you.
 
 ## `generate for`
 
@@ -194,11 +194,12 @@ does it both ways in one module and prints `9+9 -> narrow[3:0]=2  wide[4:0]=18`.
 from the same two inputs and the same `+`, but one answer is 18 and the other is 2, and the only
 difference is that `narrow` was declared `[3:0]` and `wide` was declared `[4:0]`.
 
-You met this in Lab 03, without its name: `add4.sv` computes its top carry correctly and then has
-nowhere to put it, which is why it's wrong on 256 of its 512 inputs. The sum of two N-bit numbers
-doesn't always fit in N bits, so every adder needs somewhere for the top carry to go, and that's
-why `ripple` has a `cout` port and `add4` didn't. Before you believe the right-hand side of an
-`=`, count the bits on the left.
+You met this twice in Lab 03. `add4.sv` computes its top carry correctly and then has nowhere to
+put it, which is why it's wrong on 256 of its 512 inputs, and in Part 8 `add4_wider_inside.sv`
+computes all five bits and then drops the fifth at the assignment, which Verilator reported as
+`WIDTHTRUNC`. The sum of two N-bit numbers doesn't always fit in N bits, so every adder needs
+somewhere for the top carry to go, and that's why `ripple` has a `cout` port and `add4` didn't.
+Before you believe the right-hand side of an `=`, count the bits on the left.
 
 ## How many inputs is "all of them"?
 
