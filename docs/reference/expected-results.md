@@ -128,7 +128,8 @@ These numbers come from Yosys 0.68, nextpnr-0.11.1-9-gb17408e2, IceStorm and Pyt
 | `FAIL` on any line of `make check` | Paste the whole line into [Discord](https://discord.gg/hrJnP5UsGz), since it has your number and the reference side by side. |
 
 Step 3 of `make icetime`, which uses the uncompressed chip database, prints the last twelve lines
-of `icetime`'s report:
+of `icetime`'s report (`tail -12`). The twelfth is blank, because the report ends with an empty
+line, so you see these eleven:
 
 ```
         pre_io_13_31_0 (PRE_IO) DOUT0 [setup]: 0.187 ns
