@@ -3,7 +3,7 @@
 This page turns your DD101 full-adder drawing into a SystemVerilog file, one piece at a time:
 the labels on its edge, then the wires inside. You type your own version in
 [Lab 01](../labs/lab-01-transcribe-your-adder-overview.md); keep the drawing from
-[DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) (three blocks, eight wires,
+[DD101 Lab 04](https://uoftasic.com/dd101/labs/lab-04-full-adder-overview.html) (three blocks, eight wires,
 eight rows of a truth table) next to you while you read.
 
 The whole course rests on one idea: you type the drawing out. You don't upload it, convert it or

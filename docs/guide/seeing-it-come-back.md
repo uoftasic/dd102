@@ -111,7 +111,7 @@ subset of gates**, with its default set, gives:
 
 Three NANDs and two XORs: your Or and both your Ands, rebuilt out of NAND by a tool, for the same
 reason you built them from NAND by hand in
-[DD101 Lab 02](https://uoftasic.com/dd101/#/labs/lab-02-gates-from-one-gate). It still isn't an
+[DD101 Lab 02](https://uoftasic.com/dd101/labs/lab-02-gates-from-one-gate-overview.html). It still isn't an
 area, and it still isn't what a factory would build.
 
 Multi-file designs need a second file. `full_adder_hier.sv` won't run on its own, because it

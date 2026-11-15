@@ -25,7 +25,7 @@ Time: about 2 hours. The Going further steps at the end are optional and not cou
 ## Part 1: Load the course
 
 If you haven't set up the workbench, do
-[IC101 Lab 03](https://uoftasic.com/ic101/#/labs/lab-03-launch-the-workbench-overview) first.
+[IC101 Lab 03](https://uoftasic.com/ic101/labs/lab-03-launch-the-workbench-overview.html) first.
 DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing new.
 
 1. Start the desktop from your `workspace` clone (`./scripts/start_vnc.sh`, or
@@ -77,7 +77,7 @@ DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing
 | `bash: /foss/designs/common/.designinit: No such file or directory` | The workspace isn't mounted (`ls /foss/designs/` should list `common/` and `modules/`), so you started a bare container. Relaunch with `start_vnc.sh` from your `workspace` clone. Or skip `mod` entirely: `git clone https://github.com/uoftasic/dd102.git` and `cd dd102` get the files, and `make` in every lab package needs none of this setup. |
 
 Anything else about Docker, the desktop or `.designinit` is on IC101's
-[Troubleshooting](https://uoftasic.com/ic101/#/reference/troubleshooting) page.
+[Troubleshooting](https://uoftasic.com/ic101/reference/troubleshooting.html) page.
 
 ## Part 2: Run the package before you write anything
 
@@ -299,7 +299,7 @@ have typed a different correct circuit from the one on your paper. A schematic w
 3. Press **Create file**. A third tab with an editor appears beside *Setup* and *I/O*.
 4. Paste the whole finished contents of your `src/full_adder.sv` into it, comments and all. To
    get text out of the noVNC desktop, use the clipboard control in the noVNC sidebar (see
-   [IC101](https://uoftasic.com/ic101/#/guide/launch-novnc)), or open the file from your
+   [IC101](https://uoftasic.com/ic101/guide/launch-novnc.html)), or open the file from your
    `workspace` folder on your own machine. Don't paste the stub: an empty module
    renders as a box with five ports and nothing inside, which looks like the tool failed when it
    didn't.
@@ -561,7 +561,7 @@ Nothing to submit.
 4. Reload the page, load your own `full_adder.sv` as in Part 5, tick **Convert to logic gates**
    and then **Map into subset of gates** with its default set, and press **Run**. You should see
    three NANDs and two XORs: Yosys rebuilt your Or and both Ands out of NAND, as you did by hand
-   in [DD101 Lab 02](https://uoftasic.com/dd101/#/labs/lab-02-gates-from-one-gate). Ticking only
+   in [DD101 Lab 02](https://uoftasic.com/dd101/labs/lab-02-gates-from-one-gate-overview.html). Ticking only
    **Convert to logic gates** just renames your five gates from `$and`/`$or`/`$xor` to
    `$_AND_`/`$_OR_`/`$_XOR_`. Neither option shows an area or what a factory would build. Untick
    them before you compare anything with your drawing.

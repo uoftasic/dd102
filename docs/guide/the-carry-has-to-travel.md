@@ -52,7 +52,7 @@ the size isn't, which is the point of the rest of this page.
 
 That is what combinational delay means. The circuit is always running; it is settling, and the
 answer is only trustworthy once it has stopped changing. This is the mechanism
-[Why only two values?](https://uoftasic.com/dd101/#/guide/why-two-values) described from the other
+[Why only two values?](https://uoftasic.com/dd101/guide/why-two-values.html) described from the other
 end: every gate re-decides and redraws its output at full strength, and redrawing takes time.
 
 ## Three widths on a real part

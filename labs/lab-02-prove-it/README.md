@@ -1,7 +1,7 @@
 # Lab 02: Prove it
 
 Writeup: [`docs/labs/lab-02-prove-it-overview.md`](../../docs/labs/lab-02-prove-it-overview.md)
-([on the course site](https://uoftasic.com/dd102/#/labs/lab-02-prove-it-overview)).
+([on the course site](https://uoftasic.com/dd102/labs/lab-02-prove-it-overview.html)).
 
 You write the testbench. The package then checks it by handing it three full adders that are
 broken on purpose.

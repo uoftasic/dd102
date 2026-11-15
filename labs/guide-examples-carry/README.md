@@ -1,7 +1,7 @@
 # Guide examples: carry delay
 
 The runnable half of the guide page [Carry delay](../../docs/guide/the-carry-has-to-travel.md)
-([on the course site](https://uoftasic.com/dd102/#/guide/the-carry-has-to-travel)). One file,
+([on the course site](https://uoftasic.com/dd102/guide/the-carry-has-to-travel.html)). One file,
 `src/ripple.sv`, the parameterised adder from Lab 04, synthesized and placed at four widths on a
 Lattice iCE40 UP5K. [Lab 05](../../docs/labs/lab-05-onto-the-fpga-overview.md) (Parts 3 and 5)
 walks through it.

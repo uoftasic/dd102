@@ -105,7 +105,7 @@ It reads it as a claim about what the outputs are for every possible input, whic
 table, and then it shops for gates that produce that table. Your five `assign`s and your eight
 `case` rows make the same claim, so they get the same gates.
 
-In [DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) you learned that one truth
+In [DD101 Lab 04](https://uoftasic.com/dd101/labs/lab-04-full-adder-overview.html) you learned that one truth
 table has infinitely many correct circuits. This is the same fact the other way round: infinitely
 many ways of writing the table collapse onto one circuit.
 
@@ -134,7 +134,7 @@ Three rules go with the shape:
 
 1. Inside `always_comb` you write `=`, with no `assign` keyword. (There is also a `<=`, which
    belongs to `always_ff`. DD103's [Blocking vs
-   non-blocking](https://uoftasic.com/dd103/#/guide/blocking-vs-nonblocking) settles it with cell
+   non-blocking](https://uoftasic.com/dd103/guide/blocking-vs-nonblocking.html) settles it with cell
    counts; you don't need it yet.)
 2. Anything an `always_comb` block writes must be declared `logic`, which your outputs already
    are.
@@ -194,7 +194,7 @@ in this business would have built it.
 
 Every `always_comb` block must assign every signal it writes on every path through it. The
 cheapest way to guarantee that is to assign every output once at the top of the block, before any
-`if`; then no path can miss. DD103 spends [a whole lab](https://uoftasic.com/dd103/#/labs/lab-03-three-ways-to-lose-a-latch)
+`if`; then no path can miss. DD103 spends [a whole lab](https://uoftasic.com/dd103/labs/lab-03-three-ways-to-lose-a-latch-overview.html)
 on the three ways this bites, including ones where nothing errors at all. You meet it here so the
 word `latch` in a log is already familiar when it costs you an afternoon.
 

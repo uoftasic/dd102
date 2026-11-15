@@ -3,7 +3,7 @@
 Your adder handles one bit, and real numbers have more than one. Four-bit addition doesn't need
 a bigger adder. It needs four of the one you already have, in a line, each handing its carry to
 the next: the picture you drew on paper in
-[Where the carry goes](https://uoftasic.com/dd101/#/guide/where-the-carry-goes) before you had seen
+[Where the carry goes](https://uoftasic.com/dd101/guide/where-the-carry-goes.html) before you had seen
 any SystemVerilog. This page covers the three pieces of syntax that make that tidy: vectors,
 `generate for` and `parameter`. You use all three in
 [Lab 04](../labs/lab-04-four-adders-in-a-row-overview.md).

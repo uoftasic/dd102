@@ -1,7 +1,7 @@
 # Lab 03: The lazy testbench
 
 Writeup: [`docs/labs/lab-03-the-lazy-testbench-overview.md`](../../docs/labs/lab-03-the-lazy-testbench-overview.md)
-([on the course site](https://uoftasic.com/dd102/#/labs/lab-03-the-lazy-testbench-overview)).
+([on the course site](https://uoftasic.com/dd102/labs/lab-03-the-lazy-testbench-overview.html)).
 The writeup also uses [`../guide-examples-proving-it/`](../guide-examples-proving-it/).
 
 A 4-bit adder built from four full adders, a few hand-picked test cases, and all 512 inputs.
