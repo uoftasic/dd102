@@ -78,8 +78,9 @@ table when you first run Lab 01.
 Now fill in the middle by walking your drawing from left to right and writing down each wire as
 you meet it.
 
-Your drawing has three wires that nobody has named yet: the sum and the carry coming out of the
-first half adder, and the carry coming out of the second one. Give them names first, because you
+Your drawing has three inside wires: the sum and the carry coming out of the first half adder, and
+the carry coming out of the second one. DD101's handoff sheet had you label them `s1`, `c1` and
+`c2`; here they get longer names that say where each one comes from. Name them first, because you
 can't write down a wire you have no name for:
 
 ```systemverilog
