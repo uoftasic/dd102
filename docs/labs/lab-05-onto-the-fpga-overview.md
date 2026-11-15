@@ -11,10 +11,11 @@ for Part 1, [`labs/guide-examples-carry/`](https://github.com/uoftasic/dd102/tre
 for Parts 3 and 5, and [`labs/lab-05-onto-the-fpga/`](https://github.com/uoftasic/dd102/tree/main/labs/lab-05-onto-the-fpga)
 for the rest.
 
-You don't need a board, and this course doesn't assume you own one. Everything here is synthesis
-and place-and-route: real tools, real timing, a real bitstream. If you have an iCEBreaker (a
-development board with an iCE40 UP5K on it), `make flash` exists and is optional (see Going
-further); nothing in this lab or in DD103 depends on it.
+You don't need a board, and this course doesn't assume you own one. Everything in this lab is
+synthesis and place-and-route, done with the real tools, so the timing you read and the bitstream
+you get are real too. If you have an iCEBreaker (a development board with an iCE40 UP5K on it),
+there is a `make flash` target you can try (see Going further), but it's optional, and nothing in
+this lab or in DD103 depends on it.
 
 ## Before you start
 
@@ -31,9 +32,10 @@ further); nothing in this lab or in DD103 depends on it.
   nextpnr-ice40 --version     # expect: ... (Version nextpnr-0.11.1-9-gb17408e2)
   ```
 
-Time: about 2 hours. The Going further steps at the end are optional and not counted.
+Time: about 2 hours. The Going further steps at the end are optional and aren't counted in that
+time.
 
-The three programs in this lab, and the question each answers:
+This lab uses three programs, and each one answers a question:
 
 | Tool | Question it answers | What it hands you |
 |---|---|---|
@@ -41,9 +43,9 @@ The three programs in this lab, and the question each answers:
 | `nextpnr-ice40` | Which physical cells, and how do the wires get between them? | an `.asc`: every cell and every switch, as text |
 | `icepack` | What is that as bytes? | a `.bin`: the bitstream |
 
-None of these tools builds anything. The chip already exists, and every one of its 5,280 logic
-cells is on the die whether your design uses it or not. You are producing a settings file for a
-machine that already exists.
+None of these tools builds anything, because the chip already exists: every one of its 5,280
+logic cells is on the die whether your design uses it or not. What you're producing is a
+settings file for that chip.
 
 ## Part 1: What one lookup table costs
 
@@ -101,7 +103,7 @@ What does each tool hand you, and where does the time go on your adder's longest
 
    `make fpga` runs the three commands in about 0.8 seconds.
 
-First Yosys, with `synth_ice40` instead of `synth`. You should see:
+First comes Yosys, running `synth_ice40` instead of `synth`. You should see:
 
 ```
 yosys -p "read_verilog -sv src/ripple4.sv src/full_adder.sv; synth_ice40 -top ripple4 -json results/r4.json" > results/ys.log 2>&1
@@ -110,11 +112,11 @@ yosys -p "read_verilog -sv src/ripple4.sv src/full_adder.sv; synth_ice40 -top ri
         9   SB_LUT4
 ```
 
-Yosys writes over 900 lines, which is why `make` sends them to a file; the answer is the
-two-word line. It appears twice because Yosys prints statistics for the module and then for the
-whole hierarchy. In `results/ys.log` you'll also find 4 `$scopeinfo` next to the nine LUTs.
-Those are name tags, one per `full_adder` instance, not hardware; the hand-typed version from
-Lab 03 produces the same four.
+Yosys writes over 900 lines, which is why `make` sends them to a file, and the answer you want
+is the short `SB_LUT4` line. It appears twice because Yosys prints statistics for the module and
+then again for the whole hierarchy. In `results/ys.log` you'll also find 4 `$scopeinfo` next to
+the nine LUTs. Those are name tags, one for each `full_adder` instance, and they aren't hardware;
+the hand-typed version from Lab 03 produces the same four.
 
 Then `nextpnr-ice40` decides where everything goes:
 
@@ -127,22 +129,23 @@ Info: 	               SB_IO:      14/     39    35%
 Info: 	               SB_GB:       0/      8     0%
 ```
 
-`ICESTORM_LC` counts logic cells and `SB_IO` counts I/O pins. `make` shows four resource rows;
-the full table in `results/pnr.log` has fifteen, and you use two of them. The other thirteen
+`ICESTORM_LC` counts logic cells and `SB_IO` counts I/O pins. `make` shows four resource rows,
+but the full table in `results/pnr.log` has fifteen, and you use two of them. The other thirteen
 (RAMs, a PLL, an I2C block, an LED driver, two oscillators and more) are on the die whether you
-use them or not. Two lines in the log are expected:
+use them or not. You should also expect two lines in the log:
 
 - `Warning: No PCF file specified` is the only warning this run produces, and the run ends
-  `1 warning, 0 errors`. You didn't say which physical pins your signals use, so nextpnr picked.
-  Part 6 is where you say.
+  `1 warning, 0 errors`. It appears because you haven't said which physical pins your signals
+  use, so nextpnr picked them itself. You'll say which in Part 6.
 - `Info: No Fmax available; no interior timing paths found in design.` appears twice. Your adder
-  has no flip-flops, so there is no clock, so the `--freq 50` had nothing to check. Part 4 has a
-  design where it means something.
+  has no flip-flops and therefore no clock, so the `--freq 50` on the command line had nothing to
+  check. Part 4 has a design with a clock, where that figure means something.
 
-Yosys said nine LUTs and nextpnr placed eleven logic cells. The usual guess is that nextpnr's
-packer, the step that fits LUTs, carry logic and flip-flops into logic cells, merged something,
-but the packer's own report in `results/pnr.log` says `9 LCs used as LUT4 only` and zero for
-every other category. So `make fpga` asks the placed netlist and lists all eleven:
+Yosys said nine LUTs, but nextpnr placed eleven logic cells. The usual guess is that nextpnr's
+packer, the step that fits LUTs, carry logic and flip-flops into logic cells, merged something.
+The packer's own report in `results/pnr.log` shows that it didn't, though: it says
+`9 LCs used as LUT4 only` and zero for every other category. So `make fpga` asks the placed
+netlist for its cells and lists all eleven:
 
 ```
 --- yosys said 9 SB_LUT4 and nextpnr says 11 cells. Here are all eleven. ---
@@ -171,8 +174,8 @@ PASS  lcs       11 logic cells placed: 9 from your RTL + 2 the packer added
 
    </details>
 
-Look at four of the other names too: `slice[0]` to `slice[3]`, the label written after
-`begin :` in Lab 04, still attached to the logic three tools later.
+Look at four of the other names too. `slice[0]` to `slice[3]` come from the label you wrote after
+`begin :` in Lab 04, and that label is still attached to the logic three tools later.
 
 `make fpga` also prints where the time goes on the longest path:
 
@@ -182,9 +185,9 @@ Info: 2.98 ns logic, 23.24 ns routing
 
 In `results/pnr.log` the critical path report above that line runs from the input pin `cin`
 through `cin_SB_LUT4_I1_LC`, `cout_SB_LUT4_O_I3_SB_LUT4_O_1_LC` and `cout_SB_LUT4_O_LC` to the
-output pin `cout`, 26.22 ns in total. That is your carry, walking from the bottom input to the
-top output. [Carry delay](../guide/the-carry-has-to-travel.md) said it would take time; this is the
-number on a real part.
+output pin `cout`, 26.22 ns in total. That path is your carry, walking from the bottom input to
+the top output. [Carry delay](../guide/the-carry-has-to-travel.md) said it would take time, and
+26.22 ns is how long it takes on a real part.
 
 Finally `icepack`, the shortest step in the course:
 
@@ -195,19 +198,20 @@ icepack results/r4.asc results/r4.bin
   results/r4.json 336739 bytes
 ```
 
-You have a bitstream: `results/r4.bin`, 104,090 bytes. Load it into an iCE40 UP5K and the part
-adds four-bit numbers. `r4.json` will differ from yours by a few hundred bytes, because Yosys
-records the source path of every wire and that depends on where you cloned the repo. The checker
-only asserts the size of `r4.bin`.
+You now have a bitstream, `results/r4.bin`, of 104,090 bytes. If you loaded it into an iCE40
+UP5K, the part would add four-bit numbers. Your `r4.json` will differ from the one shown here by
+a few hundred bytes, because Yosys records the source path of every wire, and that depends on
+where you cloned the repo. The checker asserts only the size of `r4.bin`.
 
 ## Part 3: Wider adders
 
 How do the logic delay, the routing delay and the pin count grow as the adder gets wider?
 
 [Carry delay](../guide/the-carry-has-to-travel.md) printed a table of the same adder at three
-widths. Here you produce it, in the `guide-examples-carry` package. Its `src/ripple.sv` is
-Lab 04's parameterised adder, unchanged; `src/top8.sv` and its siblings are short wrappers that
-fix the width, because nextpnr places pins and pins need a fixed width.
+widths. In this part you produce that table yourself, using the `guide-examples-carry` package.
+Its `src/ripple.sv` is Lab 04's parameterised adder, unchanged. `src/top8.sv` and its siblings
+are short wrappers that fix the width, because nextpnr places pins, and a design can only have
+pins once its width is fixed.
 
 1. Run the three widths:
 
@@ -244,13 +248,13 @@ You should see:
    <details>
    <summary>Answer</summary>
 
-   The logic column grows by $8.20 - 5.24 = 2.96$ ns over four bits, 0.74 ns per bit: one full
-   adder's worth of delay per extra adder. The routing column barely moves from 8 to 12 bits.
-   And at four bits, routing is 23.24 of the 26.22 ns.
+   The logic column grows by $8.20 - 5.24 = 2.96$ ns over four bits, which is 0.74 ns per bit, or
+   one full adder's worth of delay for each extra adder. The routing column barely moves from 8 to
+   12 bits, and even at four bits, routing is 23.24 ns of the 26.22 ns total.
 
    </details>
 
-At twelve bits you are already using 38 of the 39 pins.
+Notice also that at twelve bits you are already using 38 of the 39 pins.
 
 ## Part 4: Bitstream sizes
 
@@ -286,9 +290,10 @@ You should see:
 PASS  sizes     3 designs, all 104090 bytes
 ```
 
-Identical, to the byte. (`make` with no target also checks the pinned build from Part 6, so its
-`sizes` line says 4 designs.) Most people reason proportionally: the AND gate perhaps a hundredth
-of the adder, the shift register hundreds of times bigger, something like 1 KB and 20 MB.
+All three are identical, to the byte. (`make` with no target also checks the pinned build from
+Part 6, so its `sizes` line says 4 designs.) Most people reason proportionally and guess that the
+AND gate's file is perhaps a hundredth the size of the adder's and the shift register's is
+hundreds of times bigger, something like 1 KB and 20 MB.
 
 3. A design using 3 logic cells and one using 4001, a factor of 1,334, produce files of the same
    length. Why?
@@ -296,8 +301,8 @@ of the adder, the shift register hundreds of times bigger, something like 1 KB a
    <details>
    <summary>Answer</summary>
 
-   The bitstream isn't a description of your design. It is the setting of every configuration
-   bit on the die: all 5,280 logic cells, all 30 block RAMs, the PLL, the I2C blocks and the
+   The bitstream doesn't describe your design; it holds the setting of every configuration bit
+   on the die: all 5,280 logic cells, all 30 block RAMs, the PLL, the I2C blocks and the
    routing switches between them, whether you touched them or not. `one_gate` configures 5,277
    logic cells to do nothing; your adder configures 5,269. Both take the same number of bytes to
    write down, because "do nothing" is a setting like any other.
@@ -312,10 +317,10 @@ Here is how many bytes actually differ:
   r4.bin       vs big.bin: 20453 bytes differ
 ```
 
-201 bytes are the whole difference between "one AND gate" and "a four-bit adder" in a
-104,090-byte file, about 0.2 % of it. The rest is the two designs agreeing about the cells
-neither uses. A bitstream's size tells you which chip, never which design. If you want to know
-how big a design is, read the utilisation report.
+So the whole difference between "one AND gate" and "a four-bit adder" is 201 bytes of a
+104,090-byte file, about 0.2 % of it, and the rest is the two designs agreeing about the cells
+that neither of them uses. A bitstream's size tells you which chip it's for, never which design
+is in it, so if you want to know how big a design is, read the utilisation report.
 
 `big.sv` has a clock, so nextpnr checks its timing and reports a maximum clock frequency of
 202.92 MHz. (nextpnr prints a pre-routing estimate of 180.67 MHz first; the second figure, after
@@ -325,8 +330,8 @@ routing, is the one this lab quotes.)
 
 What runs out first on a small FPGA?
 
-An ASIC design can't run out of area; it just gets bigger, and bigger costs money. An FPGA design
-can run out of chip, and what runs out is rarely what you expect.
+An ASIC design can't run out of area: it just gets bigger, and a bigger chip costs more money. An
+FPGA design can run out of chip, though, and what runs out is rarely what you expect.
 
 1. Before you run the next step, work out how many I/O pins a 16-bit ripple adder needs: its
    inputs are `a`, `b` and `cin`, and its outputs `sum` and `cout`. The sg48 package has 39.
@@ -334,8 +339,8 @@ can run out of chip, and what runs out is rarely what you expect.
    <details>
    <summary>Answer</summary>
 
-   16 + 16 + 1 inputs and 16 + 1 outputs: 50 pins. In general an $N$-bit ripple adder needs
-   $3N + 2$, which is why 12 bits used 38 of the 39 in Part 3.
+   There are 16 + 16 + 1 inputs and 16 + 1 outputs, which makes 50 pins. In general an $N$-bit
+   ripple adder needs $3N + 2$, which is why 12 bits used 38 of the 39 in Part 3.
 
    </details>
 
@@ -357,14 +362,14 @@ can run out of chip, and what runs out is rarely what you expect.
    1 warning, 1 error
    ```
 
-   It isn't a timing failure; it's a pin failure. You are using 39 of 5,280 logic cells, under
-   one percent of the chip, and the design doesn't fit. (The exit status is 125; the
-   "(255 ...)" in the same line is fixed text in the Makefile and is out of date. The point it
-   makes stands: this time the tool's exit status does tell you something went wrong.)
+   This is a pin failure, not a timing failure. You're using 39 of 5,280 logic cells, under one
+   percent of the chip, and the design still doesn't fit. (The exit status is 125. The
+   "(255 ...)" in the same line is fixed text in the Makefile and is out of date, but the point
+   it makes still holds: this time, the tool's exit status does tell you something went wrong.)
 
 3. Try a 16 × 16 multiplier,
    [`src/toobig.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-05-onto-the-fpga/src/toobig.sv),
-   which is one `assign`: `p = a * b`. Write down how many pins it needs first.
+   which is one `assign`: `p = a * b`. Before you run it, write down how many pins it needs.
 
    ```bash
    cd ../lab-05-onto-the-fpga
@@ -382,23 +387,25 @@ can run out of chip, and what runs out is rarely what you expect.
        The error names ONE pin. The line above it names the real problem.
    ```
 
-The logic fits easily: 685 of 5,280 cells, 12 %. The pins don't: two 16-bit inputs and a 32-bit
-output are 64 signals, and the package has 39 usable I/O, `164%`. On a small FPGA you run out of
-pins long before you run out of logic, which is why real designs send numbers in over a few wires
-and reassemble them inside rather than giving every bit its own pin.
+The logic fits easily, in 685 of 5,280 cells, or 12 %. The pins don't: two 16-bit inputs and a
+32-bit output are 64 signals, and the package has 39 usable I/O, so the design asks for `164%` of
+them. On a small FPGA you run out of pins long before you run out of logic, which is why real
+designs send numbers in over a few wires and reassemble them inside rather than giving every bit
+its own pin.
 
-Look at how the tool tells you. The `ERROR` line names one pin, `p[29]`, which isn't special and
-isn't where your problem is. The utilisation table just above it is the real message. When a
-place-and-route tool fails, read upward from the error: `164%` is the bug, and the `ERROR:` line
-is where the tool happened to give up.
+It's worth looking at how the tool tells you this. The `ERROR` line names one pin, `p[29]`, but
+there's nothing special about that pin and it isn't where your problem is; the real message is
+the utilisation table just above it. So when a place-and-route tool fails, read upward from the
+error. Here `164%` is the bug, and the `ERROR:` line is only where the tool happened to give up.
 
 ## Part 6: Saying which pin is which
 
 Does telling the tool which pin is which change the timing?
 
-The warning from Part 2 has been waiting. A `.pcf` file says which physical pin each signal uses.
+This part deals with the `No PCF file specified` warning from Part 2. A `.pcf` file says which
+physical pin each signal uses, and
 [`constraints/r4.pcf`](https://github.com/uoftasic/dd102/blob/main/labs/lab-05-onto-the-fpga/constraints/r4.pcf)
-is fourteen lines of them:
+is fourteen lines of them, one for each signal:
 
 ```
 set_io a[0]    2
@@ -408,10 +415,11 @@ set_io cout   18
 ```
 
 Those fourteen pin numbers are valid on a UP5K in the SG48 package and aren't wired to anything
-in particular on any board. The file shows the mechanism; it won't light an LED.
+in particular on any board, so the file shows you how the mechanism works, but it won't light an
+LED.
 
-1. Your logic won't change, only where its signals enter and leave the chip. Write down whether
-   you expect the longest path to get shorter, longer or stay the same.
+1. The pin file won't change your logic, only where its signals enter and leave the chip. Write
+   down whether you expect the longest path to get shorter, longer or stay the same.
 2. Run:
 
    ```bash
@@ -430,11 +438,12 @@ Info: 2.95 ns logic, 11.16 ns routing
 
 `make pins` writes `results/r4_pinned.bin` and its log, `results/pnr_pinned.log`, and leaves the
 unpinned `results/r4.bin` from Part 2 alone. In `results/pnr.log` from Part 2 the same
-line reads `Placed 0 cells based on constraints.` Same logic, same eleven cells, same 104,090
-bytes; 319 of those bytes moved.
+line reads `Placed 0 cells based on constraints.` The logic is the same, so are the eleven cells
+and the 104,090 bytes, and only 319 of those bytes moved.
 
-3. In Part 2 the longest path was 2.98 ns of logic and 23.24 ns of routing; here it is 2.95 and
-   11.16, 14.11 ns in total. Nothing about your design changed. Where did 12.1 ns go?
+3. In Part 2 the longest path was 2.98 ns of logic and 23.24 ns of routing; here it's 2.95 ns
+   and 11.16 ns, 14.11 ns in total. Nothing about your design changed, so where did the 12.1 ns
+   go?
 
    <details>
    <summary>Answer</summary>
@@ -442,8 +451,8 @@ bytes; 319 of those bytes moved.
    You told the tool where the signals enter and leave the chip, the placer put the logic near
    those pins, and the wires got 12.1 ns shorter.
 
-   On an FPGA most of your delay is wire: 23.24 against 2.98 is nearly eight to one. That ratio
-   is why "how many gates deep is it?" predicts FPGA speed poorly, and why DD103 cares so much
+   On an FPGA most of your delay is in the wires: unpinned, 23.24 ns of routing against 2.98 ns
+   of logic is nearly eight to one. That ratio is why "how many gates deep is it?" predicts FPGA speed poorly, and why DD103 cares so much
    about where things physically sit.
 
    </details>
@@ -474,8 +483,8 @@ You should see:
   ASIC:  12 named cells, 110.1056 um^2, and no chip yet. That is DD103.
 ```
 
-`Area for cell type $scopeinfo is unknown!` is about the name tags again. They aren't cells and
-have no area, so this isn't a problem.
+The line `Area for cell type $scopeinfo is unknown!` is about the `$scopeinfo` name tags from
+Part 2 again. They aren't cells and have no area, so the message isn't a problem.
 
 |  | FPGA (iCE40 UP5K) | ASIC (SKY130) |
 |---|---|---|
@@ -483,7 +492,7 @@ have no area, so this isn't a problem.
 | the report says | 11 of 5,280 cells used | 110.1056 µm² |
 | you hand over | a 104,090-byte bitstream | a GDSII, the file a chip is manufactured from |
 | how big is that file? | the same for every design | grows with your design |
-| to change it | reload it, seconds | manufacture it again, months |
+| to change it | reload it, in seconds | manufacture it again, which takes months |
 
 An `SB_LUT4` is sixteen bits of memory and a multiplexer: it could have been any function of
 four inputs, and you chose which. A `sky130_fd_sc_hd__maj3_1` is fourteen transistors arranged to
@@ -539,9 +548,9 @@ Does the loop you rewrote in Lab 04 change anything on the FPGA?
    <details>
    <summary>Answer</summary>
 
-   `i++` and a block label change spelling, not logic, and the proof in Lab 04 already showed the
-   logic is the same. The names live in the placed netlist (`results/post.json`, where the cell
-   list comes from), not in the bitstream.
+   `i++` and a block label change how the code is spelled, not the logic it describes, and the
+   proof in Lab 04 already showed that the logic is the same. The names live in the placed
+   netlist (`results/post.json`, where the cell list comes from), not in the bitstream.
 
    </details>
 
@@ -584,8 +593,9 @@ have. The lab's reference numbers, and what each expected warning or `FAIL` mean
    <summary>Answer</summary>
 
    On this part every bitstream is 104,090 bytes, from one AND gate to 4,001 logic cells
-   (Part 4). A bitstream's size tells you which chip, never which design. Read the utilisation
-   report: `ICESTORM_LC` and `SB_IO` out of 5,280 and 39.
+   (Part 4). A bitstream's size tells you which chip it's for, never which design is in it. To
+   see how big a design is, read the utilisation report: `ICESTORM_LC` and `SB_IO`, out of 5,280
+   and 39.
 
    </details>
 
@@ -596,8 +606,8 @@ have. The lab's reference numbers, and what each expected warning or `FAIL` mean
    <summary>Answer</summary>
 
    Most of the delay is wire, not logic (Part 6): 23.24 ns of routing against 2.98 ns of logic
-   unpinned, and the logic barely changed when only the placement did. Gate depth predicts FPGA
-   speed poorly.
+   unpinned, and the logic barely changed when only the placement did. So gate depth predicts
+   FPGA speed poorly.
 
    </details>
 
@@ -611,14 +621,14 @@ Nothing to submit.
 
 On [DigitalJS Online](https://digitaljs.tilk.eu/), paste your `full_adder.sv`, tick **Map into
 LUTs** and press **Run**. The schematic redraws with lookup tables where your gates were. Use it
-for the picture, never the count: its Yosys is unpinned, and its LUTs are a generic drawing, not
-iCE40 `SB_LUT4`s.
+for the picture but never for the count, because its Yosys version isn't pinned, and its LUTs are
+a generic drawing rather than iCE40 `SB_LUT4`s.
 
 ### `icetime`
 
 `icetime` is on your `PATH`. It is the IceStorm timing analyser, from the same project as
 `icepack`, and it is what you would reach for to get timing on your `.asc` file. It doesn't work
-out of the box on this device in this image, and the way it fails is worth a minute. Run
+out of the box on this device in this image, and it's worth a minute to see how it fails. Run
 `make icetime` in `labs/lab-05-onto-the-fpga/`. You should see three steps:
 
 1. The obvious command, `icetime -d up5k -P sg48 -t results/r4.asc`, fails with a message:
@@ -626,10 +636,10 @@ out of the box on this device in this image, and the way it fails is worth a min
 2. The 5k chip database is in the image, at `/foss/tools/fpga/share/icebox/chipdb-5k.txt.gz`,
    and `icetime` has a `-C` flag for pointing at one. Pointed at that file, it prints
    `Segmentation fault (core dumped)` and `icetime exit status 139 -- 139 means it segfaulted.`
-   Exit 139, no message.
-3. Uncompressed first (27 MB), the same invocation works, so `icetime` is handing a gzip stream
-   to something that expected text. These are the two commands `make icetime` runs for this
-   step:
+   So this time it exits with status 139 and no message of its own.
+3. If you uncompress the database first (27 MB), the same invocation works, so `icetime` must be
+   handing a gzip stream to something that expected text. These are the two commands
+   `make icetime` runs for this step:
 
    ```bash
    gunzip -c /foss/tools/fpga/share/icebox/chipdb-5k.txt.gz > results/chipdb-5k.txt
@@ -641,18 +651,18 @@ out of the box on this device in this image, and the way it fails is worth a min
 
 Three things to take from it:
 
-- You never needed it. nextpnr printed a critical path report in Part 2 as part of a run you were
-  doing anyway.
-- The two tools disagree, 26.22 ns and 27.42 ns, on the same path from `cin` to `cout`. Neither
-  is lying. They use different delay models over the same silicon. Don't average them, and don't
-  quote either to three decimal places as if it were measured on a bench.
-- Read the exit codes. Step 1 failed with a message; step 2 failed with a segfault. A tool that
-  segfaults hasn't told you your input is wrong. It has told you nothing, and the temptation is to
-  conclude your file is corrupt. Your file was fine both times.
+- You never needed it, because nextpnr printed a critical path report in Part 2 as part of a run
+  you were doing anyway.
+- The two tools disagree on the same path from `cin` to `cout`, with 26.22 ns and 27.42 ns.
+  Neither is lying; they use different delay models over the same silicon. So don't average them,
+  and don't quote either to three decimal places as if it had been measured on a bench.
+- Read the exit codes. Step 1 failed with a message, but step 2 failed with a segfault, and a
+  tool that segfaults hasn't told you your input is wrong; it hasn't told you anything. The
+  temptation is to conclude that your file is corrupt, but your file was fine both times.
 
 ### If you own an iCEBreaker
 
-This is unchecked. With no board attached, `make flash` should print:
+We haven't checked this path. With no board attached, `make flash` should print:
 
 ```
 init..
@@ -660,8 +670,9 @@ Can't find iCE FTDI USB device (vendor_id 0x0403, device_id 0x6010 or 0x6014).
 ABORT.
 ```
 
-and exit status 2. That message is verified; the with-a-board path isn't. Nobody has run these
-pages against hardware, and USB pass-through into the container is its own project.
+and exit with status 2. We have verified that message, but not what happens with a board
+attached: nobody has run these pages against hardware, and USB pass-through into the container
+is a project of its own.
 
 Two caveats if you try it. The iCEBreaker carries an iCE40 UP5K in an SG48 package, the part this
 lab targets, so the bitstream is the right shape; confirm that against your own board's
