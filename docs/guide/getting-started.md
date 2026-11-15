@@ -184,5 +184,6 @@ a tool being unhelpful.
   mismatch means something has changed since.
 
 Before you ask about a lab, run `make` once more in a fresh terminal. No DD102 lab needs any
-environment setup, so when one package fails while everything else works, the cause is nearly
-always a half-finished shell setup rather than anything you wrote.
+environment setup, so a fresh terminal is a clean test: it starts without anything you changed in
+the old one, and if the package fails the same way there, the cause is in the package's files
+rather than in your shell.
