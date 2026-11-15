@@ -146,19 +146,22 @@ a tool being unhelpful.
 - Quote the exact error, starting from the top: post the first error line, the command you ran,
   and the first line of `iverilog -V`.
 - The first error line is where the real problem is. Everything after it is fallout from the first
-  error, and the fallout can point at the wrong place. Here is a full adder with one missing
-  semicolon, at the end of the `logic` declaration on line 8:
+  error, and the fallout can point at the wrong place. Here is what your workbench's Icarus 14.0
+  says about a full adder with one missing semicolon, at the end of the `logic` declaration on
+  line 8:
 
   ```
   full_adder.sv:9: syntax error
-  full_adder.sv:1: error: Syntax error in variable list.
+  full_adder.sv:8: error: Syntax error in variable list.
   ```
 
-  Neither message names line 8. The first names line 9, where the parser noticed the problem;
-  that's one line past the mistake, which is the usual offset for a missing semicolon. The second
-  names line 1, where nothing is wrong at all: the parser gave up on the whole module and blamed
-  the line where the module starts. If you read only the last line, you can spend the evening
-  staring at a perfectly correct `module full_adder (`.
+  The first message names line 9, where the parser noticed the problem; that's one line past the
+  mistake, which is the usual offset for a missing semicolon. The second names line 8, where the
+  declaration starts, so this time the fallout happens to land in the right place, but don't count
+  on it. Icarus 12.0, the version EDA Playground runs, prints the same two messages with line 1 in
+  the second one, where nothing is wrong at all: the parser gave up on the whole module and blamed
+  the line where the module starts. If you read only the last line there, you can spend the
+  evening staring at a perfectly correct `module full_adder (`.
 
   Give the same file to Yosys and you get one message, and a more useful one:
 
