@@ -1,17 +1,18 @@
 # Reference card
 
-Twelve files, one for each construct on [The DD102 subset](../../docs/reference/the-dd102-subset.md).
-Each is complete and runs on its own, and nothing on that page is printed without the whole file
-being here. [Lab 04](../../docs/labs/lab-04-four-adders-in-a-row-overview.md) (Part 1, and
-`make synth` under Going further) walks through it.
+This package holds twelve files, one for each construct on
+[The DD102 subset](../../docs/reference/the-dd102-subset.md). Each file is complete and runs on its
+own, and no example on that page is printed without its whole file being here, so you can always
+open the file a snippet came from. [Lab 04](../../docs/labs/lab-04-four-adders-in-a-row-overview.md) walks
+you through the package in Part 1, and through `make synth` under Going further.
 
 ```bash
 cd labs/reference-card
 make
 ```
 
-No `.designinit`, `mod`, PDK, liberty file or environment variables. It takes about 0.3 seconds
-and ends with `VERDICT PASS  — all 12 cards match the reference run.`
+You don't need `.designinit`, `mod`, a PDK, a liberty file or any environment variables. The run
+takes about 0.3 seconds and ends with `VERDICT PASS  — all 12 cards match the reference run.`
 
 ## Targets
 
@@ -41,7 +42,7 @@ and ends with `VERDICT PASS  — all 12 cards match the reference run.`
 | `src/10_literals.sv` | `4'b1010`, `4'd10`, `4'hA`, `'0`, `'1`, bare `10` |
 | `src/11_width_truncation.sv` | the left side decides the width |
 | `src/12_testbench_only.sv` | `` `timescale ``, `initial`, `$display`, `$dumpfile`, `$dumpvars`, `$finish` |
-| `src/check_card.py` | The grader. Compares your twelve lines with the reference run |
-| `broken/card.log` | The answer most people predict for card 11. `make broken` feeds it in |
-| `broken/narrow_only.sv` | Card 11's mistake alone in a file, for `make lint` |
-| `reference/card.expected` | The twelve lines, as printed on `hpretl/iic-osic-tools:2026.08` |
+| `src/check_card.py` | the grader, which compares your twelve lines with the reference run |
+| `broken/card.log` | the answer most people predict for card 11, which `make broken` feeds to the grader |
+| `broken/narrow_only.sv` | card 11's mistake alone in a file, for `make lint` |
+| `reference/card.expected` | the twelve lines as printed on `hpretl/iic-osic-tools:2026.08` |
