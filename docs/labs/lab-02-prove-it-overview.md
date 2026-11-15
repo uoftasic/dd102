@@ -11,9 +11,9 @@ for the rest.
 
 ## Before you start
 
-- Finish [Lab 01](labs/lab-01-transcribe-your-adder-overview.md): your `full_adder.sv` passes
+- Finish [Lab 01](../labs/lab-01-transcribe-your-adder-overview.md): your `full_adder.sv` passes
   8 of 8.
-- Read [Testbenches](guide/eight-rows-and-no-opinions.md).
+- Read [Testbenches](../guide/eight-rows-and-no-opinions.md).
 - Open a terminal on the workbench desktop and run `mod dd102`. Neither package needs any other
   setup.
 
@@ -153,7 +153,7 @@ wires, connects them to the adder, drives values in and looks at what comes back
 you haven't seen yet:
 
 - `#1` waits one time unit, so the `assign` statements get their turn before you read the
-  outputs. As [Testbenches](guide/eight-rows-and-no-opinions.md) shows, the wait has to be
+  outputs. As [Testbenches](../guide/eight-rows-and-no-opinions.md) shows, the wait has to be
   there, but its length buys the gates nothing.
 - `!==` compares including `x` and `z`. `!=` returns `x` when either side is `x`, and an `if` on
   `x` does nothing at all; `!==` returns a plain 0 or 1, which is what you want in a check. This
@@ -359,7 +359,7 @@ with `All 8 rows checked, all 3 mutants caught. Lab 02 is done.`
 `make` always exits 0; the verdict is the text. `make grade` is the same run with an exit status
 and prints `make: *** [Makefile:75: grade] Error 1` until every box is ticked. `make reference`
 runs the working adder and the mutants against `reference/tb_full_adder.sv` instead of yours. The lab's reference
-numbers are on [Expected results](reference/expected-results.md#lab-02-prove-it).
+numbers are on [Expected results](../reference/expected-results.md#lab-02-prove-it).
 
 ### Questions
 
@@ -387,5 +387,5 @@ testbench.
 
 Stuck? Ask in the [team Discord](https://discord.gg/hrJnP5UsGz).
 
-Next on the [Course path](README.md#course-path): read [Waveforms](guide/two-lines-make-the-waveform-appear.md),
-then do [Lab 03: The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md).
+Next on the [Course path](../index.md#course-path): read [Waveforms](../guide/two-lines-make-the-waveform-appear.md),
+then do [Lab 03: The lazy testbench](../labs/lab-03-the-lazy-testbench-overview.md).

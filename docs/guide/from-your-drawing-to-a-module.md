@@ -2,7 +2,7 @@
 
 This page turns your DD101 full-adder drawing into a SystemVerilog file, one piece at a time:
 the labels on its edge, then the wires inside. You type your own version in
-[Lab 01](labs/lab-01-transcribe-your-adder-overview.md); keep the drawing from
+[Lab 01](../labs/lab-01-transcribe-your-adder-overview.md); keep the drawing from
 [DD101 Lab 04](https://uoftasic.com/dd101/#/labs/lab-04-full-adder) (three blocks, eight wires,
 eight rows of a truth table) next to you while you read.
 
@@ -157,7 +157,7 @@ errors/two_drivers.sv:10: error: Variable 'sum' cannot have multiple drivers.
 
 Both lines are solder joints, and both are attached. The tool isn't being fussy; it can't build
 that. One output gets one `assign`, whichever style you write in, as
-[`assign` and `always_comb`](guide/assign-and-always-comb.md) shows from the other direction.
+[`assign` and `always_comb`](../guide/assign-and-always-comb.md) shows from the other direction.
 
 Forgetting to declare an internal wire. `errors/undeclared_wire.sv` is your file with the
 `logic ha1_sum, ha1_carry, ha2_carry;` line deleted. Icarus compiles it with exit 0 and says
@@ -191,4 +191,4 @@ You drew five gates, and the tool chose two. The tool that made that decision is
 3. You delete the `logic ha1_sum, ...;` line and the design still passes. Why is that not a
    reason to leave it out?
 
-Next: [Modules and instances](guide/what-a-module-is.md).
+Next: [Modules and instances](../guide/what-a-module-is.md).

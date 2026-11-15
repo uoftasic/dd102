@@ -1,6 +1,6 @@
 # Carry delay
 
-[`assign` and `always_comb`](guide/assign-and-always-comb.md) said everything happens at once. So
+[`assign` and `always_comb`](../guide/assign-and-always-comb.md) said everything happens at once. So
 why would a wider adder be any slower than a narrow one?
 
 That page was about order in your source file: reversing five `assign` lines changes nothing,
@@ -12,7 +12,7 @@ adds up in a line.
 Every number on this page came from `yosys synth_ice40` and `nextpnr-ice40` on the workbench
 image, run on the parameterised adder
 [`labs/lab-04-four-adders-in-a-row/src/ripple.sv`](https://github.com/uoftasic/dd102/blob/main/labs/lab-04-four-adders-in-a-row/src/ripple.sv).
-You reproduce them in [Lab 05, Parts 3 and 5](labs/lab-05-onto-the-fpga-overview.md).
+You reproduce them in [Lab 05, Parts 3 and 5](../labs/lab-05-onto-the-fpga-overview.md).
 
 ## The carry chain
 
@@ -35,9 +35,9 @@ adders adding `1111 + 0001`, with the carry walking the line one stage at a time
 correcting themselves behind it.
 
 <video controls loop muted playsinline preload="none"
-       poster="assets/img/carry-travels.poster.png"
+       poster="../assets/img/carry-travels.poster.png"
        style="width:100%;max-width:820px;border-radius:8px">
-  <source src="assets/img/carry-travels.web.mp4" type="video/mp4">
+  <source src="../assets/img/carry-travels.web.mp4" type="video/mp4">
 </video>
 
 Watch the readout under the adders, not the bits. For the first quarter of a nanosecond the
@@ -148,4 +148,4 @@ different delay models over the same silicon. Don't average them.
 3. Why can't a 16-bit adder with every bit on its own pin be placed on the sg48 package, when it
    uses under one percent of the logic cells?
 
-Next: [Inside an FPGA](guide/the-chip-is-already-there.md).
+Next: [Inside an FPGA](../guide/the-chip-is-already-there.md).

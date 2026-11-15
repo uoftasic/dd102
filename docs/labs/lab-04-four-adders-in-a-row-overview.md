@@ -13,9 +13,9 @@ for the rest.
 
 ## Before you start
 
-- Finish [Lab 03](labs/lab-03-the-lazy-testbench-overview.md): you have read `add4.sv` and
+- Finish [Lab 03](../labs/lab-03-the-lazy-testbench-overview.md): you have read `add4.sv` and
   `add5.sv`, and you know why the first is wrong on 256 of 512 inputs.
-- Read [Vectors, generate loops and parameters](guide/four-adders-in-a-row.md).
+- Read [Vectors, generate loops and parameters](../guide/four-adders-in-a-row.md).
 - In a terminal on the workbench desktop, get to the repo and check Yosys:
 
   ```bash
@@ -34,7 +34,7 @@ Time: about 1¾ hours.
 
 Do the constructs on the guide page print what the page says they print?
 
-[The DD102 subset](reference/the-dd102-subset.md) is twelve one-file examples, one per construct
+[The DD102 subset](../reference/the-dd102-subset.md) is twelve one-file examples, one per construct
 this course uses. Four of them are the constructs in this lab's guide page.
 
 1. Run all twelve:
@@ -465,7 +465,7 @@ PASS  wide8         got PASS 0/131072, reference says PASS 0/131072   (ripple #(
 
 `make` finishes in under five seconds. `make check` re-runs the verdicts on the logs you already
 have. The lab's reference numbers and what to do when a line says `FAIL` are on
-[Expected results](reference/expected-results.md#lab-04-four-adders-in-a-row).
+[Expected results](../reference/expected-results.md#lab-04-four-adders-in-a-row).
 
 ### Questions
 
@@ -507,6 +507,6 @@ Nothing to submit.
 Your `src/ripple4.sv` goes through the FPGA flow in Lab 05, Part 8, and DD103 turns the same
 design into silicon.
 
-Next on the [Course path](README.md#course-path): read [Carry delay](guide/the-carry-has-to-travel.md)
-and [Inside an FPGA](guide/the-chip-is-already-there.md), then do
-[Lab 05: Onto the FPGA](labs/lab-05-onto-the-fpga-overview.md).
+Next on the [Course path](../index.md#course-path): read [Carry delay](../guide/the-carry-has-to-travel.md)
+and [Inside an FPGA](../guide/the-chip-is-already-there.md), then do
+[Lab 05: Onto the FPGA](../labs/lab-05-onto-the-fpga-overview.md).

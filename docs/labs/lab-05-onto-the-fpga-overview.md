@@ -18,10 +18,10 @@ further); nothing in this lab or in DD103 depends on it.
 
 ## Before you start
 
-- Finish [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md), including Part 7: your
+- Finish [Lab 04](../labs/lab-04-four-adders-in-a-row-overview.md), including Part 7: your
   `src/ripple4.sv` there has a loop you rewrote and proved equal to the hand-typed version.
-- Read [Carry delay](guide/the-carry-has-to-travel.md) and
-  [Inside an FPGA](guide/the-chip-is-already-there.md).
+- Read [Carry delay](../guide/the-carry-has-to-travel.md) and
+  [Inside an FPGA](../guide/the-chip-is-already-there.md).
 - In a terminal on the workbench desktop:
 
   ```bash
@@ -183,7 +183,7 @@ Info: 2.98 ns logic, 23.24 ns routing
 In `results/pnr.log` the critical path report above that line runs from the input pin `cin`
 through `cin_SB_LUT4_I1_LC`, `cout_SB_LUT4_O_I3_SB_LUT4_O_1_LC` and `cout_SB_LUT4_O_LC` to the
 output pin `cout`, 26.22 ns in total. That is your carry, walking from the bottom input to the
-top output. [Carry delay](guide/the-carry-has-to-travel.md) said it would take time; this is the
+top output. [Carry delay](../guide/the-carry-has-to-travel.md) said it would take time; this is the
 number on a real part.
 
 Finally `icepack`, the shortest step in the course:
@@ -204,7 +204,7 @@ only asserts the size of `r4.bin`.
 
 How do the logic delay, the routing delay and the pin count grow as the adder gets wider?
 
-[Carry delay](guide/the-carry-has-to-travel.md) printed a table of the same adder at three
+[Carry delay](../guide/the-carry-has-to-travel.md) printed a table of the same adder at three
 widths. Here you produce it, in the `guide-examples-carry` package. Its `src/ripple.sv` is
 Lab 04's parameterised adder, unchanged; `src/top8.sv` and its siblings are short wrappers that
 fix the width, because nextpnr places pins and pins need a fixed width.
@@ -573,7 +573,7 @@ The flow is deterministic: the same input produces the same bitstream, byte for 
 `make` twice gives files that `cmp` reports as identical. If a number here differs on your
 machine, something really did change. `make check` re-runs the verdicts on artefacts you already
 have. The lab's reference numbers, and what each expected warning or `FAIL` means, are on
-[Expected results](reference/expected-results.md#lab-05-onto-the-fpga).
+[Expected results](../reference/expected-results.md#lab-05-onto-the-fpga).
 
 ### Questions
 
@@ -637,7 +637,7 @@ out of the box on this device in this image, and the way it fails is worth a min
    ```
 
    Its report ends `Total path delay: 27.42 ns (36.46 MHz)`. The full tail is on
-   [Expected results](reference/expected-results.md#lab-05-onto-the-fpga).
+   [Expected results](../reference/expected-results.md#lab-05-onto-the-fpga).
 
 Three things to take from it:
 
@@ -670,7 +670,7 @@ wiring, your `sum` bits come out on pins nextpnr chose, which are probably not t
 are on. Making it visibly add would mean writing a real board `.pcf`, which is outside DD102. If
 you do it, say so in [Discord](https://discord.gg/hrJnP5UsGz); we'd like to put it in the course.
 
-Next on the [Course path](README.md#course-path): this lab was its last row. You drew a full adder on
+Next on the [Course path](../index.md#course-path): this lab was its last row. You drew a full adder on
 paper in DD101, transcribed it in Lab 01, proved it in Lab 02, tested four of them in Lab 03,
 generated four of them in Lab 04, and here turned that file into a bitstream for a chip that
 already exists. [DD103](https://uoftasic.com/dd103/) takes the same file and builds the chip.

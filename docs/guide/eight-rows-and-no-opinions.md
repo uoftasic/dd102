@@ -61,7 +61,7 @@ module tb_eight_rows;
 Four things in it are worth stopping on.
 
 `full_adder dut (...)` is an instance, the same idea as placing two `half_adder`s inside
-`full_adder_hier` in [Modules and instances](guide/what-a-module-is.md). `dut` stands for device under test, and it is what everybody calls it. The testbench
+`full_adder_hier` in [Modules and instances](../guide/what-a-module-is.md). `dut` stands for device under test, and it is what everybody calls it. The testbench
 doesn't know or care what is inside `full_adder`; it only knows the five port names.
 
 `{a, b, cin} = row[2:0]` is the whole input generator. Counting 0 to 7 in binary is the eight rows
@@ -113,7 +113,7 @@ synthesizer throw a delay like `#5` away without a warning, because no gate's jo
 something you measure afterwards, in Lab 05.
 
 You compile and run this testbench yourself in
-[Lab 02, Part 1](labs/lab-02-prove-it-overview.md).
+[Lab 02, Part 1](../labs/lab-02-prove-it-overview.md).
 
 ## Exhaustive testing of a full adder
 
@@ -146,7 +146,7 @@ them chained into a 4-bit adder have nine input bits (`a[3:0]`, `b[3:0]` and `ci
 $2^9 = 512$ combinations: sixty-four times as many, and still, just, all of them.
 
 With 512 inputs, people pick a few cases that feel representative and stop. In
-[Lab 03](labs/lab-03-the-lazy-testbench-overview.md) you run six such cases against a broken
+[Lab 03](../labs/lab-03-the-lazy-testbench-overview.md) you run six such cases against a broken
 4-bit adder. They pass. Then you run all 512. Three habits come out of that lab, and they apply to
 every test you write:
 
@@ -187,7 +187,7 @@ The counts are exact, and the two "instant" rows and the 0.6 s row were measured
 them as the right order of magnitude rather than a stopwatch reading.
 
 Each vector takes longer as the adder gets wider, because it drives more wires. The 4.5 µs
-was measured at 8 bits. [Lab 04](labs/lab-04-four-adders-in-a-row-overview.md) measures it again
+was measured at 8 bits. [Lab 04](../labs/lab-04-four-adders-in-a-row-overview.md) measures it again
 at 12 bits, gets 7.9 µs, and so puts the 16-bit row at about 19 hours rather than 11. Neither is
 wrong and neither is a stopwatch reading; both say "overnight", which is the answer that changes
 what you do.
@@ -201,10 +201,10 @@ everything?" You can skip that question for as long as your designs stay this sm
 
 ## Where you do this
 
-- [Lab 02: Prove it](labs/lab-02-prove-it-overview.md) runs this page's eight-row testbench, then
+- [Lab 02: Prove it](../labs/lab-02-prove-it-overview.md) runs this page's eight-row testbench, then
   gives you a testbench with one of your eight rows filled in and three deliberately broken
   ("mutant") adders for it to catch. The seven missing rows are the lab.
-- [Lab 03: The lazy testbench](labs/lab-03-the-lazy-testbench-overview.md) runs hand-picked cases
+- [Lab 03: The lazy testbench](../labs/lab-03-the-lazy-testbench-overview.md) runs hand-picked cases
   and then all 512 inputs against broken 4-bit adders, and times the 8-bit sweep.
 
 ## Check yourself
@@ -217,5 +217,5 @@ everything?" You can skip that question for as long as your designs stay this sm
 4. `verilator --lint-only -Wall` reports nothing on your file. What does that tell you about
    whether it is correct?
 
-Next on the [Course path](README.md#course-path): do
-[Lab 02: Prove it](labs/lab-02-prove-it-overview.md).
+Next on the [Course path](../index.md#course-path): do
+[Lab 02: Prove it](../labs/lab-02-prove-it-overview.md).

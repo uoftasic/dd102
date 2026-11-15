@@ -164,4 +164,4 @@ of them.
    does flattening replace, and with which two?
 3. What does the dot side of `.sum(ha1_sum)` refer to, and what does the bracket side refer to?
 
-Next: [`assign` and `always_comb`](guide/assign-and-always-comb.md).
+Next: [`assign` and `always_comb`](../guide/assign-and-always-comb.md).
