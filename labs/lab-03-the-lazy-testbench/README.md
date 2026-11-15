@@ -2,17 +2,19 @@
 
 Writeup: [`docs/labs/lab-03-the-lazy-testbench-overview.md`](../../docs/labs/lab-03-the-lazy-testbench-overview.md)
 ([on the course site](https://uoftasic.com/dd102/labs/lab-03-the-lazy-testbench-overview.html)).
-The writeup also uses [`../guide-examples-proving-it/`](../guide-examples-proving-it/).
+The writeup also uses the examples in [`../guide-examples-proving-it/`](../guide-examples-proving-it/).
 
-A 4-bit adder built from four full adders, a few hand-picked test cases, and all 512 inputs.
+The package is a 4-bit adder built from four full adders. You test it first with a few cases you
+pick by hand, and then with all 512 possible inputs.
 
 ```bash
 cd labs/lab-03-the-lazy-testbench
 make
 ```
 
-No environment setup. Three stages, about two seconds. `make` always exits 0; the verdict is the
-text, and it ends with a table of the three stages.
+There's no PDK or environment to set up first. `make` runs the three stages in about two seconds
+and always exits 0, so read the verdict in its output, which ends with a table of the three
+stages (`make grade` is the target with an exit status).
 
 ## Targets
 
