@@ -1,6 +1,6 @@
 # DD102: Digital Logic & FPGAs
 
-Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA.
+Type the full adder you drew in DD101 into SystemVerilog and test it, then chain four copies into a 4-bit adder and turn that into an FPGA bitstream.
 
 Course site: <https://uoftasic.com/dd102/> · Part of the
 [UofT ASIC Team](https://github.com/uoftasic) education materials ·

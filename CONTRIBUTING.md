@@ -18,7 +18,7 @@ Only these three are fillable:
 |-------|---------|
 | `dd102` | `dd103` |
 | `DD102 — Digital Logic & FPGAs` | `DD103 — RTL on FPGAs & ASICs` |
-| `Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA.` | `RTL synthesis intro with Yosys` |
+| `Type the full adder you drew in DD101 into SystemVerilog and test it, then chain four copies into a 4-bit adder and turn that into an FPGA bitstream.` | `RTL synthesis intro with Yosys` |
 
 ## Conventions
 

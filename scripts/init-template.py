@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Replace course placeholders after creating a repo from the UofT ASIC template.
 
-Fills dd102, DD102 — Digital Logic & FPGAs, and Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA. only.
+Fills dd102, DD102 — Digital Logic & FPGAs, and Type the full adder you drew in DD101 into SystemVerilog and test it, then chain four copies into a 4-bit adder and turn that into an FPGA bitstream. only.
 Does not scaffold or remove docs pages — keep the published site barebones.
 """
 

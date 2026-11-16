@@ -8,7 +8,7 @@ project:
 
 book:
   title: "DD102 — Digital Logic & FPGAs"
-  subtitle: "Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA."
+  subtitle: "Type the full adder you drew in DD101 into SystemVerilog and test it, then chain four copies into a 4-bit adder and turn that into an FPGA bitstream."
   author: "UofT ASIC Team"
   output-file: dd102-course
   chapters:
