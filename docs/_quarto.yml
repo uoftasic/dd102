@@ -20,7 +20,7 @@ project:
 
 website:
   title: "DD102 — Digital Logic & FPGAs"
-  description: "Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA."
+  description: "Type the full adder you drew in DD101 into SystemVerilog and test it, then chain four copies into a 4-bit adder and turn that into an FPGA bitstream."
   site-url: https://uoftasic.com/dd102/
   repo-url: https://github.com/uoftasic/dd102
   repo-subdir: docs

@@ -13,7 +13,7 @@ Create a course or lab-notes repo from this template under `uoftasic`, fill in t
 |-------|---------|---------|
 | `dd102` | Repo slug / course id | `dd103`, `ic101`, `serdes-lab` |
 | `DD102 — Digital Logic & FPGAs` | Display name | `DD103 — RTL on FPGAs & ASICs` |
-| `Draw a circuit, transcribe it to SystemVerilog, and run it on an FPGA.` | One-line blurb | `RTL synthesis intro with Yosys` |
+| `Type the full adder you drew in DD101 into SystemVerilog and test it, then chain four copies into a 4-bit adder and turn that into an FPGA bitstream.` | One-line blurb | `RTL synthesis intro with Yosys` |
 
 ## Init script
 
