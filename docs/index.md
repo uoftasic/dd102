@@ -1,9 +1,10 @@
 # DD102: Digital Logic & FPGAs
 
 You drew a full adder on paper in DD101. In this course you type that drawing into
-SystemVerilog, test it against every input it can ever see, chain four copies into a 4-bit adder,
-and turn the result into a bitstream, the settings file that configures a real FPGA. You don't
-need an FPGA board, because none of the labs uses one.
+SystemVerilog and test it on all eight of its inputs. Then you chain four copies of it into a 4-bit
+adder and test that on all 512 of its inputs. In Lab 05 you turn the 4-bit adder into a bitstream,
+the file that would make a Lattice iCE40 UP5K FPGA add four-bit numbers. You don't need an FPGA
+board, because none of the labs uses one.
 
 DD102 is part of the UofT ASIC Team's education materials and is published at
 <https://uoftasic.com/dd102/>. The labs run inside the shared workbench you set up in
@@ -20,7 +21,7 @@ This course is for students who have finished [IC101](https://uoftasic.com/ic101
 | You bring | your DD101 hand-drawn full-adder diagram and your filled-in 8-row truth table, on paper |
 | Tools | Icarus Verilog, Verilator, Yosys, nextpnr, icepack, GTKWave and Surfer in the workbench, plus three websites: DigitalJS Online, EDA Playground and HDLBits ([Getting started](guide/getting-started.md#the-three-browser-tabs)) |
 | Time | about 12 h 20 min, self-paced: the sum of the Course path rows below |
-| You leave with | a 4-bit adder, `ripple4.sv`, tested on all 512 of its inputs, with a `generate for` loop that you rewrite and prove equal to four hand-typed instances, and the 104,090-byte bitstream it becomes on a Lattice iCE40 UP5K |
+| You leave with | `ripple4.sv`, a 4-bit adder tested on all 512 of its inputs; your rewrite of its `generate for` loop, proved equal to four hand-typed instances; and its 104,090-byte bitstream for a Lattice iCE40 UP5K |
 
 The course is pinned to the workbench image `hpretl/iic-osic-tools:2026.08`, and Lab 01, Part 1
 checks that you are running it: `yosys -V` should print `Yosys 0.68`, and the first line of

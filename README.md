@@ -7,9 +7,11 @@ Course site: <https://uoftasic.com/dd102/> · Part of the
 [Education hub](https://edu.uoftasic.com/)
 
 You drew a full adder on paper in [DD101](https://uoftasic.com/dd101/). In this course you
-type that drawing into SystemVerilog, tests it against every input it can ever see, and turns
-it into a 104,090-byte bitstream for a real Lattice iCE40 UP5K (no board needed). Students follow the Course path on the
-[course home page](docs/index.md#course-path): guide pages to read, alternating with five labs.
+type that drawing into SystemVerilog and test it on all eight of its inputs. Then you chain four
+copies of it into a 4-bit adder and test that on all 512 of its inputs. In Lab 05 you turn the
+4-bit adder into a 104,090-byte bitstream for a Lattice iCE40 UP5K. None of the labs needs an FPGA
+board. Students follow the Course path on the [course home page](docs/index.md#course-path): guide pages to read,
+alternating with five labs.
 
 | | |
 |---|---|
