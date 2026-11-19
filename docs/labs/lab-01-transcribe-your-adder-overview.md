@@ -40,8 +40,7 @@ DD102 uses the same image, `hpretl/iic-osic-tools:2026.08`, and installs nothing
 
    You should see `OK  module ready: /foss/designs/modules/dd102` and then
    `cwd: /foss/designs/modules/dd102`, because `mod add` also moves your shell into the repo,
-   which is where the rest of this lab starts. Each time you open a new terminal, load
-   `.designinit` again and run `mod dd102`.
+   which is where the rest of this lab starts. Each time you open a new terminal, run `mod dd102`.
 
    You can ignore the `PDK=sky130A` in the `ASIC-EDU:` banner that `.designinit` prints. A PDK
    describes how to build a chip, whereas DD102 configures a chip somebody else has already
